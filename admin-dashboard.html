@@ -491,6 +491,18 @@
             transform: translateY(-2px);
         }
 
+        .btn-back {
+            background: #6b7280;
+            color: white;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+        }
+
+        .btn-back:hover {
+            background: #4b5563;
+            transform: translateY(-2px);
+        }
+
         /* Form Styles */
         .form-group {
             margin-bottom: 25px;
@@ -789,6 +801,13 @@
                 <a href="#" data-target="pengaturan">
                     <i class="fas fa-cogs"></i>
                     <span>Pengaturan</span>
+                </a>
+            </li>
+            <!-- Tombol Kembali ke Web Utama -->
+            <li class="menu-item">
+                <a href="#" id="back-to-website">
+                    <i class="fas fa-globe"></i>
+                    <span>Kembali ke Website</span>
                 </a>
             </li>
         </ul>
@@ -1468,8 +1487,19 @@
                     const target = this.getAttribute('data-target');
                     
                     // Set active content
-                    setActiveContent(target);
+                    if (target) {
+                        setActiveContent(target);
+                    }
                 });
+            });
+            
+            // Tombol Kembali ke Website
+            document.getElementById('back-to-website').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Apakah Anda yakin ingin kembali ke website utama?')) {
+                    alert('Mengarahkan ke website utama DEDE05 TASIK...');
+                    // window.location.href = 'https://dede05tasik.com'; // Uncomment untuk redirect actual
+                }
             });
             
             // FAQ toggle functionality
@@ -1567,6 +1597,11 @@
                 });
             });
             
+            // User info dropdown
+            document.querySelector('.user-info').addEventListener('click', function() {
+                alert('👤 Menu profil user: Logout, Ubah Password, Edit Profil');
+            });
+            
             // Search functionality
             searchInput.addEventListener('input', function() {
                 const searchTerm = this.value.toLowerCase();
@@ -1581,11 +1616,6 @@
                 } else if (activeContent.id === 'dashboard') {
                     filterTable(activeContent, searchTerm, 0); // Filter berdasarkan pelanggan di dashboard
                 }
-            });
-            
-            // User info dropdown
-            document.querySelector('.user-info').addEventListener('click', function() {
-                alert('👤 Menu profil user akan ditampilkan di sini');
             });
             
             function setActiveContent(target) {

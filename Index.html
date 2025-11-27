@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WiFi • DEDE05 TASIK — Internet Cepat & Stabil</title>
+    <meta name="description" content="Paket WiFi murah & stabil. Pesan mudah via WhatsApp. Free instalasi & teknisi lokal.">
+    <style>
+        /* Reset dan variabel */
+        :root {
+            --pink: #ff2abf;
+            --pink-dark: #e024a8;
+            --pink-light: rgba(255, 42, 191, 0.1);
+            --black: #0b0b0b;
+            --card-bg: #0f0f10;
+            --white: #ffffff;
+            --gray: #bfbfbf;
+            --border: rgba(255, 255, 255, 0.05);
+            --radius: 12px;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--pink), #ff6bd6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Tombol */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--pink);
+            color: var(--black);
+            box-shadow: 0 4px 15px rgba(255, 42, 191, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--pink-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 42, 191, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* Card */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 30px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--pink), transparent);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(11, 11, 11, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            padding: 12px 0;
+            background: rgba(11, 11, 11, 0.98);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            object-fit: contain;
+            background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+            padding: 2px;
+        }
+
+        .logo-text h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .logo-text span {
+            font-size: 0.75rem;
+            color: var(--gray);
+            display: block;
+            margin-top: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 8px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--pink);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--pink);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 4px;
+            z-index: 1001;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 140px;
+            padding-bottom: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 42, 191, 0.08), transparent 60%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-text h2 {
+            font-size: 3.2rem;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .hero-text p {
+            font-size: 1.15rem;
+            color: var(--gray);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .hero-features {
+            margin-bottom: 32px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .feature-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--pink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .feature-icon svg {
+            width: 10px;
+            height: 10px;
+        }
+
+        .feature span {
+            color: var(--white);
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hero-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .package-mini-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 24px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .package-mini-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 42, 191, 0.2);
+        }
+
+        .package-mini-card.popular {
+            border-color: var(--pink);
+            background: linear-gradient(135deg, var(--card-bg), rgba(255, 42, 191, 0.05));
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -8px;
+            right: 20px;
+            background: var(--pink);
+            color: var(--black);
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .package-mini-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--white);
+        }
+
+        .package-mini-speed {
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            color: var(--white);
+        }
+
+        .package-mini-speed small {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        .package-mini-price {
+            font-size: 1.25rem;
+            color: var(--pink);
+            font-weight: 700;
+        }
+
+        /* Paket Internet */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 28px;
+            margin-top: 20px;
+        }
+
+        .package-card {
+            text-align: center;
+            position: relative;
+        }
+
+        .package-card.popular::before {
+            content: 'POPULER';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--pink);
+            color: var(--black);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            z-index: 2;
+        }
+
+        .package-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+            color: var(--white);
+        }
+
+        .package-speed {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--white);
+            line-height: 1;
+        }
+
+        .package-speed small {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        .package-price {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--pink);
+        }
+
+        .package-price span {
+            font-size: 1rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .package-features {
+            list-style: none;
+            margin-bottom: 28px;
+            text-align: left;
+        }
+
+        .package-features li {
+            padding: 10px 0;
+            color: var(--gray);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .package-features li:last-child {
+            border-bottom: none;
+        }
+
+        /* Tentang Kami */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 2.1rem;
+            margin-bottom: 24px;
+            color: var(--white);
+            line-height: 1.2;
+        }
+
+        .about-text p {
+            color: var(--gray);
+            margin-bottom: 22px;
+            line-height: 1.7;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .stat-value {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: var(--pink);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* FAQ */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--card-bg);
+        }
+
+        .faq-question {
+            padding: 22px;
+            background: var(--card-bg);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.4rem;
+            transition: var(--transition);
+            color: var(--pink);
+        }
+
+        .faq-item.active .faq-question::after {
+            content: '-';
+        }
+
+        .faq-answer {
+            padding: 0 22px;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 22px 22px;
+            max-height: 500px;
+        }
+
+        /* Form Laporan */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--white);
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--white);
+            font-family: inherit;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--pink);
+            box-shadow: 0 0 0 2px rgba(255, 42, 191, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: var(--gray);
+            opacity: 0.7;
+        }
+
+        textarea.form-control {
+            min-height: 130px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        /* Speedtest */
+        .speedtest-container {
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+        }
+
+        .speedtest-iframe {
+            width: 100%;
+            height: 420px;
+            border: none;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--card-bg);
+            padding: 70px 0 30px;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 45px;
+            margin-bottom: 45px;
+        }
+
+        .footer-logo {
+            margin-bottom: 22px;
+        }
+
+        .footer-description {
+            color: var(--gray);
+            margin-bottom: 22px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 22px;
+            font-size: 1.1rem;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--pink);
+            padding-left: 4px;
+        }
+
+        .footer-links li:not(a) {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
+        /* Floating WhatsApp */
+        .floating-wa {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 1000;
+        }
+
+        .wa-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #25D366;
+            color: white;
+            padding: 16px 22px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 6px 18px rgba(37, 211, 102, 0.35);
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .wa-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.45);
+        }
+
+        .wa-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            text-align: center;
+        }
+
+        .mobile-nav-links li {
+            margin-bottom: 30px;
+        }
+
+        .mobile-nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .mobile-nav-links a:hover {
+            color: var(--pink);
+        }
+
+        .mobile-nav-actions {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 80%;
+            max-width: 250px;
+        }
+
+        /* Responsif */
+        @media (max-width: 992px) {
+            .hero-content,
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 35px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-text h2 {
+                font-size: 2.6rem;
+            }
+
+            .packages-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2.1rem;
+            }
+
+            .section-subtitle {
+                font-size: 1rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero-text h2 {
+                font-size: 2.2rem;
+            }
+
+            .package-speed {
+                font-size: 2.8rem;
+            }
+
+            .floating-wa {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .wa-button {
+                padding: 14px 18px;
+                font-size: 0.9rem;
+            }
+
+            /* Mobile-specific improvements */
+            .container {
+                padding: 0 16px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .hero {
+                padding-top: 120px;
+                padding-bottom: 60px;
+            }
+
+            .hero-text h2 {
+                font-size: 1.9rem;
+                line-height: 1.2;
+            }
+
+            .hero-text p {
+                font-size: 1rem;
+            }
+
+            .feature span {
+                font-size: 0.9rem;
+            }
+
+            .package-mini-card {
+                padding: 20px;
+            }
+
+            .card {
+                padding: 24px;
+            }
+
+            .about-text h3 {
+                font-size: 1.8rem;
+            }
+
+            .stat-value {
+                font-size: 2.2rem;
+            }
+
+            .speedtest-iframe {
+                height: 350px;
+            }
+
+            .navbar {
+                padding: 14px 0;
+            }
+
+            .nav-actions {
+                display: none;
+            }
+
+            .mobile-nav-actions {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h2 {
+                font-size: 1.7rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .package-mini-card h3 {
+                font-size: 1rem;
+            }
+
+            .package-mini-speed {
+                font-size: 1.6rem;
+            }
+
+            .package-mini-price {
+                font-size: 1.1rem;
+            }
+
+            .package-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .package-speed {
+                font-size: 2.4rem;
+            }
+
+            .package-price {
+                font-size: 1.4rem;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .wa-button {
+                padding: 12px 16px;
+                font-size: 0.85rem;
+            }
+
+            .floating-wa {
+                bottom: 16px;
+                right: 16px;
+            }
+
+            .mobile-nav-links a {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .btn:hover {
+                transform: none;
+            }
+
+            .card:hover {
+                transform: none;
+            }
+
+            .package-mini-card:hover {
+                transform: none;
+            }
+
+            .nav-links a:hover::after {
+                width: 0;
+            }
+
+            .faq-question:hover {
+                background: var(--card-bg);
+            }
+
+            .wa-button:hover {
+                transform: none;
+            }
+        }
+
+        /* High DPI screen adjustments */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .logo-img {
+                image-rendering: -webkit-optimize-contrast;
+            }
+        }
+
+        /* Landscape mobile adjustments */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .hero {
+                padding-top: 100px;
+                padding-bottom: 40px;
+            }
+
+            .hero-text h2 {
+                font-size: 1.8rem;
+            }
+
+            .mobile-nav {
+                padding: 20px 0;
+                justify-content: flex-start;
+                overflow-y: auto;
+            }
+
+            .mobile-nav-links li {
+                margin-bottom: 20px;
+            }
+
+            .mobile-nav-actions {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <!-- Logo dari file -->
+                    <img src="logo.png" alt="DEDE05 TASIK" class="logo-img">
+                    <div class="logo-text">
+                        <h1>DEDE05 TASIK</h1>
+                        <span>Internet Cepat & Stabil</span>
+                    </div>
+                </div>
+
+                <ul class="nav-links">
+                    <li><a href="#packages">Paket</a></li>
+                    <li><a href="#about">Tentang Kami</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#report">Lapor Gangguan</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <button class="btn btn-secondary" id="loginBtn">Admin</button>
+                    <button class="btn btn-primary" id="orderBtn">Daftar Sekarang</button>
+                </div>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <ul class="mobile-nav-links">
+            <li><a href="#packages">Paket</a></li>
+            <li><a href="#about">Tentang Kami</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#report">Lapor Gangguan</a></li>
+        </ul>
+        
+        <div class="mobile-nav-actions">
+            <button class="btn btn-secondary" id="mobileLoginBtn">Admin</button>
+            <button class="btn btn-primary" id="mobileOrderBtn">Daftar Sekarang</button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h2 id="heroTitle">Stabil untuk Semua Kebutuhan</h2>
+                    <p id="heroDescription">Nikmati pengalaman internet terbaik dengan harga terjangkau. Instalasi gratis dan dukungan teknis 24/7.</p>
+                    
+                    <div class="hero-features">
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17L4 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <span>Instalasi gratis untuk pelanggan baru</span>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17L4 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <span>Teknisi lokal siap membantu 24/7</span>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17L4 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <span>Garansi kepuasan 30 hari</span>
+                        </div>
+                    </div>
+
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" id="heroOrderBtn">Pilih Paket</button>
+                        <button class="btn btn-secondary" id="contactBtn">Hubungi Kami</button>
+                    </div>
+                </div>
+
+                <div class="hero-visual" id="heroPackages">
+                    <!-- Dynamic packages from admin -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Paket Internet -->
+    <section id="packages">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Paket Internet</h2>
+                <p class="section-subtitle">Pilih paket yang sesuai dengan kebutuhan Anda. Semua paket sudah termasuk instalasi gratis.</p>
+            </div>
+
+            <div class="packages-grid" id="packagesGrid">
+                <!-- Dynamic packages from admin -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Tentang Kami -->
+    <section id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h3 id="aboutTitle">Tentang DEDE05 TASIK</h3>
+                    <p id="aboutDescription1">Kami adalah penyedia layanan internet lokal yang berfokus pada kualitas, respon cepat, dan harga yang bersaing. Beroperasi di wilayah Tasikmalaya dan sekitarnya dengan teknisi lokal yang handal.</p>
+                    <p id="aboutDescription2">Dengan pengalaman lebih dari 5 tahun di industri telekomunikasi, kami berkomitmen untuk memberikan layanan terbaik kepada pelanggan dengan jaringan yang stabil dan dukungan 24/7.</p>
+                    
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value">500+</div>
+                            <div class="stat-label">Pelanggan</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">24/7</div>
+                            <div class="stat-label">Dukungan</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">99%</div>
+                            <div class="stat-label">Uptime</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-visual">
+                    <div class="card">
+                        <h4>Visi & Misi</h4>
+                        <p><strong>Visi:</strong> Menjadi penyedia internet lokal terdepan di Tasikmalaya yang menghadirkan koneksi stabil untuk keluarga dan usaha kecil.</p>
+                        <p><strong>Misi:</strong></p>
+                        <ul>
+                            <li>Memberikan bandwidth sesuai janji</li>
+                            <li>Respon teknisi cepat 24/7</li>
+                            <li>Pemasangan cepat dan rapi</li>
+                            <li>Harga terjangkau untuk masyarakat</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Pertanyaan Umum</h2>
+                <p class="section-subtitle">Berikut adalah beberapa pertanyaan yang sering diajukan oleh pelanggan kami.</p>
+            </div>
+
+            <div class="faq-container" id="faqContainer">
+                <!-- Dynamic FAQ from admin -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Laporan -->
+    <section id="report">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Lapor Gangguan</h2>
+                <p class="section-subtitle">Isi form berikut untuk melaporkan gangguan atau meminta bantuan teknisi.</p>
+            </div>
+
+            <div class="form-container">
+                <form id="reportForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="name">Nama Lengkap</label>
+                            <input type="text" id="name" class="form-control" placeholder="Masukkan nama lengkap" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Nomor WhatsApp</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="Contoh: 081234567890" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="address">Alamat Lengkap</label>
+                        <input type="text" id="address" class="form-control" placeholder="Jl. Contoh No. 12, Kelurahan, Kecamatan" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="issueType">Jenis Masalah</label>
+                        <select id="issueType" class="form-control" required>
+                            <option value="">Pilih jenis masalah</option>
+                            <option value="Gangguan koneksi">Gangguan koneksi internet</option>
+                            <option value="Perangkat bermasalah">Perangkat/router bermasalah</option>
+                            <option value="Pelayanan & tagihan">Pelayanan & tagihan</option>
+                            <option value="Permintaan teknisi">Permintaan kunjungan teknisi</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="description">Keterangan Detail</label>
+                        <textarea id="description" class="form-control" placeholder="Jelaskan masalah yang Anda alami secara detail, termasuk kapan mulai terjadi dan gejala yang muncul..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Kirim Laporan ke WhatsApp</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Speedtest -->
+    <section id="speedtest">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Tes Kecepatan Internet</h2>
+                <p class="section-subtitle">Periksa kecepatan internet Anda dengan alat tes kecepatan kami.</p>
+            </div>
+
+            <div class="speedtest-container">
+                <iframe src="https://fast.com" class="speedtest-iframe" title="Speedtest"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <div class="logo">
+                            <img src="logo.png" alt="DEDE05 TASIK" class="logo-img">
+                            <div class="logo-text">
+                                <h1>DEDE05 TASIK</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="footer-description" id="footerDescription">Penyedia layanan internet lokal di Tasikmalaya dengan koneksi stabil dan harga terjangkau. Dukungan teknis 24/7 untuk kepuasan pelanggan.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Layanan</h4>
+                    <ul>
+                        <li><a href="#packages">Paket Internet</a></li>
+                        <li><a href="#about">Tentang Kami</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#report">Lapor Gangguan</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Bantuan</h4>
+                    <ul>
+                        <li><a href="#faq">Cara Daftar</a></li>
+                        <li><a href="#faq">Pembayaran</a></li>
+                        <li><a href="#faq">Syarat & Ketentuan</a></li>
+                        <li><a href="#faq">Kebijakan Privasi</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Kontak</h4>
+                    <ul id="contactInfo">
+                        <li>📞 0812-XXXX-XXXX</li>
+                        <li>✉️ support@dede05tasik.local</li>
+                        <li>📍 Jl. Contoh No.12, Tasikmalaya</li>
+                        <li>🕐 Senin-Minggu: 08:00-20:00</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 DEDE05 TASIK. Semua hak dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp -->
+    <div class="floating-wa">
+        <a href="#" class="wa-button" id="waButton">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893-.001-3.189-1.262-6.187-3.55-8.444" fill="currentColor"/>
+            </svg>
+            Chat WhatsApp
+        </a>
+    </div>
+
+    <script>
+        // Konfigurasi
+        let WA_NUMBER = '6281222333444'; // Default, akan diupdate dari admin
+
+        // Fungsi untuk membuat link WhatsApp
+        function buatLinkWA(pesan) {
+            const pesanTerenkripsi = encodeURIComponent(pesan);
+            return `https://wa.me/${WA_NUMBER}?text=${pesanTerenkripsi}`;
+        }
+
+        // Fungsi untuk menampilkan notifikasi
+        function tampilkanNotifikasi(pesan, tipe = 'info') {
+            const notifikasiLama = document.querySelector('.notification-custom');
+            if (notifikasiLama) {
+                notifikasiLama.remove();
+            }
+
+            const notifikasi = document.createElement('div');
+            notifikasi.className = 'notification-custom';
+            notifikasi.textContent = pesan;
+            
+            let warna;
+            if (tipe === 'success') warna = '#4CAF50';
+            else if (tipe === 'error') warna = '#f44336';
+            else warna = '#2196F3';
+            
+            notifikasi.style.cssText = `
+                position: fixed;
+                top: 90px;
+                right: 28px;
+                padding: 14px 20px;
+                background: ${warna};
+                color: white;
+                border-radius: 8px;
+                z-index: 10000;
+                transform: translateX(120%);
+                transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                font-weight: 500;
+                font-size: 0.9rem;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+                max-width: 320px;
+            `;
+            
+            document.body.appendChild(notifikasi);
+            
+            setTimeout(() => {
+                notifikasi.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notifikasi.style.transform = 'translateX(120%)';
+                setTimeout(() => {
+                    if (document.body.contains(notifikasi)) {
+                        document.body.removeChild(notifikasi);
+                    }
+                }, 400);
+            }, 4000);
+        }
+
+        // Load data dari admin panel
+        function loadWebsiteData() {
+            // Load packages
+            const savedPackages = localStorage.getItem('websitePackages');
+            if (savedPackages) {
+                updatePackagesDisplay(JSON.parse(savedPackages));
+            } else {
+                // Default packages jika belum ada data dari admin
+                loadDefaultPackages();
+            }
+            
+            // Load settings
+            const savedSettings = localStorage.getItem('websiteSettings');
+            if (savedSettings) {
+                updateSettingsDisplay(JSON.parse(savedSettings));
+            }
+            
+            // Load FAQ
+            const savedFAQ = localStorage.getItem('websiteFAQ');
+            if (savedFAQ) {
+                updateFAQDisplay(JSON.parse(savedFAQ));
+            } else {
+                loadDefaultFAQ();
+            }
+        }
+
+        // Default packages
+        function loadDefaultPackages() {
+            const defaultPackages = [
+                {
+                    id: 1,
+                    name: "Basic",
+                    speed: "10 Mbps",
+                    price: "Rp 99.000",
+                    features: ["Unlimited Bandwidth", "Untuk 1-3 perangkat", "Streaming SD", "Support 24/7"],
+                    status: "active",
+                    popular: false
+                },
+                {
+                    id: 2,
+                    name: "Standard", 
+                    speed: "20 Mbps",
+                    price: "Rp 199.000",
+                    features: ["Unlimited Bandwidth", "Untuk 5-8 perangkat", "Streaming HD", "Prioritas Teknisi"],
+                    status: "active",
+                    popular: true
+                },
+                {
+                    id: 3,
+                    name: "Premium",
+                    speed: "50 Mbps",
+                    price: "Rp 349.000", 
+                    features: ["Unlimited Bandwidth", "Untuk 10+ perangkat", "Streaming 4K & Gaming", "SLA Khusus"],
+                    status: "active",
+                    popular: false
+                }
+            ];
+            updatePackagesDisplay(defaultPackages);
+        }
+
+        // Default FAQ
+        function loadDefaultFAQ() {
+            const defaultFAQ = [
+                {
+                    question: "Apa itu FUP (Fair Usage Policy)?",
+                    answer: "FUP adalah kebijakan penggunaan wajar. Kami memberikan batasan tertentu pada kecepatan setelah penggunaan data melebihi ambang tertentu pada beberapa paket promosi untuk menjaga kualitas jaringan bagi semua pelanggan."
+                },
+                {
+                    question: "Bagaimana cara membayar tagihan?",
+                    answer: "Pembayaran dapat dilakukan lewat transfer bank (BCA, BRI, BNI, Mandiri), e-wallet (GoPay, OVO, Dana), atau aplikasi pembayaran yang tertera di invoice. Kami juga menerima pembayaran via minimarket (Alfamart, Indomaret) dengan tambahan biaya admin."
+                },
+                {
+                    question: "Berapa lama proses pemasangan?",
+                    answer: "Standar pemasangan adalah 2-5 hari kerja tergantung ketersediaan tim dan lokasi Anda. Untuk area prioritas di Tasikmalaya kota, bisa lebih cepat dalam 1-2 hari kerja setelah survey lokasi selesai."
+                },
+                {
+                    question: "Bagaimana cara meminta teknisi?",
+                    answer: "Gunakan form \"Lapor Gangguan\" pada website atau hubungi WhatsApp support kami. Teknisi kami akan menghubungi Anda untuk jadwal kunjungan dalam waktu 2-4 jam pada jam operasional."
+                }
+            ];
+            updateFAQDisplay(defaultFAQ);
+        }
+
+        // Update tampilan paket
+        function updatePackagesDisplay(packages) {
+            // Update hero packages
+            const heroPackages = document.getElementById('heroPackages');
+            if (heroPackages) {
+                const activePackages = packages.filter(pkg => pkg.status === 'active').slice(0, 2);
+                heroPackages.innerHTML = activePackages.map(pkg => `
+                    <div class="package-mini-card ${pkg.popular ? 'popular' : ''}">
+                        ${pkg.popular ? '<div class="popular-badge">POPULER</div>' : ''}
+                        <h3>${pkg.name}</h3>
+                        <div class="package-mini-speed">${pkg.speed.split(' ')[0]} <small>Mbps</small></div>
+                        <div class="package-mini-price">${pkg.price}/bulan</div>
+                    </div>
+                `).join('');
+            }
+
+            // Update main packages grid
+            const packagesGrid = document.getElementById('packagesGrid');
+            if (packagesGrid) {
+                const activePackages = packages.filter(pkg => pkg.status === 'active');
+                packagesGrid.innerHTML = activePackages.map(pkg => `
+                    <div class="card package-card ${pkg.popular ? 'popular' : ''}">
+                        <h3>${pkg.name}</h3>
+                        <div class="package-speed">${pkg.speed.split(' ')[0]} <small>Mbps</small></div>
+                        <div class="package-price">${pkg.price}<span>/bulan</span></div>
+                        
+                        <ul class="package-features">
+                            ${pkg.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                        
+                        <button class="btn btn-primary" data-package="${pkg.name} ${pkg.speed}" data-price="${pkg.price}">
+                            Pesan Sekarang
+                        </button>
+                    </div>
+                `).join('');
+
+                // Re-attach event listeners
+                document.querySelectorAll('[data-package]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const namaPaket = this.getAttribute('data-package');
+                        const hargaPaket = this.getAttribute('data-price');
+                        pesanPaket(namaPaket, hargaPaket);
+                    });
+                });
+            }
+        }
+
+        // Update FAQ
+        function updateFAQDisplay(faqItems) {
+            const faqContainer = document.getElementById('faqContainer');
+            if (faqContainer) {
+                faqContainer.innerHTML = faqItems.map((item, index) => `
+                    <div class="faq-item">
+                        <div class="faq-question">${item.question}</div>
+                        <div class="faq-answer">
+                            <p>${item.answer}</p>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Re-attach FAQ event listeners
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    const question = item.querySelector('.faq-question');
+                    question.addEventListener('click', function() {
+                        const active = item.classList.contains('active');
+                        document.querySelectorAll('.faq-item').forEach(faq => {
+                            faq.classList.remove('active');
+                        });
+                        if (!active) {
+                            item.classList.add('active');
+                        }
+                    });
+                });
+            }
+        }
+
+        // Update settings
+        function updateSettingsDisplay(settings) {
+            // Update WhatsApp number
+            if (settings.whatsapp) {
+                WA_NUMBER = settings.whatsapp;
+            }
+            
+            // Update contact info
+            const contactInfo = document.getElementById('contactInfo');
+            if (contactInfo && settings) {
+                contactInfo.innerHTML = `
+                    <li>📞 ${settings.whatsapp || '0812-XXXX-XXXX'}</li>
+                    <li>✉️ ${settings.email || 'support@dede05tasik.local'}</li>
+                    <li>📍 ${settings.address || 'Jl. Contoh No.12, Tasikmalaya'}</li>
+                    <li>🕐 ${settings.workingHours || 'Senin-Minggu: 08:00-20:00'}</li>
+                `;
+            }
+
+            // Update footer description
+            const footerDesc = document.getElementById('footerDescription');
+            if (footerDesc && settings.description) {
+                footerDesc.textContent = settings.description;
+            }
+
+            // Update hero section
+            if (settings.heroTitle) {
+                document.getElementById('heroTitle').textContent = settings.heroTitle;
+            }
+            if (settings.heroDescription) {
+                document.getElementById('heroDescription').textContent = settings.heroDescription;
+            }
+
+            // Update about section
+            if (settings.aboutTitle) {
+                document.getElementById('aboutTitle').textContent = settings.aboutTitle;
+            }
+            if (settings.aboutDescription1) {
+                document.getElementById('aboutDescription1').textContent = settings.aboutDescription1;
+            }
+            if (settings.aboutDescription2) {
+                document.getElementById('aboutDescription2').textContent = settings.aboutDescription2;
+            }
+        }
+
+        // Fungsi untuk pesan paket
+        function pesanPaket(namaPaket, hargaPaket) {
+            const pesan = `Halo DEDE05 TASIK, saya ingin mendaftar paket ${namaPaket} (${hargaPaket}).%0A%0A📝 *Data Pendaftaran*%0A👤 Nama:%0A🏠 Alamat:%0A📞 Nomor HP:%0A%0AMohon info selanjutnya. Terima kasih!`;
+            const linkWA = buatLinkWA(pesan);
+            window.open(linkWA, '_blank');
+            tampilkanNotifikasi(`Membuka WhatsApp untuk pendaftaran ${namaPaket}`, 'success');
+        }
+
+        // Fungsi untuk kontak umum
+        function kontakUmum() {
+            const pesan = `Halo DEDE05 TASIK,%0A%0ASaya ingin informasi lebih lanjut tentang:%0A• Paket internet yang tersedia%0A• Coverage area di Tasikmalaya%0A• Syarat dan prosedur pendaftaran%0A%0AMohon info lengkapnya. Terima kasih!`;
+            const linkWA = buatLinkWA(pesan);
+            window.open(linkWA, '_blank');
+        }
+
+        // Fungsi untuk kirim laporan
+        function kirimLaporan(event) {
+            event.preventDefault();
+            
+            const nama = document.getElementById('name').value.trim();
+            const telepon = document.getElementById('phone').value.trim();
+            const alamat = document.getElementById('address').value.trim();
+            const jenisMasalah = document.getElementById('issueType').value;
+            const keterangan = document.getElementById('description').value.trim();
+            
+            if (!nama || !telepon || !alamat || !jenisMasalah) {
+                tampilkanNotifikasi('Harap lengkapi semua field yang wajib diisi', 'error');
+                return;
+            }
+            
+            const pesan = `🚨 *LAPORAN GANGGUAN DEDE05 TASIK*%0A%0A👤 *Data Pelapor*%0A• Nama: ${nama}%0A• WhatsApp: ${telepon}%0A• Alamat: ${alamat}%0A%0A⚠️ *Jenis Masalah*%0A${jenisMasalah}%0A%0A📝 *Keterangan*%0A${keterangan || 'Tidak ada keterangan tambahan'}%0A%0A🕐 *Waktu Laporan*%0A${new Date().toLocaleString('id-ID')}%0A%0AMohon segera ditindaklanjuti. Terima kasih!`;
+            const linkWA = buatLinkWA(pesan);
+            
+            window.open(linkWA, '_blank');
+            tampilkanNotifikasi('Laporan berhasil dikirim ke WhatsApp tim teknisi', 'success');
+            
+            // Simpan laporan ke admin system
+            const reports = JSON.parse(localStorage.getItem('websiteReports') || '[]');
+            reports.push({
+                id: Date.now(),
+                nama,
+                telepon,
+                alamat,
+                jenisMasalah,
+                keterangan,
+                tanggal: new Date().toISOString(),
+                status: 'pending'
+            });
+            localStorage.setItem('websiteReports', JSON.stringify(reports));
+            
+            setTimeout(() => {
+                event.target.reset();
+            }, 1000);
+        }
+
+        // Event ketika halaman selesai dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load data dari admin
+            loadWebsiteData();
+
+            // Element yang sering digunakan
+            const tombolLogin = document.getElementById('loginBtn');
+            const tombolOrderHero = document.getElementById('heroOrderBtn');
+            const tombolKontak = document.getElementById('contactBtn');
+            const tombolWA = document.getElementById('waButton');
+            const formLaporan = document.getElementById('reportForm');
+            const itemFAQ = document.querySelectorAll('.faq-item');
+            const header = document.querySelector('header');
+            const tombolMenuMobile = document.getElementById('mobileMenuBtn');
+            const navMobile = document.getElementById('mobileNav');
+            const tombolLoginMobile = document.getElementById('mobileLoginBtn');
+            const tombolOrderMobile = document.getElementById('mobileOrderBtn');
+
+            // Fungsi untuk toggle menu mobile
+            function toggleMenuMobile() {
+                navMobile.classList.toggle('active');
+                document.body.style.overflow = navMobile.classList.contains('active') ? 'hidden' : '';
+                
+                if (navMobile.classList.contains('active')) {
+                    tombolMenuMobile.textContent = '✕';
+                } else {
+                    tombolMenuMobile.textContent = '☰';
+                }
+            }
+
+            // Event listener untuk tombol order di hero
+            tombolOrderHero.addEventListener('click', function() {
+                pesanPaket('Standard 20 Mbps', 'Rp 199.000');
+            });
+
+            // Event listener untuk tombol kontak
+            tombolKontak.addEventListener('click', kontakUmum);
+
+            // Event listener untuk tombol login (redirect ke admin)
+            tombolLogin.addEventListener('click', function() {
+                window.location.href = 'admin-login.html';
+            });
+
+            // Event listener untuk tombol login mobile
+            tombolLoginMobile.addEventListener('click', function() {
+                toggleMenuMobile();
+                setTimeout(() => {
+                    window.location.href = 'admin-login.html';
+                }, 300);
+            });
+
+            // Event listener untuk tombol order mobile
+            tombolOrderMobile.addEventListener('click', function() {
+                toggleMenuMobile();
+                setTimeout(() => {
+                    pesanPaket('Standard 20 Mbps', 'Rp 199.000');
+                }, 300);
+            });
+
+            // Event listener untuk form laporan
+            formLaporan.addEventListener('submit', kirimLaporan);
+
+            // Event listener untuk FAQ
+            itemFAQ.forEach(item => {
+                const pertanyaan = item.querySelector('.faq-question');
+                pertanyaan.addEventListener('click', function() {
+                    const aktif = item.classList.contains('active');
+                    document.querySelectorAll('.faq-item').forEach(faq => {
+                        faq.classList.remove('active');
+                    });
+                    if (!aktif) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+
+            // Event listener untuk tombol WhatsApp
+            tombolWA.addEventListener('click', function(e) {
+                e.preventDefault();
+                kontakUmum();
+            });
+
+            // Event listener untuk scroll
+            function handleScroll() {
+                if (window.scrollY > 80) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            }
+            window.addEventListener('scroll', handleScroll);
+
+            // Event listener untuk tombol ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && navMobile.classList.contains('active')) {
+                    toggleMenuMobile();
+                }
+            });
+
+            // Event listener untuk menu mobile
+            tombolMenuMobile.addEventListener('click', toggleMenuMobile);
+
+            // Event listener untuk link di menu mobile
+            const linkMobile = document.querySelectorAll('.mobile-nav-links a');
+            linkMobile.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        toggleMenuMobile();
+                        setTimeout(() => {
+                            const headerHeight = document.querySelector('header').offsetHeight;
+                            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+                            
+                            window.scrollTo({
+                                top: targetPosition,
+                                behavior: 'smooth'
+                            });
+                        }, 300);
+                    }
+                });
+            });
+
+            // Smooth scroll untuk anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                if (!anchor.classList.contains('mobile-nav-links')) {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            const headerHeight = document.querySelector('header').offsetHeight;
+                            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+                            
+                            window.scrollTo({
+                                top: targetPosition,
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+        // Inisialisasi ketika halaman selesai dimuat
+        window.addEventListener('load', function() {
+            console.log('Website DEDE05 TASIK berhasil dimuat');
+            
+            // Handle image error untuk logo
+            const logos = document.querySelectorAll('.logo-img');
+            logos.forEach(logo => {
+                logo.addEventListener('error', function() {
+                    this.style.background = 'linear-gradient(135deg, var(--pink), var(--pink-dark))';
+                    this.style.display = 'flex';
+                    this.style.alignItems = 'center';
+                    this.style.justifyContent = 'center';
+                    this.style.color = 'white';
+                    this.style.fontWeight = 'bold';
+                    this.style.fontSize = '14px';
+                    this.textContent = 'DT';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

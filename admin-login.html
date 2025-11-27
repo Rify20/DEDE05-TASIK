@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login • DEDE05 TASIK</title>
+    <style>
+        :root {
+            --pink: #ff2abf;
+            --pink-dark: #e024a8;
+            --black: #0b0b0b;
+            --card-bg: #0f0f10;
+            --white: #ffffff;
+            --gray: #bfbfbf;
+            --border: rgba(255, 255, 255, 0.05);
+            --radius: 12px;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 40px 30px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .logo-text h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .subtitle {
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--black);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--white);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--pink);
+            box-shadow: 0 0 0 2px rgba(255, 42, 191, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--pink);
+            color: var(--black);
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: var(--pink-dark);
+            transform: translateY(-2px);
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .alert-error {
+            background: rgba(244, 67, 54, 0.1);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+            color: #f44336;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            color: var(--white);
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+            
+            .logo {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo">
+                <div class="logo-img">DT</div>
+                <div class="logo-text">
+                    <h1>DEDE05 TASIK</h1>
+                    <span>Admin Panel</span>
+                </div>
+            </div>
+
+            <h2>Masuk ke Dashboard</h2>
+            <p class="subtitle">Silakan login dengan akun admin Anda</p>
+
+            <div class="alert alert-error" id="errorAlert">
+                Username atau password salah!
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" class="form-control" placeholder="Masukkan username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Masukkan password" required>
+                </div>
+
+                <button type="submit" class="btn">Masuk</button>
+            </form>
+
+            <a href="index.html" class="back-link">← Kembali ke Website Utama</a>
+        </div>
+    </div>
+
+    <script>
+        // Initialize default data jika belum ada
+        function initializeData() {
+            if (!localStorage.getItem('websiteData')) {
+                const defaultData = {
+                    packages: [
+                        {
+                            id: 1,
+                            name: "Basic",
+                            speed: "10 Mbps",
+                            price: "Rp 99.000",
+                            features: ["Unlimited Bandwidth", "Untuk 1-3 perangkat", "Streaming SD", "Support 24/7"],
+                            status: "active",
+                            popular: false
+                        },
+                        {
+                            id: 2,
+                            name: "Standard",
+                            speed: "20 Mbps", 
+                            price: "Rp 199.000",
+                            features: ["Unlimited Bandwidth", "Untuk 5-8 perangkat", "Streaming HD", "Prioritas Teknisi"],
+                            status: "active",
+                            popular: true
+                        },
+                        {
+                            id: 3,
+                            name: "Premium",
+                            speed: "50 Mbps",
+                            price: "Rp 349.000",
+                            features: ["Unlimited Bandwidth", "Untuk 10+ perangkat", "Streaming 4K & Gaming", "SLA Khusus"],
+                            status: "active",
+                            popular: false
+                        }
+                    ],
+                    settings: {
+                        whatsapp: "6281222333444",
+                        email: "support@dede05tasik.local",
+                        address: "Jl. Contoh No.12, Tasikmalaya",
+                        workingHours: "Senin-Minggu: 08:00-20:00",
+                        description: "Penyedia layanan internet lokal di Tasikmalaya dengan koneksi stabil dan harga terjangkau. Dukungan teknis 24/7 untuk kepuasan pelanggan.",
+                        heroTitle: "Stabil untuk Semua Kebutuhan",
+                        heroDescription: "Nikmati pengalaman internet terbaik dengan harga terjangkau. Instalasi gratis dan dukungan teknis 24/7.",
+                        aboutTitle: "Tentang DEDE05 TASIK",
+                        aboutDescription1: "Kami adalah penyedia layanan internet lokal yang berfokus pada kualitas, respon cepat, dan harga yang bersaing. Beroperasi di wilayah Tasikmalaya dan sekitarnya dengan teknisi lokal yang handal.",
+                        aboutDescription2: "Dengan pengalaman lebih dari 5 tahun di industri telekomunikasi, kami berkomitmen untuk memberikan layanan terbaik kepada pelanggan dengan jaringan yang stabil dan dukungan 24/7."
+                    },
+                    faq: [
+                        {
+                            question: "Apa itu FUP (Fair Usage Policy)?",
+                            answer: "FUP adalah kebijakan penggunaan wajar. Kami memberikan batasan tertentu pada kecepatan setelah penggunaan data melebihi ambang tertentu pada beberapa paket promosi untuk menjaga kualitas jaringan bagi semua pelanggan."
+                        },
+                        {
+                            question: "Bagaimana cara membayar tagihan?",
+                            answer: "Pembayaran dapat dilakukan lewat transfer bank (BCA, BRI, BNI, Mandiri), e-wallet (GoPay, OVO, Dana), atau aplikasi pembayaran yang tertera di invoice. Kami juga menerima pembayaran via minimarket (Alfamart, Indomaret) dengan tambahan biaya admin."
+                        },
+                        {
+                            question: "Berapa lama proses pemasangan?",
+                            answer: "Standar pemasangan adalah 2-5 hari kerja tergantung ketersediaan tim dan lokasi Anda. Untuk area prioritas di Tasikmalaya kota, bisa lebih cepat dalam 1-2 hari kerja setelah survey lokasi selesai."
+                        },
+                        {
+                            question: "Bagaimana cara meminta teknisi?",
+                            answer: "Gunakan form \"Lapor Gangguan\" pada website atau hubungi WhatsApp support kami. Teknisi kami akan menghubungi Anda untuk jadwal kunjungan dalam waktu 2-4 jam pada jam operasional."
+                        }
+                    ],
+                    reports: [],
+                    customers: []
+                };
+                localStorage.setItem('websiteData', JSON.stringify(defaultData));
+                updateWebsiteContent();
+            }
+        }
+
+        // Update website content dengan data terbaru
+        function updateWebsiteContent() {
+            const websiteData = JSON.parse(localStorage.getItem('websiteData'));
+            if (websiteData) {
+                localStorage.setItem('websitePackages', JSON.stringify(websiteData.packages));
+                localStorage.setItem('websiteSettings', JSON.stringify(websiteData.settings));
+                localStorage.setItem('websiteFAQ', JSON.stringify(websiteData.faq));
+                localStorage.setItem('websiteReports', JSON.stringify(websiteData.reports));
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorAlert = document.getElementById('errorAlert');
+
+            // Default login credentials
+            const validUsername = 'admin';
+            const validPassword = 'dede05tasik2024';
+
+            if (username === validUsername && password === validPassword) {
+                // Initialize data jika pertama kali login
+                initializeData();
+                
+                // Simpan session dan redirect ke dashboard
+                localStorage.setItem('adminLoggedIn', 'true');
+                localStorage.setItem('adminUsername', username);
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                errorAlert.style.display = 'block';
+                setTimeout(() => {
+                    errorAlert.style.display = 'none';
+                }, 3000);
+            }
+        });
+
+        // Cek jika sudah login
+        if (localStorage.getItem('adminLoggedIn') === 'true') {
+            window.location.href = 'admin-dashboard.html';
+        }
+
+        // Initialize data saat halaman load
+        initializeData();
+    </script>
+</body>
+</html>

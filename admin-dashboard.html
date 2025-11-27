@@ -40,6 +40,7 @@
             color: #374151;
             line-height: 1.6;
             font-weight: 400;
+            overflow-x: hidden;
         }
 
         /* Sidebar Styles */
@@ -54,6 +55,8 @@
             box-shadow: var(--shadow);
             z-index: 1000;
             border-right: 1px solid #e5e7eb;
+            left: 0;
+            top: 0;
         }
 
         .logo {
@@ -61,6 +64,9 @@
             background: rgba(255, 255, 255, 0.1);
             text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .logo h1 {
@@ -152,6 +158,8 @@
             padding: 30px;
             min-height: 100vh;
             background: var(--dark);
+            position: relative;
+            width: calc(100% - var(--sidebar-width));
         }
 
         .header {
@@ -161,6 +169,11 @@
             margin-bottom: 40px;
             padding: 20px 0;
             border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            background: var(--dark);
+            z-index: 100;
+            padding-right: 30px;
         }
 
         .header h2 {
@@ -168,6 +181,7 @@
             font-weight: 700;
             font-size: 2rem;
             letter-spacing: -0.5px;
+            margin: 0;
         }
 
         .header-actions {
@@ -209,6 +223,7 @@
             top: 50%;
             transform: translateY(-50%);
             color: var(--primary);
+            z-index: 1;
         }
 
         .user-info {
@@ -222,6 +237,7 @@
             background: white;
             box-shadow: var(--shadow);
             position: relative;
+            border: 1px solid #e5e7eb;
         }
 
         .user-info:hover {
@@ -242,21 +258,40 @@
             font-size: 1.1rem;
             border: 3px solid white;
             box-shadow: var(--shadow);
+            flex-shrink: 0;
         }
 
         .user-details {
             display: flex;
             flex-direction: column;
+            min-width: 0;
         }
 
         .user-name {
             font-weight: 600;
             color: #1f2937;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .user-role {
             font-size: 0.85rem;
             color: var(--primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-info i.fa-chevron-down {
+            color: var(--primary);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .user-info:hover i.fa-chevron-down {
+            transform: rotate(180deg);
         }
 
         /* User Dropdown Menu */
@@ -267,14 +302,15 @@
             margin-top: 10px;
             background: white;
             border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
             border: 1px solid #e5e7eb;
-            min-width: 200px;
+            min-width: 220px;
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
             transition: var(--transition);
             z-index: 1000;
+            overflow: hidden;
         }
 
         .user-dropdown.active {
@@ -292,6 +328,7 @@
             text-decoration: none;
             transition: var(--transition);
             border-bottom: 1px solid #f3f4f6;
+            background: white;
         }
 
         .user-dropdown-item:last-child {
@@ -304,15 +341,18 @@
         }
 
         .user-dropdown-item i {
-            width: 20px;
+            width: 16px;
             text-align: center;
             color: var(--primary);
+            font-size: 0.9rem;
         }
 
         /* Content Area */
         .content-area {
             display: none;
             animation: fadeInUp 0.6s ease-out;
+            position: relative;
+            z-index: 1;
         }
 
         .content-area.active {
@@ -391,6 +431,7 @@
             font-size: 1.3rem;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+            flex-shrink: 0;
         }
 
         .card-value {
@@ -429,6 +470,8 @@
             box-shadow: var(--shadow);
             margin-bottom: 30px;
             border: 1px solid #e5e7eb;
+            position: relative;
+            z-index: 1;
         }
 
         .table-header {
@@ -438,6 +481,7 @@
             justify-content: space-between;
             align-items: center;
             background: #f8fafc;
+            position: relative;
         }
 
         .table-header h3 {
@@ -449,6 +493,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            position: relative;
         }
 
         th, td {
@@ -464,6 +509,9 @@
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         tr:last-child td {
@@ -485,6 +533,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            display: inline-block;
         }
 
         .status-active {
@@ -517,6 +566,8 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            position: relative;
+            z-index: 1;
         }
 
         .btn-primary {
@@ -543,178 +594,11 @@
             transform: translateY(-2px);
         }
 
-        .btn-back {
-            background: #6b7280;
-            color: white;
-            padding: 10px 20px;
-            margin-bottom: 20px;
-        }
-
-        .btn-back:hover {
-            background: #4b5563;
-            transform: translateY(-2px);
-        }
-
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: #374151;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 14px 18px;
-            border: 2px solid #e5e7eb;
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            transition: var(--transition);
-            background: white;
-            color: #374151;
-            box-shadow: var(--shadow);
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        /* FAQ Styles */
-        .faq-item {
-            margin-bottom: 20px;
-            border: 1px solid #e5e7eb;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            transition: var(--transition);
-            background: white;
-            box-shadow: var(--shadow);
-        }
-
-        .faq-item:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        .faq-question {
-            padding: 20px;
-            background: #f8fafc;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            color: #1f2937;
-            transition: var(--transition);
-        }
-
-        .faq-question:hover {
-            background: #f1f5f9;
-        }
-
-        .faq-answer {
-            padding: 0 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: var(--transition);
-            background: white;
-            color: #6b7280;
-        }
-
-        .faq-item.active .faq-answer {
-            padding: 20px;
-            max-height: 500px;
-        }
-
-        /* Settings Styles */
-        .settings-section {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow);
-            border: 1px solid #e5e7eb;
-        }
-
-        .settings-section h3 {
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e5e7eb;
-            color: #1f2937;
-            font-weight: 700;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 600px;
-            padding: 30px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e5e7eb;
-            position: relative;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .modal-header h3 {
-            margin: 0;
-            color: #1f2937;
-            font-weight: 600;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: #6b7280;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .modal-close:hover {
-            color: var(--primary);
-        }
-
         /* Responsive */
         @media (max-width: 1024px) {
             .sidebar {
                 width: 80px;
+                transform: translateX(0);
             }
             
             .logo h1, .menu-item span, .logo p, .user-details {
@@ -734,10 +618,15 @@
             .main-content {
                 margin-left: 80px;
                 padding: 20px;
+                width: calc(100% - 80px);
             }
             
             .search-box input {
                 width: 200px;
+            }
+
+            .header {
+                padding-right: 20px;
             }
         }
 
@@ -750,19 +639,55 @@
                 flex-direction: column;
                 gap: 20px;
                 align-items: flex-start;
+                padding: 20px 0;
             }
             
             .header-actions {
                 width: 100%;
                 justify-content: space-between;
+                flex-wrap: wrap;
             }
             
             .search-box {
                 flex: 1;
+                min-width: 200px;
             }
             
             .search-box input {
                 width: 100%;
+            }
+
+            .user-info {
+                order: 2;
+                margin-top: 10px;
+            }
+
+            .user-dropdown {
+                right: auto;
+                left: 0;
+                min-width: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 15px;
+            }
+            
+            .header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .search-box input {
+                width: 150px;
+            }
+            
+            .user-details {
+                display: none;
+            }
+            
+            .user-info {
+                padding: 8px;
             }
         }
 
@@ -799,6 +724,45 @@
             position: absolute;
             top: 8px;
             right: 8px;
+            z-index: 10;
+        }
+
+        /* Utility Classes */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
     </style>
 </head>
@@ -1007,34 +971,91 @@
             </div>
         </div>
         
-        <!-- Paket Internet Content -->
+        <!-- Other Content Areas (minimal untuk demo) -->
         <div id="paket-internet" class="content-area">
-            <!-- Content paket internet -->
+            <div class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Paket Internet</div>
+                        <div class="card-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">15</div>
+                    <div class="card-change positive">Aktif</div>
+                </div>
+            </div>
         </div>
         
-        <!-- Pelanggan Content -->
         <div id="pelanggan" class="content-area">
-            <!-- Content pelanggan -->
+            <div class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Total Pelanggan</div>
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">1,248</div>
+                    <div class="card-change positive">Aktif</div>
+                </div>
+            </div>
         </div>
         
-        <!-- Laporan Gangguan Content -->
         <div id="laporan-gangguan" class="content-area">
-            <!-- Content laporan gangguan -->
+            <div class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Laporan Gangguan</div>
+                        <div class="card-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">23</div>
+                    <div class="card-change negative">Perlu Tindakan</div>
+                </div>
+            </div>
         </div>
         
-        <!-- Uptime Server Content -->
         <div id="uptime-server" class="content-area">
-            <!-- Content uptime server -->
+            <div class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Uptime Server</div>
+                        <div class="card-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">99.8%</div>
+                    <div class="card-change positive">Stabil</div>
+                </div>
+            </div>
         </div>
         
-        <!-- FAQ Content -->
         <div id="faq" class="content-area">
-            <!-- Content FAQ -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>FAQ</h3>
+                </div>
+                <div style="padding: 25px;">
+                    <p>Konten FAQ akan ditampilkan di sini.</p>
+                </div>
+            </div>
         </div>
         
-        <!-- Pengaturan Content -->
         <div id="pengaturan" class="content-area">
-            <!-- Content pengaturan -->
+            <div class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Pengaturan</div>
+                        <div class="card-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">-</div>
+                    <div class="card-change neutral">Konfigurasi</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1043,16 +1064,27 @@
             // User dropdown functionality
             const userInfo = document.getElementById('user-info');
             const userDropdown = document.getElementById('user-dropdown');
+            let dropdownTimeout;
             
-            // Toggle dropdown
+            // Toggle dropdown dengan delay untuk mencegah flickering
             userInfo.addEventListener('click', function(e) {
                 e.stopPropagation();
-                userDropdown.classList.toggle('active');
+                clearTimeout(dropdownTimeout);
+                
+                if (userDropdown.classList.contains('active')) {
+                    userDropdown.classList.remove('active');
+                } else {
+                    dropdownTimeout = setTimeout(() => {
+                        userDropdown.classList.add('active');
+                    }, 50);
+                }
             });
             
             // Close dropdown when clicking outside
-            document.addEventListener('click', function() {
-                userDropdown.classList.remove('active');
+            document.addEventListener('click', function(e) {
+                if (!userInfo.contains(e.target) && !userDropdown.contains(e.target)) {
+                    userDropdown.classList.remove('active');
+                }
             });
             
             // Prevent dropdown from closing when clicking inside
@@ -1069,7 +1101,7 @@
             
             document.getElementById('settings-btn').addEventListener('click', function(e) {
                 e.preventDefault();
-                alert('Membuka pengaturan...');
+                setActiveContent('pengaturan');
                 userDropdown.classList.remove('active');
             });
             
@@ -1132,6 +1164,13 @@
                 alert('📊 Data berhasil diexport ke Excel!');
             });
             
+            // Search functionality
+            document.getElementById('search-input').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                console.log('Searching for:', searchTerm);
+                // Implement search logic here
+            });
+            
             function setActiveContent(target) {
                 // Hide all content areas
                 contentAreas.forEach(area => {
@@ -1150,7 +1189,31 @@
                         pageTitle.textContent = menuText;
                     }
                 }
+                
+                // Close user dropdown when navigating
+                userDropdown.classList.remove('active');
             }
+
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                // Close dropdown on mobile when resizing
+                if (window.innerWidth < 768) {
+                    userDropdown.classList.remove('active');
+                }
+            });
+
+            // Prevent context menu on user info
+            userInfo.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+
+            // Add keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                // Close dropdown on Escape key
+                if (e.key === 'Escape' && userDropdown.classList.contains('active')) {
+                    userDropdown.classList.remove('active');
+                }
+            });
         });
     </script>
 </body>

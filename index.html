@@ -1295,10 +1295,10 @@
                 <div class="footer-links">
                     <h4>Kontak</h4>
                     <ul id="contactInfo">
-                        <li>📞 0812-XXXX-XXXX</li>
-                        <li>✉️ support@dede05tasik.local</li>
-                        <li>📍 Jl. Contoh No.12, Tasikmalaya</li>
-                        <li>🕐 Senin-Minggu: 08:00-20:00</li>
+                        <li>Telepon: 0812-XXXX-XXXX</li>
+                        <li>Email: support@dede05tasik.local</li>
+                        <li>Alamat: Jl. Contoh No.12, Tasikmalaya</li>
+                        <li>Jam Operasional: Senin-Minggu: 08:00-20:00</li>
                     </ul>
                 </div>
             </div>
@@ -1320,10 +1320,10 @@
     </div>
 
     <script>
-        // Konfigurasi
-        let WA_NUMBER = '6281222333444'; // Default, akan diupdate dari admin
+        // Konfigurasi WhatsApp
+        const WA_NUMBER = '6288269074542'; // Nomor WhatsApp yang ditentukan
 
-        // Fungsi untuk membuat link WhatsApp
+        // Fungsi untuk membuat link WhatsApp dengan pesan yang profesional
         function buatLinkWA(pesan) {
             const pesanTerenkripsi = encodeURIComponent(pesan);
             return `https://wa.me/${WA_NUMBER}?text=${pesanTerenkripsi}`;
@@ -1523,19 +1523,14 @@
 
         // Update settings
         function updateSettingsDisplay(settings) {
-            // Update WhatsApp number
-            if (settings.whatsapp) {
-                WA_NUMBER = settings.whatsapp;
-            }
-            
             // Update contact info
             const contactInfo = document.getElementById('contactInfo');
             if (contactInfo && settings) {
                 contactInfo.innerHTML = `
-                    <li>📞 ${settings.whatsapp || '0812-XXXX-XXXX'}</li>
-                    <li>✉️ ${settings.email || 'support@dede05tasik.local'}</li>
-                    <li>📍 ${settings.address || 'Jl. Contoh No.12, Tasikmalaya'}</li>
-                    <li>🕐 ${settings.workingHours || 'Senin-Minggu: 08:00-20:00'}</li>
+                    <li>Telepon: ${settings.whatsapp || '0812-XXXX-XXXX'}</li>
+                    <li>Email: ${settings.email || 'support@dede05tasik.local'}</li>
+                    <li>Alamat: ${settings.address || 'Jl. Contoh No.12, Tasikmalaya'}</li>
+                    <li>Jam Operasional: ${settings.workingHours || 'Senin-Minggu: 08:00-20:00'}</li>
                 `;
             }
 
@@ -1565,22 +1560,48 @@
             }
         }
 
-        // Fungsi untuk pesan paket
+        // Fungsi untuk pesan paket - PESAN PROFESIONAL
         function pesanPaket(namaPaket, hargaPaket) {
-            const pesan = `Halo DEDE05 TASIK, saya ingin mendaftar paket ${namaPaket} (${hargaPaket}).%0A%0A📝 *Data Pendaftaran*%0A👤 Nama:%0A🏠 Alamat:%0A📞 Nomor HP:%0A%0AMohon info selanjutnya. Terima kasih!`;
+            const pesan = `Halo DEDE05 TASIK,
+
+Saya tertarik untuk berlangganan paket internet berikut:
+- Paket: ${namaPaket}
+- Harga: ${hargaPaket}
+
+Saya ingin mendapatkan informasi lebih lanjut mengenai:
+1. Prosedur pendaftaran
+2. Persyaratan yang diperlukan
+3. Jadwal instalasi
+4. Area coverage di lokasi saya
+
+Mohon informasikan langkah selanjutnya yang perlu saya lakukan.
+
+Terima kasih.`;
             const linkWA = buatLinkWA(pesan);
             window.open(linkWA, '_blank');
-            tampilkanNotifikasi(`Membuka WhatsApp untuk pendaftaran ${namaPaket}`, 'success');
+            tampilkanNotifikasi(`Membuka WhatsApp untuk informasi paket ${namaPaket}`, 'success');
         }
 
-        // Fungsi untuk kontak umum
+        // Fungsi untuk kontak umum - PESAN PROFESIONAL
         function kontakUmum() {
-            const pesan = `Halo DEDE05 TASIK,%0A%0ASaya ingin informasi lebih lanjut tentang:%0A• Paket internet yang tersedia%0A• Coverage area di Tasikmalaya%0A• Syarat dan prosedur pendaftaran%0A%0AMohon info lengkapnya. Terima kasih!`;
+            const pesan = `Halo DEDE05 TASIK,
+
+Saya ingin mendapatkan informasi mengenai layanan internet yang tersedia. Bisa tolong berikan informasi mengenai:
+
+1. Paket internet yang saat ini tersedia
+2. Coverage area di wilayah Tasikmalaya
+3. Proses pendaftaran dan instalasi
+4. Syarat dan ketentuan berlangganan
+
+Saya menunggu informasi lengkap dari tim marketing.
+
+Terima kasih.`;
             const linkWA = buatLinkWA(pesan);
             window.open(linkWA, '_blank');
+            tampilkanNotifikasi('Membuka WhatsApp untuk informasi umum', 'success');
         }
 
-        // Fungsi untuk kirim laporan
+        // Fungsi untuk kirim laporan - PESAN PROFESIONAL
         function kirimLaporan(event) {
             event.preventDefault();
             
@@ -1595,7 +1616,25 @@
                 return;
             }
             
-            const pesan = `🚨 *LAPORAN GANGGUAN DEDE05 TASIK*%0A%0A👤 *Data Pelapor*%0A• Nama: ${nama}%0A• WhatsApp: ${telepon}%0A• Alamat: ${alamat}%0A%0A⚠️ *Jenis Masalah*%0A${jenisMasalah}%0A%0A📝 *Keterangan*%0A${keterangan || 'Tidak ada keterangan tambahan'}%0A%0A🕐 *Waktu Laporan*%0A${new Date().toLocaleString('id-ID')}%0A%0AMohon segera ditindaklanjuti. Terima kasih!`;
+            const pesan = `LAPORAN GANGGUAN - DEDE05 TASIK
+
+DATA PELAPOR:
+- Nama: ${nama}
+- Nomor WhatsApp: ${telepon}
+- Alamat: ${alamat}
+
+JENIS MASALAH:
+${jenisMasalah}
+
+KETERANGAN DETAIL:
+${keterangan || 'Tidak ada keterangan tambahan'}
+
+WAKTU LAPORAN:
+${new Date().toLocaleString('id-ID')}
+
+Mohon laporan ini segera ditindaklanjuti oleh tim teknisi.
+
+Terima kasih.`;
             const linkWA = buatLinkWA(pesan);
             
             window.open(linkWA, '_blank');

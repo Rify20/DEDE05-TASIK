@@ -174,6 +174,7 @@
             display: flex;
             align-items: center;
             gap: 20px;
+            position: relative;
         }
 
         .search-box {
@@ -220,6 +221,7 @@
             cursor: pointer;
             background: white;
             box-shadow: var(--shadow);
+            position: relative;
         }
 
         .user-info:hover {
@@ -254,6 +256,56 @@
 
         .user-role {
             font-size: 0.85rem;
+            color: var(--primary);
+        }
+
+        /* User Dropdown Menu */
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid #e5e7eb;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .user-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .user-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: #374151;
+            text-decoration: none;
+            transition: var(--transition);
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .user-dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-dropdown-item:hover {
+            background: #f8fafc;
+            color: var(--primary);
+        }
+
+        .user-dropdown-item i {
+            width: 20px;
+            text-align: center;
             color: var(--primary);
         }
 
@@ -822,13 +874,34 @@
                     <i class="fas fa-search"></i>
                     <input type="text" placeholder="Cari..." id="search-input">
                 </div>
-                <div class="user-info">
+                <div class="user-info" id="user-info">
                     <div class="user-avatar">AD</div>
                     <div class="user-details">
                         <div class="user-name">Administrator</div>
                         <div class="user-role">Super Admin</div>
                     </div>
                     <i class="fas fa-chevron-down"></i>
+                    
+                    <!-- Dropdown Menu -->
+                    <div class="user-dropdown" id="user-dropdown">
+                        <a href="#" class="user-dropdown-item" id="profile-btn">
+                            <i class="fas fa-user"></i>
+                            <span>Profil Saya</span>
+                        </a>
+                        <a href="#" class="user-dropdown-item" id="settings-btn">
+                            <i class="fas fa-cog"></i>
+                            <span>Pengaturan</span>
+                        </a>
+                        <a href="#" class="user-dropdown-item" id="password-btn">
+                            <i class="fas fa-key"></i>
+                            <span>Ubah Password</span>
+                        </a>
+                        <div style="border-top: 1px solid #e5e7eb; margin: 8px 0;"></div>
+                        <a href="#" class="user-dropdown-item" id="logout-btn" style="color: var(--danger);">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -929,15 +1002,6 @@
                             <td>09:45 WIB</td>
                             <td><span class="status status-pending">Diproses</span></td>
                         </tr>
-                        <tr>
-                            <td>
-                                <strong>Citra Dewi</strong>
-                                <div style="font-size: 0.85rem; color: var(--primary);">PLG003</div>
-                            </td>
-                            <td>Pembayaran</td>
-                            <td>08:15 WIB</td>
-                            <td><span class="status status-active">Selesai</span></td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -945,529 +1009,90 @@
         
         <!-- Paket Internet Content -->
         <div id="paket-internet" class="content-area">
-            <div class="cards">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Paket Reguler</div>
-                        <div class="card-icon">
-                            <i class="fas fa-home"></i>
-                        </div>
-                    </div>
-                    <div class="card-value">8 Paket</div>
-                    <div class="card-change positive">Aktif</div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Paket Bisnis</div>
-                        <div class="card-icon">
-                            <i class="fas fa-briefcase"></i>
-                        </div>
-                    </div>
-                    <div class="card-value">5 Paket</div>
-                    <div class="card-change positive">Aktif</div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Paket Premium</div>
-                        <div class="card-icon">
-                            <i class="fas fa-crown"></i>
-                        </div>
-                    </div>
-                    <div class="card-value">2 Paket</div>
-                    <div class="card-change positive">Aktif</div>
-                </div>
-            </div>
-            
-            <div class="table-container">
-                <div class="table-header">
-                    <h3>Daftar Paket Internet</h3>
-                    <button class="btn btn-primary" id="tambah-paket-btn">
-                        <i class="fas fa-plus"></i>
-                        Tambah Paket
-                    </button>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nama Paket</th>
-                            <th>Kecepatan</th>
-                            <th>Harga</th>
-                            <th>Pelanggan</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Basic 10 Mbps</strong></td>
-                            <td>10 Mbps</td>
-                            <td>Rp 150.000</td>
-                            <td>320</td>
-                            <td><span class="status status-active">Aktif</span></td>
-                            <td>
-                                <button class="btn btn-outline edit-btn" data-id="1" style="padding: 8px 12px; font-size: 0.8rem;">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-outline delete-btn" data-id="1" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Standard 20 Mbps</strong></td>
-                            <td>20 Mbps</td>
-                            <td>Rp 250.000</td>
-                            <td>415</td>
-                            <td><span class="status status-active">Aktif</span></td>
-                            <td>
-                                <button class="btn btn-outline edit-btn" data-id="2" style="padding: 8px 12px; font-size: 0.8rem;">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-outline delete-btn" data-id="2" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <!-- Content paket internet -->
         </div>
         
         <!-- Pelanggan Content -->
         <div id="pelanggan" class="content-area">
-            <div class="cards">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Total Pelanggan</div>
-                        <div class="card-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                    </div>
-                    <div class="card-value">1,248</div>
-                    <div class="card-change positive">
-                        <i class="fas fa-arrow-up"></i>
-                        +12% dari bulan lalu
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Pelanggan Aktif</div>
-                        <div class="card-icon">
-                            <i class="fas fa-user-check"></i>
-                        </div>
-                    </div>
-                    <div class="card-value">1,185</div>
-                    <div class="card-change positive">
-                        <i class="fas fa-arrow-up"></i>
-                        +8% dari bulan lalu
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Pelanggan Baru</div>
-                        <div class="card-icon">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                    </div>
-                    <div class="card-value">63</div>
-                    <div class="card-change positive">
-                        <i class="fas fa-arrow-up"></i>
-                        +4 dari minggu lalu
-                    </div>
-                </div>
-            </div>
-            
-            <div class="table-container">
-                <div class="table-header">
-                    <h3>Daftar Pelanggan</h3>
-                    <button class="btn btn-primary" id="tambah-pelanggan-btn">
-                        <i class="fas fa-plus"></i>
-                        Tambah Pelanggan
-                    </button>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nama</th>
-                            <th>Paket</th>
-                            <th>Tanggal Bergabung</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>PLG001</td>
-                            <td><strong>Ahmad Supriyadi</strong></td>
-                            <td>Premium 50 Mbps</td>
-                            <td>15 Jan 2023</td>
-                            <td><span class="status status-active">Aktif</span></td>
-                            <td>
-                                <button class="btn btn-outline edit-btn" data-id="1" style="padding: 8px 12px; font-size: 0.8rem;">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-outline delete-btn" data-id="1" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>PLG002</td>
-                            <td><strong>Budi Santoso</strong></td>
-                            <td>Standard 20 Mbps</td>
-                            <td>22 Feb 2023</td>
-                            <td><span class="status status-active">Aktif</span></td>
-                            <td>
-                                <button class="btn btn-outline edit-btn" data-id="2" style="padding: 8px 12px; font-size: 0.8rem;">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-outline delete-btn" data-id="2" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <!-- Content pelanggan -->
         </div>
         
         <!-- Laporan Gangguan Content -->
         <div id="laporan-gangguan" class="content-area">
-            <div class="cards">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Laporan Aktif</div>
-                        <div class="card-icon">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </div>
-                    </div>
-                    <div class="card-value">23</div>
-                    <div class="card-change negative">
-                        <i class="fas fa-arrow-up"></i>
-                        +5 dari kemarin
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Dalam Proses</div>
-                        <div class="card-icon">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                    </div>
-                    <div class="card-value">15</div>
-                    <div class="card-change neutral">
-                        <i class="fas fa-minus"></i>
-                        Tidak berubah
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Terselesaikan</div>
-                        <div class="card-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                    </div>
-                    <div class="card-value">42</div>
-                    <div class="card-change positive">
-                        <i class="fas fa-arrow-up"></i>
-                        +8 minggu ini
-                    </div>
-                </div>
-            </div>
-            
-            <div class="table-container">
-                <div class="table-header">
-                    <h3>Daftar Laporan Gangguan</h3>
-                    <button class="btn btn-primary" id="tambah-laporan-btn">
-                        <i class="fas fa-plus"></i>
-                        Tambah Laporan
-                    </button>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID Laporan</th>
-                            <th>Pelanggan</th>
-                            <th>Jenis Gangguan</th>
-                            <th>Tanggal</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>LAP001</td>
-                            <td><strong>Ahmad Supriyadi</strong></td>
-                            <td>Koneksi Lambat</td>
-                            <td>15 Mei 2023</td>
-                            <td><span class="status status-pending">Diproses</span></td>
-                            <td>
-                                <button class="btn btn-outline edit-btn" data-id="1" style="padding: 8px 12px; font-size: 0.8rem;">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-outline delete-btn" data-id="1" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>LAP002</td>
-                            <td><strong>Budi Santoso</strong></td>
-                            <td>Putus Total</td>
-                            <td>14 Mei 2023</td>
-                            <td><span class="status status-active">Selesai</span></td>
-                            <td>
-                                <button class="btn btn-outline edit-btn" data-id="2" style="padding: 8px 12px; font-size: 0.8rem;">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-outline delete-btn" data-id="2" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <!-- Content laporan gangguan -->
         </div>
         
         <!-- Uptime Server Content -->
         <div id="uptime-server" class="content-area">
-            <div class="cards">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Uptime Server</div>
-                        <div class="card-icon">
-                            <i class="fas fa-server"></i>
-                        </div>
-                    </div>
-                    <div class="card-value">99.8%</div>
-                    <div class="card-change positive">
-                        <i class="fas fa-check"></i>
-                        Stabil
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Downtime Bulan Ini</div>
-                        <div class="card-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                    </div>
-                    <div class="card-value">1.2 Jam</div>
-                    <div class="card-change positive">
-                        <i class="fas fa-arrow-down"></i>
-                        -0.5 dari bulan lalu
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Server Aktif</div>
-                        <div class="card-icon">
-                            <i class="fas fa-network-wired"></i>
-                        </div>
-                    </div>
-                    <div class="card-value">5/5</div>
-                    <div class="card-change positive">
-                        <i class="fas fa-check"></i>
-                        Semua berjalan
-                    </div>
-                </div>
-            </div>
-            
-            <div class="table-container">
-                <div class="table-header">
-                    <h3>Status Server</h3>
-                    <button class="btn btn-outline" id="refresh-status-btn">
-                        <i class="fas fa-sync-alt"></i>
-                        Refresh Status
-                    </button>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nama Server</th>
-                            <th>Lokasi</th>
-                            <th>Status</th>
-                            <th>Uptime</th>
-                            <th>Beban</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Server Utama</strong></td>
-                            <td>Tasikmalaya Pusat</td>
-                            <td><span class="status status-active">Online</span></td>
-                            <td>99.9%</td>
-                            <td>45%</td>
-                            <td>
-                                <button class="btn btn-outline info-btn" style="padding: 8px 12px; font-size: 0.8rem;">
-                                    <i class="fas fa-info-circle"></i> Detail
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Server Backup</strong></td>
-                            <td>Tasikmalaya Selatan</td>
-                            <td><span class="status status-active">Online</span></td>
-                            <td>99.7%</td>
-                            <td>32%</td>
-                            <td>
-                                <button class="btn btn-outline info-btn" style="padding: 8px 12px; font-size: 0.8rem;">
-                                    <i class="fas fa-info-circle"></i> Detail
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <!-- Content uptime server -->
         </div>
         
         <!-- FAQ Content -->
         <div id="faq" class="content-area">
-            <div class="table-container">
-                <div class="table-header">
-                    <h3>Pertanyaan yang Sering Diajukan</h3>
-                    <button class="btn btn-primary" id="tambah-faq-btn">
-                        <i class="fas fa-plus"></i>
-                        Tambah FAQ
-                    </button>
-                </div>
-                
-                <div style="padding: 25px;">
-                    <div class="faq-item active">
-                        <div class="faq-question">
-                            Bagaimana cara melakukan pembayaran?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            Pembayaran dapat dilakukan melalui transfer bank, mobile banking, atau datang langsung ke kantor kami. Setelah pembayaran, harap konfirmasi melalui WhatsApp atau email.
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            Apa yang harus dilakukan jika koneksi internet lambat?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            Jika koneksi internet lambat, silakan restart modem/router Anda. Jika masalah berlanjut, hubungi layanan pelanggan kami untuk mendapatkan bantuan lebih lanjut.
-                        </div>
-                    </div>
-                    
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            Bagaimana cara mengajukan komplain?
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            Anda dapat mengajukan komplain melalui WhatsApp, email, atau datang langsung ke kantor kami. Pastikan untuk menyertakan detail masalah yang dialami.
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Content FAQ -->
         </div>
         
         <!-- Pengaturan Content -->
         <div id="pengaturan" class="content-area">
-            <div class="settings-section">
-                <h3>Pengaturan Umum</h3>
-                <div class="form-group">
-                    <label for="nama-perusahaan">Nama Perusahaan</label>
-                    <input type="text" id="nama-perusahaan" value="DEDE05 TASIK">
-                </div>
-                <div class="form-group">
-                    <label for="alamat-perusahaan">Alamat Perusahaan</label>
-                    <textarea id="alamat-perusahaan">Jl. Contoh No. 123, Tasikmalaya, Jawa Barat</textarea>
-                </div>
-                <div class="form-group">
-                    <label for="telepon-perusahaan">Telepon</label>
-                    <input type="text" id="telepon-perusahaan" value="+62 812-3456-7890">
-                </div>
-                <div class="form-group">
-                    <label for="email-perusahaan">Email</label>
-                    <input type="email" id="email-perusahaan" value="info@dede05tasik.com">
-                </div>
-                <button class="btn btn-primary" id="simpan-pengaturan-btn">
-                    <i class="fas fa-save"></i>
-                    Simpan Pengaturan
-                </button>
-            </div>
-            
-            <div class="settings-section">
-                <h3>Pengaturan Notifikasi</h3>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" checked> Notifikasi Email
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" checked> Notifikasi WhatsApp
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox"> Notifikasi SMS
-                    </label>
-                </div>
-                <button class="btn btn-primary" id="simpan-notifikasi-btn">
-                    <i class="fas fa-save"></i>
-                    Simpan Pengaturan
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal untuk Form -->
-    <div class="modal" id="form-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modal-title">Tambah Data</h3>
-                <button class="modal-close" id="modal-close">&times;</button>
-            </div>
-            <div class="modal-body" id="modal-body">
-                <!-- Konten form akan dimuat di sini -->
-            </div>
+            <!-- Content pengaturan -->
         </div>
     </div>
 
     <script>
-        // Data sementara untuk simulasi
-        const dataPaket = [
-            { id: 1, nama: "Basic 10 Mbps", kecepatan: "10 Mbps", harga: "Rp 150.000", pelanggan: 320, status: "Aktif" },
-            { id: 2, nama: "Standard 20 Mbps", kecepatan: "20 Mbps", harga: "Rp 250.000", pelanggan: 415, status: "Aktif" }
-        ];
-
-        const dataPelanggan = [
-            { id: 1, kode: "PLG001", nama: "Ahmad Supriyadi", paket: "Premium 50 Mbps", tanggal: "15 Jan 2023", status: "Aktif" },
-            { id: 2, kode: "PLG002", nama: "Budi Santoso", paket: "Standard 20 Mbps", tanggal: "22 Feb 2023", status: "Aktif" }
-        ];
-
-        const dataLaporan = [
-            { id: 1, kode: "LAP001", pelanggan: "Ahmad Supriyadi", jenis: "Koneksi Lambat", tanggal: "15 Mei 2023", status: "Diproses" },
-            { id: 2, kode: "LAP002", pelanggan: "Budi Santoso", jenis: "Putus Total", tanggal: "14 Mei 2023", status: "Selesai" }
-        ];
-
-        // Navigation functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // User dropdown functionality
+            const userInfo = document.getElementById('user-info');
+            const userDropdown = document.getElementById('user-dropdown');
+            
+            // Toggle dropdown
+            userInfo.addEventListener('click', function(e) {
+                e.stopPropagation();
+                userDropdown.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                userDropdown.classList.remove('active');
+            });
+            
+            // Prevent dropdown from closing when clicking inside
+            userDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+            
+            // Dropdown menu actions
+            document.getElementById('profile-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Membuka halaman profil...');
+                userDropdown.classList.remove('active');
+            });
+            
+            document.getElementById('settings-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Membuka pengaturan...');
+                userDropdown.classList.remove('active');
+            });
+            
+            document.getElementById('password-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Membuka form ubah password...');
+                userDropdown.classList.remove('active');
+            });
+            
+            document.getElementById('logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Apakah Anda yakin ingin logout?')) {
+                    alert('Logout berhasil!');
+                    userDropdown.classList.remove('active');
+                    // Redirect to login page
+                    // window.location.href = 'login.html';
+                }
+            });
+            
+            // Navigation functionality
             const menuItems = document.querySelectorAll('.menu-item a');
             const contentAreas = document.querySelectorAll('.content-area');
             const pageTitle = document.getElementById('page-title');
-            const modal = document.getElementById('form-modal');
-            const modalClose = document.getElementById('modal-close');
-            const modalTitle = document.getElementById('modal-title');
-            const modalBody = document.getElementById('modal-body');
-            const searchInput = document.getElementById('search-input');
             
             // Set initial active state
             setActiveContent('dashboard');
@@ -1498,124 +1123,13 @@
                 e.preventDefault();
                 if (confirm('Apakah Anda yakin ingin kembali ke website utama?')) {
                     alert('Mengarahkan ke website utama DEDE05 TASIK...');
-                    // window.location.href = 'https://dede05tasik.com'; // Uncomment untuk redirect actual
+                    // window.location.href = 'https://dede05tasik.com';
                 }
             });
             
-            // FAQ toggle functionality
-            const faqQuestions = document.querySelectorAll('.faq-question');
-            faqQuestions.forEach(question => {
-                question.addEventListener('click', function() {
-                    const faqItem = this.parentElement;
-                    faqItem.classList.toggle('active');
-                    
-                    // Rotate chevron icon
-                    const icon = this.querySelector('i');
-                    icon.classList.toggle('fa-chevron-down');
-                    icon.classList.toggle('fa-chevron-up');
-                });
-            });
-            
-            // Modal functionality
-            modalClose.addEventListener('click', function() {
-                modal.classList.remove('active');
-            });
-            
-            // Close modal when clicking outside
-            window.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    modal.classList.remove('active');
-                }
-            });
-            
-            // SEMUA TOMBOL BERFUNGSI
+            // Export button
             document.getElementById('export-btn').addEventListener('click', function() {
                 alert('📊 Data berhasil diexport ke Excel!');
-            });
-            
-            document.getElementById('tambah-paket-btn').addEventListener('click', function() {
-                showFormModal('paket', 'Tambah Paket Internet');
-            });
-            
-            document.getElementById('tambah-pelanggan-btn').addEventListener('click', function() {
-                showFormModal('pelanggan', 'Tambah Pelanggan');
-            });
-            
-            document.getElementById('tambah-laporan-btn').addEventListener('click', function() {
-                showFormModal('laporan', 'Tambah Laporan Gangguan');
-            });
-            
-            document.getElementById('refresh-status-btn').addEventListener('click', function() {
-                alert('🔄 Status server telah diperbarui!');
-                // Simulasi refresh data
-                const cards = document.querySelectorAll('#uptime-server .card-value');
-                cards[0].textContent = '99.9%';
-                cards[1].textContent = '1.0 Jam';
-            });
-            
-            document.getElementById('tambah-faq-btn').addEventListener('click', function() {
-                showFormModal('faq', 'Tambah FAQ');
-            });
-            
-            document.getElementById('simpan-pengaturan-btn').addEventListener('click', function() {
-                alert('✅ Pengaturan berhasil disimpan!');
-            });
-            
-            document.getElementById('simpan-notifikasi-btn').addEventListener('click', function() {
-                alert('🔔 Pengaturan notifikasi berhasil disimpan!');
-            });
-            
-            // Tombol Edit dan Hapus
-            const editButtons = document.querySelectorAll('.edit-btn');
-            const deleteButtons = document.querySelectorAll('.delete-btn');
-            const infoButtons = document.querySelectorAll('.info-btn');
-            
-            editButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    const type = this.closest('table').querySelector('th').textContent.includes('Paket') ? 'paket' : 
-                                 this.closest('table').querySelector('th').textContent.includes('Pelanggan') ? 'pelanggan' : 'laporan';
-                    
-                    showFormModal(type, 'Edit Data', id);
-                });
-            });
-            
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    if(confirm('⚠️ Apakah Anda yakin ingin menghapus data ini?')) {
-                        alert('🗑️ Data berhasil dihapus!');
-                        // Simulasi hapus data
-                        this.closest('tr').style.display = 'none';
-                    }
-                });
-            });
-            
-            infoButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    alert('📋 Menampilkan detail server...');
-                });
-            });
-            
-            // User info dropdown
-            document.querySelector('.user-info').addEventListener('click', function() {
-                alert('👤 Menu profil user: Logout, Ubah Password, Edit Profil');
-            });
-            
-            // Search functionality
-            searchInput.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-                const activeContent = document.querySelector('.content-area.active');
-                
-                if (activeContent.id === 'pelanggan') {
-                    filterTable(activeContent, searchTerm, 1); // Filter berdasarkan nama
-                } else if (activeContent.id === 'paket-internet') {
-                    filterTable(activeContent, searchTerm, 0); // Filter berdasarkan nama paket
-                } else if (activeContent.id === 'laporan-gangguan') {
-                    filterTable(activeContent, searchTerm, 1); // Filter berdasarkan pelanggan
-                } else if (activeContent.id === 'dashboard') {
-                    filterTable(activeContent, searchTerm, 0); // Filter berdasarkan pelanggan di dashboard
-                }
             });
             
             function setActiveContent(target) {
@@ -1636,170 +1150,6 @@
                         pageTitle.textContent = menuText;
                     }
                 }
-            }
-            
-            function showFormModal(type, title, id = null) {
-                modalTitle.textContent = title;
-                
-                let formContent = '';
-                
-                if (type === 'paket') {
-                    const data = id ? dataPaket.find(item => item.id == id) : null;
-                    
-                    formContent = `
-                        <div class="form-group">
-                            <label for="nama-paket">Nama Paket</label>
-                            <input type="text" id="nama-paket" value="${data ? data.nama : ''}" placeholder="Masukkan nama paket">
-                        </div>
-                        <div class="form-group">
-                            <label for="kecepatan-paket">Kecepatan</label>
-                            <input type="text" id="kecepatan-paket" value="${data ? data.kecepatan : ''}" placeholder="Contoh: 10 Mbps">
-                        </div>
-                        <div class="form-group">
-                            <label for="harga-paket">Harga</label>
-                            <input type="text" id="harga-paket" value="${data ? data.harga : ''}" placeholder="Contoh: Rp 150.000">
-                        </div>
-                        <div class="form-group">
-                            <label for="status-paket">Status</label>
-                            <select id="status-paket">
-                                <option value="Aktif" ${data && data.status === 'Aktif' ? 'selected' : ''}>Aktif</option>
-                                <option value="Nonaktif" ${data && data.status === 'Nonaktif' ? 'selected' : ''}>Nonaktif</option>
-                            </select>
-                        </div>
-                        <button class="btn btn-primary" id="simpan-form-btn">
-                            <i class="fas fa-save"></i>
-                            ${id ? 'Update' : 'Simpan'} Paket
-                        </button>
-                    `;
-                } else if (type === 'pelanggan') {
-                    const data = id ? dataPelanggan.find(item => item.id == id) : null;
-                    
-                    formContent = `
-                        <div class="form-group">
-                            <label for="nama-pelanggan">Nama Pelanggan</label>
-                            <input type="text" id="nama-pelanggan" value="${data ? data.nama : ''}" placeholder="Masukkan nama pelanggan">
-                        </div>
-                        <div class="form-group">
-                            <label for="paket-pelanggan">Paket</label>
-                            <select id="paket-pelanggan">
-                                <option value="Basic 10 Mbps" ${data && data.paket === 'Basic 10 Mbps' ? 'selected' : ''}>Basic 10 Mbps</option>
-                                <option value="Standard 20 Mbps" ${data && data.paket === 'Standard 20 Mbps' ? 'selected' : ''}>Standard 20 Mbps</option>
-                                <option value="Premium 50 Mbps" ${data && data.paket === 'Premium 50 Mbps' ? 'selected' : ''}>Premium 50 Mbps</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="tanggal-pelanggan">Tanggal Bergabung</label>
-                            <input type="date" id="tanggal-pelanggan" value="${data ? formatDateForInput(data.tanggal) : ''}">
-                        </div>
-                        <div class="form-group">
-                            <label for="status-pelanggan">Status</label>
-                            <select id="status-pelanggan">
-                                <option value="Aktif" ${data && data.status === 'Aktif' ? 'selected' : ''}>Aktif</option>
-                                <option value="Nonaktif" ${data && data.status === 'Nonaktif' ? 'selected' : ''}>Nonaktif</option>
-                            </select>
-                        </div>
-                        <button class="btn btn-primary" id="simpan-form-btn">
-                            <i class="fas fa-save"></i>
-                            ${id ? 'Update' : 'Simpan'} Pelanggan
-                        </button>
-                    `;
-                } else if (type === 'laporan') {
-                    const data = id ? dataLaporan.find(item => item.id == id) : null;
-                    
-                    formContent = `
-                        <div class="form-group">
-                            <label for="pelanggan-laporan">Pelanggan</label>
-                            <select id="pelanggan-laporan">
-                                <option value="Ahmad Supriyadi" ${data && data.pelanggan === 'Ahmad Supriyadi' ? 'selected' : ''}>Ahmad Supriyadi</option>
-                                <option value="Budi Santoso" ${data && data.pelanggan === 'Budi Santoso' ? 'selected' : ''}>Budi Santoso</option>
-                                <option value="Citra Dewi" ${data && data.pelanggan === 'Citra Dewi' ? 'selected' : ''}>Citra Dewi</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="jenis-laporan">Jenis Gangguan</label>
-                            <select id="jenis-laporan">
-                                <option value="Koneksi Lambat" ${data && data.jenis === 'Koneksi Lambat' ? 'selected' : ''}>Koneksi Lambat</option>
-                                <option value="Putus Total" ${data && data.jenis === 'Putus Total' ? 'selected' : ''}>Putus Total</option>
-                                <option value="Gangguan Perangkat" ${data && data.jenis === 'Gangguan Perangkat' ? 'selected' : ''}>Gangguan Perangkat</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="deskripsi-laporan">Deskripsi Gangguan</label>
-                            <textarea id="deskripsi-laporan" placeholder="Jelaskan detail gangguan yang dialami">${data ? data.deskripsi || '' : ''}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="status-laporan">Status</label>
-                            <select id="status-laporan">
-                                <option value="Diproses" ${data && data.status === 'Diproses' ? 'selected' : ''}>Diproses</option>
-                                <option value="Selesai" ${data && data.status === 'Selesai' ? 'selected' : ''}>Selesai</option>
-                            </select>
-                        </div>
-                        <button class="btn btn-primary" id="simpan-form-btn">
-                            <i class="fas fa-save"></i>
-                            ${id ? 'Update' : 'Simpan'} Laporan
-                        </button>
-                    `;
-                } else if (type === 'faq') {
-                    formContent = `
-                        <div class="form-group">
-                            <label for="pertanyaan-faq">Pertanyaan</label>
-                            <input type="text" id="pertanyaan-faq" placeholder="Masukkan pertanyaan">
-                        </div>
-                        <div class="form-group">
-                            <label for="jawaban-faq">Jawaban</label>
-                            <textarea id="jawaban-faq" placeholder="Masukkan jawaban"></textarea>
-                        </div>
-                        <button class="btn btn-primary" id="simpan-form-btn">
-                            <i class="fas fa-save"></i>
-                            Simpan FAQ
-                        </button>
-                    `;
-                }
-                
-                modalBody.innerHTML = formContent;
-                modal.classList.add('active');
-                
-                // Add event listener to save button
-                document.getElementById('simpan-form-btn').addEventListener('click', function() {
-                    alert(`✅ ${title} berhasil ${id ? 'diupdate' : 'disimpan'}!`);
-                    modal.classList.remove('active');
-                });
-            }
-            
-            function filterTable(contentArea, searchTerm, columnIndex) {
-                const table = contentArea.querySelector('table tbody');
-                const rows = table.querySelectorAll('tr');
-                
-                rows.forEach(row => {
-                    const cell = row.cells[columnIndex];
-                    if (cell) {
-                        const text = cell.textContent.toLowerCase();
-                        if (text.includes(searchTerm)) {
-                            row.style.display = '';
-                        } else {
-                            row.style.display = 'none';
-                        }
-                    }
-                });
-            }
-            
-            function formatDateForInput(dateString) {
-                // Konversi format "15 Jan 2023" menjadi "2023-01-15"
-                const months = {
-                    'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
-                    'Mei': '05', 'Jun': '06', 'Jul': '07', 'Agu': '08',
-                    'Sep': '09', 'Okt': '10', 'Nov': '11', 'Des': '12'
-                };
-                
-                const parts = dateString.split(' ');
-                if (parts.length === 3) {
-                    const day = parts[0].padStart(2, '0');
-                    const month = months[parts[1]];
-                    const year = parts[2];
-                    return `${year}-${month}-${day}`;
-                }
-                
-                return '';
             }
         });
     </script>

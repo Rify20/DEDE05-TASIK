@@ -15,30 +15,29 @@
         }
 
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --primary-light: #3b82f6;
-            --primary-bg: #eff6ff;
-            --secondary: #64748b;
+            --primary: #ec4899;
+            --primary-dark: #db2777;
+            --primary-light: #f472b6;
+            --secondary: #6b7280;
             --accent: #f59e0b;
-            --light: #f8fafc;
-            --dark: #1e293b;
-            --dark-light: #334155;
+            --light: #fdf2f8;
+            --dark: #111827;
+            --dark-light: #1f2937;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
             --info: #3b82f6;
             --sidebar-width: 280px;
             --border-radius: 12px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body {
             display: flex;
             min-height: 100vh;
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            color: #334155;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            color: #f3f4f6;
             line-height: 1.6;
             font-weight: 400;
         }
@@ -46,7 +45,7 @@
         /* Sidebar Styles */
         .sidebar {
             width: var(--sidebar-width);
-            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background: linear-gradient(180deg, var(--dark) 0%, var(--dark-light) 100%);
             color: white;
             padding: 0;
             height: 100vh;
@@ -54,14 +53,14 @@
             overflow-y: auto;
             box-shadow: var(--shadow);
             z-index: 1000;
-            border-right: 1px solid var(--primary-light);
+            border-right: 1px solid #374151;
         }
 
         .logo {
             padding: 25px 20px;
-            background: rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid #374151;
         }
 
         .logo h1 {
@@ -93,13 +92,14 @@
             display: flex;
             align-items: center;
             padding: 14px 20px;
-            color: rgba(255, 255, 255, 0.9);
+            color: #d1d5db;
             text-decoration: none;
             transition: var(--transition);
             border-radius: var(--border-radius);
             font-weight: 500;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .menu-item a::before {
@@ -109,13 +109,13 @@
             top: 0;
             height: 100%;
             width: 4px;
-            background: white;
+            background: var(--primary);
             transform: scaleY(0);
             transition: var(--transition);
         }
 
         .menu-item a:hover, .menu-item a.active {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(236, 72, 153, 0.1);
             color: white;
             transform: translateX(5px);
         }
@@ -129,7 +129,7 @@
             width: 20px;
             text-align: center;
             font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--primary-light);
         }
 
         .menu-item a span {
@@ -137,8 +137,8 @@
         }
 
         .menu-item a .badge {
-            background: white;
-            color: var(--primary);
+            background: var(--primary);
+            color: white;
             padding: 2px 8px;
             border-radius: 12px;
             font-size: 0.75rem;
@@ -151,7 +151,7 @@
             margin-left: var(--sidebar-width);
             padding: 30px;
             min-height: 100vh;
-            background: #f8fafc;
+            background: var(--dark);
         }
 
         .header {
@@ -160,11 +160,11 @@
             align-items: center;
             margin-bottom: 40px;
             padding: 20px 0;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #374151;
         }
 
         .header h2 {
-            color: var(--dark);
+            color: white;
             font-weight: 700;
             font-size: 2rem;
             letter-spacing: -0.5px;
@@ -182,23 +182,23 @@
 
         .search-box input {
             padding: 12px 20px 12px 45px;
-            border: 1px solid #cbd5e1;
+            border: 1px solid #374151;
             border-radius: 50px;
             width: 300px;
             font-size: 0.9rem;
             transition: var(--transition);
-            background: white;
-            color: var(--dark);
+            background: #1f2937;
+            color: white;
         }
 
         .search-box input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
         }
 
         .search-box input::placeholder {
-            color: #94a3b8;
+            color: #9ca3af;
         }
 
         .search-box i {
@@ -206,7 +206,7 @@
             left: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--primary);
+            color: var(--primary-light);
         }
 
         .user-info {
@@ -217,13 +217,11 @@
             border-radius: 50px;
             transition: var(--transition);
             cursor: pointer;
-            background: white;
-            position: relative;
-            box-shadow: var(--shadow);
+            background: #1f2937;
         }
 
         .user-info:hover {
-            background: #f1f5f9;
+            background: #374151;
         }
 
         .user-avatar {
@@ -237,7 +235,7 @@
             justify-content: center;
             font-weight: 600;
             font-size: 1.1rem;
-            border: 3px solid white;
+            border: 3px solid var(--dark);
             box-shadow: var(--shadow);
         }
 
@@ -248,57 +246,12 @@
 
         .user-name {
             font-weight: 600;
-            color: var(--dark);
+            color: white;
         }
 
         .user-role {
             font-size: 0.85rem;
-            color: var(--primary);
-        }
-
-        /* Dropdown Menu */
-        .user-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            margin-top: 10px;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            min-width: 200px;
-            z-index: 1000;
-            display: none;
-        }
-
-        .user-dropdown.active {
-            display: block;
-        }
-
-        .user-dropdown a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 16px;
-            color: var(--dark);
-            text-decoration: none;
-            transition: var(--transition);
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .user-dropdown a:last-child {
-            border-bottom: none;
-        }
-
-        .user-dropdown a:hover {
-            background: var(--primary-bg);
-            color: var(--primary);
-        }
-
-        .user-dropdown a i {
-            width: 16px;
-            text-align: center;
-            color: var(--primary);
+            color: var(--primary-light);
         }
 
         /* Content Area */
@@ -331,12 +284,12 @@
         }
 
         .card {
-            background: white;
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
             border-radius: var(--border-radius);
             padding: 25px;
             box-shadow: var(--shadow);
             transition: var(--transition);
-            border: 1px solid #e2e8f0;
+            border: 1px solid #374151;
             position: relative;
             overflow: hidden;
         }
@@ -353,7 +306,7 @@
 
         .card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
             border-color: var(--primary);
         }
 
@@ -366,7 +319,7 @@
 
         .card-title {
             font-size: 0.95rem;
-            color: var(--secondary);
+            color: #9ca3af;
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -382,13 +335,13 @@
             color: white;
             font-size: 1.3rem;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 6px rgba(236, 72, 153, 0.3);
         }
 
         .card-value {
             font-size: 2.5rem;
             font-weight: 700;
-            color: var(--dark);
+            color: white;
             margin-bottom: 10px;
             line-height: 1;
         }
@@ -410,32 +363,32 @@
         }
 
         .neutral {
-            color: var(--primary);
+            color: var(--primary-light);
         }
 
         /* Table Styles */
         .table-container {
-            background: white;
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
             border-radius: var(--border-radius);
             overflow: hidden;
             box-shadow: var(--shadow);
             margin-bottom: 30px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #374151;
         }
 
         .table-header {
             padding: 25px;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #374151;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--primary-bg);
+            background: rgba(0, 0, 0, 0.2);
         }
 
         .table-header h3 {
             margin: 0;
             font-weight: 600;
-            color: var(--dark);
+            color: white;
         }
 
         table {
@@ -446,13 +399,13 @@
         th, td {
             padding: 16px 20px;
             text-align: left;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #374151;
         }
 
         th {
-            background-color: var(--primary-bg);
+            background-color: rgba(0, 0, 0, 0.3);
             font-weight: 600;
-            color: var(--primary);
+            color: var(--primary-light);
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -463,11 +416,11 @@
         }
 
         tr:hover td {
-            background-color: var(--primary-bg);
+            background-color: rgba(236, 72, 153, 0.05);
         }
 
         td {
-            color: var(--dark);
+            color: #e5e7eb;
         }
 
         .status {
@@ -480,19 +433,19 @@
         }
 
         .status-active {
-            background-color: rgba(16, 185, 129, 0.1);
+            background-color: rgba(16, 185, 129, 0.2);
             color: var(--success);
             border: 1px solid var(--success);
         }
 
         .status-pending {
-            background-color: rgba(245, 158, 11, 0.1);
+            background-color: rgba(245, 158, 11, 0.2);
             color: var(--warning);
             border: 1px solid var(--warning);
         }
 
         .status-inactive {
-            background-color: rgba(239, 68, 68, 0.1);
+            background-color: rgba(239, 68, 68, 0.2);
             color: var(--danger);
             border: 1px solid var(--danger);
         }
@@ -514,12 +467,12 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 6px rgba(236, 72, 153, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 6px 8px rgba(236, 72, 153, 0.4);
         }
 
         .btn-outline {
@@ -542,29 +495,91 @@
             display: block;
             margin-bottom: 10px;
             font-weight: 600;
-            color: var(--dark);
+            color: white;
         }
 
         input, select, textarea {
             width: 100%;
             padding: 14px 18px;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #374151;
             border-radius: var(--border-radius);
             font-size: 1rem;
             transition: var(--transition);
-            background: white;
-            color: var(--dark);
+            background: #1f2937;
+            color: white;
         }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
         }
 
         textarea {
             min-height: 120px;
             resize: vertical;
+        }
+
+        /* FAQ Styles */
+        .faq-item {
+            margin-bottom: 20px;
+            border: 1px solid #374151;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            background: #1f2937;
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary);
+        }
+
+        .faq-question {
+            padding: 20px;
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+            background: #1f2937;
+            color: #e5e7eb;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 500px;
+        }
+
+        /* Settings Styles */
+        .settings-section {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid #374151;
+        }
+
+        .settings-section h3 {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #374151;
+            color: white;
+            font-weight: 700;
         }
 
         /* Modal Styles */
@@ -575,8 +590,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
             align-items: center;
             justify-content: center;
         }
@@ -586,15 +601,14 @@
         }
 
         .modal-content {
-            background: white;
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
             border-radius: var(--border-radius);
-            padding: 30px;
             width: 90%;
             max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow);
-            border: 1px solid #e2e8f0;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid #374151;
+            position: relative;
         }
 
         .modal-header {
@@ -603,89 +617,26 @@
             align-items: center;
             margin-bottom: 25px;
             padding-bottom: 15px;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #374151;
         }
 
         .modal-header h3 {
             margin: 0;
-            color: var(--dark);
+            color: white;
             font-weight: 600;
         }
 
         .modal-close {
             background: none;
             border: none;
-            color: var(--primary);
+            color: #9ca3af;
             font-size: 1.5rem;
             cursor: pointer;
-            padding: 5px;
             transition: var(--transition);
         }
 
         .modal-close:hover {
-            color: var(--primary-dark);
-        }
-
-        /* FAQ Styles */
-        .faq-item {
-            margin-bottom: 20px;
-            border: 1px solid #e2e8f0;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            transition: var(--transition);
-            background: white;
-        }
-
-        .faq-item:hover {
-            border-color: var(--primary);
-        }
-
-        .faq-question {
-            padding: 20px;
-            background: var(--primary-bg);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            color: var(--dark);
-            transition: var(--transition);
-        }
-
-        .faq-question:hover {
-            background: #dbeafe;
-        }
-
-        .faq-answer {
-            padding: 0 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: var(--transition);
-            background: white;
-            color: var(--dark);
-        }
-
-        .faq-item.active .faq-answer {
-            padding: 20px;
-            max-height: 500px;
-        }
-
-        /* Settings Styles */
-        .settings-section {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow);
-            border: 1px solid #e2e8f0;
-        }
-
-        .settings-section h3 {
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e2e8f0;
-            color: var(--dark);
-            font-weight: 700;
+            color: var(--primary);
         }
 
         /* Responsive */
@@ -749,7 +700,7 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #f1f5f9;
+            background: #1f2937;
         }
 
         ::-webkit-scrollbar-thumb {
@@ -842,31 +793,15 @@
             <div class="header-actions">
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Cari...">
+                    <input type="text" placeholder="Cari..." id="search-input">
                 </div>
-                <div class="user-info" id="userDropdownToggle">
+                <div class="user-info">
                     <div class="user-avatar">AD</div>
                     <div class="user-details">
                         <div class="user-name">Administrator</div>
                         <div class="user-role">Super Admin</div>
                     </div>
                     <i class="fas fa-chevron-down"></i>
-                    
-                    <!-- Dropdown Menu -->
-                    <div class="user-dropdown" id="userDropdown">
-                        <a href="#" id="profile-link">
-                            <i class="fas fa-user"></i>
-                            <span>Profil Saya</span>
-                        </a>
-                        <a href="#" id="settings-link">
-                            <i class="fas fa-cog"></i>
-                            <span>Pengaturan</span>
-                        </a>
-                        <a href="#" id="logoutBtn">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Keluar</span>
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -952,7 +887,7 @@
                         <tr>
                             <td>
                                 <strong>Ahmad Supriyadi</strong>
-                                <div style="font-size: 0.85rem; color: var(--primary);">PLG001</div>
+                                <div style="font-size: 0.85rem; color: var(--primary-light);">PLG001</div>
                             </td>
                             <td>Perpanjangan paket</td>
                             <td>10:30 WIB</td>
@@ -961,7 +896,7 @@
                         <tr>
                             <td>
                                 <strong>Budi Santoso</strong>
-                                <div style="font-size: 0.85rem; color: var(--primary);">PLG002</div>
+                                <div style="font-size: 0.85rem; color: var(--primary-light);">PLG002</div>
                             </td>
                             <td>Laporan gangguan</td>
                             <td>09:45 WIB</td>
@@ -970,7 +905,7 @@
                         <tr>
                             <td>
                                 <strong>Citra Dewi</strong>
-                                <div style="font-size: 0.85rem; color: var(--primary);">PLG003</div>
+                                <div style="font-size: 0.85rem; color: var(--primary-light);">PLG003</div>
                             </td>
                             <td>Pembayaran</td>
                             <td>08:15 WIB</td>
@@ -979,7 +914,7 @@
                         <tr>
                             <td>
                                 <strong>Dian Pratama</strong>
-                                <div style="font-size: 0.85rem; color: var(--primary);">PLG004</div>
+                                <div style="font-size: 0.85rem; color: var(--primary-light);">PLG004</div>
                             </td>
                             <td>Upgrade paket</td>
                             <td>07:50 WIB</td>
@@ -1035,7 +970,7 @@
                         Tambah Paket
                     </button>
                 </div>
-                <table id="paket-table">
+                <table>
                     <thead>
                         <tr>
                             <th>Nama Paket</th>
@@ -1046,65 +981,448 @@
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tbody id="paket-tbody">
-                        <!-- Data paket akan diisi oleh JavaScript -->
+                    <tbody>
+                        <tr>
+                            <td><strong>Basic 10 Mbps</strong></td>
+                            <td>10 Mbps</td>
+                            <td>Rp 150.000</td>
+                            <td>320</td>
+                            <td><span class="status status-active">Aktif</span></td>
+                            <td>
+                                <button class="btn btn-outline edit-btn" data-id="1" style="padding: 8px 12px; font-size: 0.8rem;">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline delete-btn" data-id="1" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Standard 20 Mbps</strong></td>
+                            <td>20 Mbps</td>
+                            <td>Rp 250.000</td>
+                            <td>415</td>
+                            <td><span class="status status-active">Aktif</span></td>
+                            <td>
+                                <button class="btn btn-outline edit-btn" data-id="2" style="padding: 8px 12px; font-size: 0.8rem;">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline delete-btn" data-id="2" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Premium 50 Mbps</strong></td>
+                            <td>50 Mbps</td>
+                            <td>Rp 400.000</td>
+                            <td>185</td>
+                            <td><span class="status status-active">Aktif</span></td>
+                            <td>
+                                <button class="btn btn-outline edit-btn" data-id="3" style="padding: 8px 12px; font-size: 0.8rem;">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline delete-btn" data-id="3" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         
-        <!-- Profil Saya Content -->
-        <div id="profil-saya" class="content-area">
-            <div class="settings-section">
-                <h3>Informasi Profil</h3>
-                <form id="profile-form">
-                    <div class="form-group">
-                        <label for="profile-name">Nama Lengkap</label>
-                        <input type="text" id="profile-name" value="Administrator" required>
+        <!-- Pelanggan Content -->
+        <div id="pelanggan" class="content-area">
+            <div class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Total Pelanggan</div>
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="profile-email">Email</label>
-                        <input type="email" id="profile-email" value="admin@dede05tasik.com" required>
+                    <div class="card-value">1,248</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +12% dari bulan lalu
                     </div>
-                    <div class="form-group">
-                        <label for="profile-phone">Nomor Telepon</label>
-                        <input type="tel" id="profile-phone" value="+62 812-3456-7890">
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Pelanggan Aktif</div>
+                        <div class="card-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="profile-role">Jabatan</label>
-                        <input type="text" id="profile-role" value="Super Admin" readonly>
+                    <div class="card-value">1,185</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +8% dari bulan lalu
                     </div>
-                    <div class="form-group">
-                        <label for="profile-join">Tanggal Bergabung</label>
-                        <input type="text" id="profile-join" value="15 Januari 2023" readonly>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Pelanggan Baru</div>
+                        <div class="card-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i>
-                        Simpan Perubahan
-                    </button>
-                </form>
+                    <div class="card-value">63</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +4 dari minggu lalu
+                    </div>
+                </div>
             </div>
             
-            <div class="settings-section">
-                <h3>Ubah Password</h3>
-                <form id="password-form">
-                    <div class="form-group">
-                        <label for="current-password">Password Saat Ini</label>
-                        <input type="password" id="current-password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="new-password">Password Baru</label>
-                        <input type="password" id="new-password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="confirm-password">Konfirmasi Password Baru</label>
-                        <input type="password" id="confirm-password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-key"></i>
-                        Ubah Password
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Daftar Pelanggan</h3>
+                    <button class="btn btn-primary" id="tambah-pelanggan-btn">
+                        <i class="fas fa-plus"></i>
+                        Tambah Pelanggan
                     </button>
-                </form>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Paket</th>
+                            <th>Tanggal Bergabung</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>PLG001</td>
+                            <td><strong>Ahmad Supriyadi</strong></td>
+                            <td>Premium 50 Mbps</td>
+                            <td>15 Jan 2023</td>
+                            <td><span class="status status-active">Aktif</span></td>
+                            <td>
+                                <button class="btn btn-outline edit-btn" data-id="1" style="padding: 8px 12px; font-size: 0.8rem;">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline delete-btn" data-id="1" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PLG002</td>
+                            <td><strong>Budi Santoso</strong></td>
+                            <td>Standard 20 Mbps</td>
+                            <td>22 Feb 2023</td>
+                            <td><span class="status status-active">Aktif</span></td>
+                            <td>
+                                <button class="btn btn-outline edit-btn" data-id="2" style="padding: 8px 12px; font-size: 0.8rem;">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline delete-btn" data-id="2" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PLG003</td>
+                            <td><strong>Citra Dewi</strong></td>
+                            <td>Basic 10 Mbps</td>
+                            <td>05 Mar 2023</td>
+                            <td><span class="status status-active">Aktif</span></td>
+                            <td>
+                                <button class="btn btn-outline edit-btn" data-id="3" style="padding: 8px 12px; font-size: 0.8rem;">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline delete-btn" data-id="3" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Laporan Gangguan Content -->
+        <div id="laporan-gangguan" class="content-area">
+            <div class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Laporan Aktif</div>
+                        <div class="card-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">23</div>
+                    <div class="card-change negative">
+                        <i class="fas fa-arrow-up"></i>
+                        +5 dari kemarin
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Dalam Proses</div>
+                        <div class="card-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">15</div>
+                    <div class="card-change neutral">
+                        <i class="fas fa-minus"></i>
+                        Tidak berubah
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Terselesaikan</div>
+                        <div class="card-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">42</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +8 minggu ini
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Daftar Laporan Gangguan</h3>
+                    <button class="btn btn-primary" id="tambah-laporan-btn">
+                        <i class="fas fa-plus"></i>
+                        Tambah Laporan
+                    </button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Laporan</th>
+                            <th>Pelanggan</th>
+                            <th>Jenis Gangguan</th>
+                            <th>Tanggal</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>LAP001</td>
+                            <td><strong>Ahmad Supriyadi</strong></td>
+                            <td>Koneksi Lambat</td>
+                            <td>15 Mei 2023</td>
+                            <td><span class="status status-pending">Diproses</span></td>
+                            <td>
+                                <button class="btn btn-outline edit-btn" data-id="1" style="padding: 8px 12px; font-size: 0.8rem;">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline delete-btn" data-id="1" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>LAP002</td>
+                            <td><strong>Budi Santoso</strong></td>
+                            <td>Putus Total</td>
+                            <td>14 Mei 2023</td>
+                            <td><span class="status status-active">Selesai</span></td>
+                            <td>
+                                <button class="btn btn-outline edit-btn" data-id="2" style="padding: 8px 12px; font-size: 0.8rem;">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline delete-btn" data-id="2" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>LAP003</td>
+                            <td><strong>Citra Dewi</strong></td>
+                            <td>Gangguan Perangkat</td>
+                            <td>13 Mei 2023</td>
+                            <td><span class="status status-pending">Diproses</span></td>
+                            <td>
+                                <button class="btn btn-outline edit-btn" data-id="3" style="padding: 8px 12px; font-size: 0.8rem;">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline delete-btn" data-id="3" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Uptime Server Content -->
+        <div id="uptime-server" class="content-area">
+            <div class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Uptime Server</div>
+                        <div class="card-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">99.8%</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-check"></i>
+                        Stabil
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Downtime Bulan Ini</div>
+                        <div class="card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">1.2 Jam</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-arrow-down"></i>
+                        -0.5 dari bulan lalu
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Server Aktif</div>
+                        <div class="card-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">5/5</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-check"></i>
+                        Semua berjalan
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Status Server</h3>
+                    <button class="btn btn-outline" id="refresh-status-btn">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh Status
+                    </button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nama Server</th>
+                            <th>Lokasi</th>
+                            <th>Status</th>
+                            <th>Uptime</th>
+                            <th>Beban</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Server Utama</strong></td>
+                            <td>Tasikmalaya Pusat</td>
+                            <td><span class="status status-active">Online</span></td>
+                            <td>99.9%</td>
+                            <td>45%</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 8px 12px; font-size: 0.8rem;">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Server Backup</strong></td>
+                            <td>Tasikmalaya Selatan</td>
+                            <td><span class="status status-active">Online</span></td>
+                            <td>99.7%</td>
+                            <td>32%</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 8px 12px; font-size: 0.8rem;">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Server Database</strong></td>
+                            <td>Tasikmalaya Utara</td>
+                            <td><span class="status status-active">Online</span></td>
+                            <td>99.8%</td>
+                            <td>67%</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 8px 12px; font-size: 0.8rem;">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- FAQ Content -->
+        <div id="faq" class="content-area">
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Pertanyaan yang Sering Diajukan</h3>
+                    <button class="btn btn-primary" id="tambah-faq-btn">
+                        <i class="fas fa-plus"></i>
+                        Tambah FAQ
+                    </button>
+                </div>
+                
+                <div style="padding: 25px;">
+                    <div class="faq-item active">
+                        <div class="faq-question">
+                            Bagaimana cara melakukan pembayaran?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Pembayaran dapat dilakukan melalui transfer bank, mobile banking, atau datang langsung ke kantor kami. Setelah pembayaran, harap konfirmasi melalui WhatsApp atau email.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Apa yang harus dilakukan jika koneksi internet lambat?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Jika koneksi internet lambat, silakan restart modem/router Anda. Jika masalah berlanjut, hubungi layanan pelanggan kami untuk mendapatkan bantuan lebih lanjut.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Bagaimana cara mengajukan komplain?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Anda dapat mengajukan komplain melalui WhatsApp, email, atau datang langsung ke kantor kami. Pastikan untuk menyertakan detail masalah yang dialami.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Apakah ada biaya instalasi?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Ya, terdapat biaya instalasi sekali bayar yang besarnya tergantung pada lokasi dan kompleksitas instalasi. Silakan hubungi kami untuk informasi lebih detail.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -1112,330 +1430,97 @@
         <div id="pengaturan" class="content-area">
             <div class="settings-section">
                 <h3>Pengaturan Umum</h3>
-                <form id="general-settings-form">
-                    <div class="form-group">
-                        <label for="site-name">Nama Situs</label>
-                        <input type="text" id="site-name" value="DEDE05 TASIK" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="site-description">Deskripsi Situs</label>
-                        <textarea id="site-description">Penyedia layanan internet terpercaya di Tasikmalaya dan sekitarnya</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="site-language">Bahasa</label>
-                        <select id="site-language">
-                            <option value="id">Bahasa Indonesia</option>
-                            <option value="en">English</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="site-timezone">Zona Waktu</label>
-                        <select id="site-timezone">
-                            <option value="WIB">WIB (Waktu Indonesia Barat)</option>
-                            <option value="WITA">WITA (Waktu Indonesia Tengah)</option>
-                            <option value="WIT">WIT (Waktu Indonesia Timur)</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i>
-                        Simpan Pengaturan
-                    </button>
-                </form>
+                <div class="form-group">
+                    <label for="nama-perusahaan">Nama Perusahaan</label>
+                    <input type="text" id="nama-perusahaan" value="DEDE05 TASIK">
+                </div>
+                <div class="form-group">
+                    <label for="alamat-perusahaan">Alamat Perusahaan</label>
+                    <textarea id="alamat-perusahaan">Jl. Contoh No. 123, Tasikmalaya, Jawa Barat</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="telepon-perusahaan">Telepon</label>
+                    <input type="text" id="telepon-perusahaan" value="+62 812-3456-7890">
+                </div>
+                <div class="form-group">
+                    <label for="email-perusahaan">Email</label>
+                    <input type="email" id="email-perusahaan" value="info@dede05tasik.com">
+                </div>
+                <button class="btn btn-primary" id="simpan-pengaturan-btn">
+                    <i class="fas fa-save"></i>
+                    Simpan Pengaturan
+                </button>
             </div>
             
             <div class="settings-section">
                 <h3>Pengaturan Notifikasi</h3>
-                <form id="notification-settings-form">
-                    <div class="form-group">
-                        <label for="email-notifications">
-                            <input type="checkbox" id="email-notifications" checked>
-                            Notifikasi Email
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label for="new-user-notifications">
-                            <input type="checkbox" id="new-user-notifications" checked>
-                            Notifikasi Pendaftaran Pelanggan Baru
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label for="report-notifications">
-                            <input type="checkbox" id="report-notifications" checked>
-                            Notifikasi Laporan Gangguan
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label for="payment-notifications">
-                            <input type="checkbox" id="payment-notifications" checked>
-                            Notifikasi Pembayaran
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i>
-                        Simpan Pengaturan
-                    </button>
-                </form>
-            </div>
-        </div>
-        
-        <!-- Modal untuk Tambah/Edit Paket -->
-        <div class="modal" id="paket-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 id="modal-title">Tambah Paket Internet</h3>
-                    <button class="modal-close" id="modal-close">&times;</button>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" checked> Notifikasi Email
+                    </label>
                 </div>
-                <form id="paket-form">
-                    <input type="hidden" id="paket-id">
-                    <div class="form-group">
-                        <label for="paket-nama">Nama Paket</label>
-                        <input type="text" id="paket-nama" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="paket-kecepatan">Kecepatan</label>
-                        <input type="text" id="paket-kecepatan" placeholder="Contoh: 10 Mbps" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="paket-harga">Harga</label>
-                        <input type="text" id="paket-harga" placeholder="Contoh: Rp 150.000" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="paket-pelanggan">Jumlah Pelanggan</label>
-                        <input type="number" id="paket-pelanggan" value="0" min="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="paket-status">Status</label>
-                        <select id="paket-status" required>
-                            <option value="active">Aktif</option>
-                            <option value="inactive">Tidak Aktif</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="paket-popular">Paket Populer</label>
-                        <select id="paket-popular">
-                            <option value="false">Tidak</option>
-                            <option value="true">Ya</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="paket-features">Fitur (pisahkan dengan koma)</label>
-                        <textarea id="paket-features" placeholder="Contoh: Unlimited Bandwidth, Untuk 1-3 perangkat, Streaming SD"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        <i class="fas fa-save"></i>
-                        Simpan Paket
-                    </button>
-                </form>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" checked> Notifikasi WhatsApp
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox"> Notifikasi SMS
+                    </label>
+                </div>
+                <button class="btn btn-primary" id="simpan-notifikasi-btn">
+                    <i class="fas fa-save"></i>
+                    Simpan Pengaturan
+                </button>
             </div>
         </div>
-        
-        <!-- Konten lainnya tetap sama -->
-        <!-- ... -->
         
     </div>
 
+    <!-- Modal untuk Form Tambah/Edit -->
+    <div class="modal" id="form-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Tambah Data</h3>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Konten form akan dimuat di sini -->
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Data management
-        let packages = JSON.parse(localStorage.getItem('websitePackages')) || [
-            {
-                id: 1,
-                name: "Basic 10 Mbps",
-                speed: "10 Mbps",
-                price: "Rp 150.000",
-                customers: 320,
-                status: "active",
-                popular: false,
-                features: ["Unlimited Bandwidth", "Untuk 1-3 perangkat", "Streaming SD", "Support 24/7"]
-            },
-            {
-                id: 2,
-                name: "Standard 20 Mbps",
-                speed: "20 Mbps",
-                price: "Rp 250.000",
-                customers: 415,
-                status: "active",
-                popular: true,
-                features: ["Unlimited Bandwidth", "Untuk 5-8 perangkat", "Streaming HD", "Prioritas Teknisi"]
-            },
-            {
-                id: 3,
-                name: "Premium 50 Mbps",
-                speed: "50 Mbps",
-                price: "Rp 400.000",
-                customers: 185,
-                status: "active",
-                popular: false,
-                features: ["Unlimited Bandwidth", "Untuk 10+ perangkat", "Streaming 4K & Gaming", "SLA Khusus"]
-            }
+        // Data sementara untuk simulasi
+        const dataPaket = [
+            { id: 1, nama: "Basic 10 Mbps", kecepatan: "10 Mbps", harga: "Rp 150.000", pelanggan: 320, status: "Aktif" },
+            { id: 2, nama: "Standard 20 Mbps", kecepatan: "20 Mbps", harga: "Rp 250.000", pelanggan: 415, status: "Aktif" },
+            { id: 3, nama: "Premium 50 Mbps", kecepatan: "50 Mbps", harga: "Rp 400.000", pelanggan: 185, status: "Aktif" }
         ];
 
-        // Save packages to localStorage
-        function savePackages() {
-            localStorage.setItem('websitePackages', JSON.stringify(packages));
-        }
+        const dataPelanggan = [
+            { id: 1, kode: "PLG001", nama: "Ahmad Supriyadi", paket: "Premium 50 Mbps", tanggal: "15 Jan 2023", status: "Aktif" },
+            { id: 2, kode: "PLG002", nama: "Budi Santoso", paket: "Standard 20 Mbps", tanggal: "22 Feb 2023", status: "Aktif" },
+            { id: 3, kode: "PLG003", nama: "Citra Dewi", paket: "Basic 10 Mbps", tanggal: "05 Mar 2023", status: "Aktif" }
+        ];
 
-        // Load packages to table
-        function loadPackagesTable() {
-            const tbody = document.getElementById('paket-tbody');
-            tbody.innerHTML = '';
-            
-            packages.forEach(pkg => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${pkg.name}</strong></td>
-                    <td>${pkg.speed}</td>
-                    <td>${pkg.price}</td>
-                    <td>${pkg.customers}</td>
-                    <td><span class="status ${pkg.status === 'active' ? 'status-active' : 'status-inactive'}">${pkg.status === 'active' ? 'Aktif' : 'Tidak Aktif'}</span></td>
-                    <td>
-                        <button class="btn btn-outline edit-paket-btn" data-id="${pkg.id}" style="padding: 8px 12px; font-size: 0.8rem;">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-outline delete-paket-btn" data-id="${pkg.id}" style="padding: 8px 12px; font-size: 0.8rem; color: var(--danger); border-color: var(--danger);">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-            
-            // Re-attach event listeners
-            attachPackageEventListeners();
-        }
-
-        // Attach event listeners to package buttons
-        function attachPackageEventListeners() {
-            // Edit buttons
-            document.querySelectorAll('.edit-paket-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const packageId = parseInt(this.getAttribute('data-id'));
-                    editPackage(packageId);
-                });
-            });
-            
-            // Delete buttons
-            document.querySelectorAll('.delete-paket-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const packageId = parseInt(this.getAttribute('data-id'));
-                    deletePackage(packageId);
-                });
-            });
-        }
-
-        // Edit package function
-        function editPackage(id) {
-            const pkg = packages.find(p => p.id === id);
-            if (!pkg) return;
-            
-            document.getElementById('modal-title').textContent = 'Edit Paket Internet';
-            document.getElementById('paket-id').value = pkg.id;
-            document.getElementById('paket-nama').value = pkg.name;
-            document.getElementById('paket-kecepatan').value = pkg.speed;
-            document.getElementById('paket-harga').value = pkg.price;
-            document.getElementById('paket-pelanggan').value = pkg.customers;
-            document.getElementById('paket-status').value = pkg.status;
-            document.getElementById('paket-popular').value = pkg.popular.toString();
-            document.getElementById('paket-features').value = pkg.features.join(', ');
-            
-            document.getElementById('paket-modal').classList.add('active');
-        }
-
-        // Delete package function
-        function deletePackage(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus paket ini?')) {
-                packages = packages.filter(p => p.id !== id);
-                savePackages();
-                loadPackagesTable();
-                alert('Paket berhasil dihapus!');
-            }
-        }
-
-        // Add new package
-        function addPackage() {
-            document.getElementById('modal-title').textContent = 'Tambah Paket Internet';
-            document.getElementById('paket-form').reset();
-            document.getElementById('paket-id').value = '';
-            document.getElementById('paket-modal').classList.add('active');
-        }
-
-        // Save package (both add and edit)
-        function savePackage(event) {
-            event.preventDefault();
-            
-            const id = document.getElementById('paket-id').value;
-            const name = document.getElementById('paket-nama').value;
-            const speed = document.getElementById('paket-kecepatan').value;
-            const price = document.getElementById('paket-harga').value;
-            const customers = parseInt(document.getElementById('paket-pelanggan').value) || 0;
-            const status = document.getElementById('paket-status').value;
-            const popular = document.getElementById('paket-popular').value === 'true';
-            const features = document.getElementById('paket-features').value
-                .split(',')
-                .map(f => f.trim())
-                .filter(f => f !== '');
-            
-            if (id) {
-                // Edit existing package
-                const index = packages.findIndex(p => p.id === parseInt(id));
-                if (index !== -1) {
-                    packages[index] = {
-                        ...packages[index],
-                        name,
-                        speed,
-                        price,
-                        customers,
-                        status,
-                        popular,
-                        features
-                    };
-                }
-            } else {
-                // Add new package
-                const newId = packages.length > 0 ? Math.max(...packages.map(p => p.id)) + 1 : 1;
-                packages.push({
-                    id: newId,
-                    name,
-                    speed,
-                    price,
-                    customers,
-                    status,
-                    popular,
-                    features
-                });
-            }
-            
-            savePackages();
-            loadPackagesTable();
-            document.getElementById('paket-modal').classList.remove('active');
-            alert('Paket berhasil disimpan!');
-        }
-
-        // Logout function
-        function logout() {
-            if (confirm('Apakah Anda yakin ingin keluar dari admin panel?')) {
-                // Clear admin session
-                localStorage.removeItem('adminLoggedIn');
-                
-                // Redirect to main website
-                window.location.href = 'index.html';
-            }
-        }
+        const dataLaporan = [
+            { id: 1, kode: "LAP001", pelanggan: "Ahmad Supriyadi", jenis: "Koneksi Lambat", tanggal: "15 Mei 2023", status: "Diproses" },
+            { id: 2, kode: "LAP002", pelanggan: "Budi Santoso", jenis: "Putus Total", tanggal: "14 Mei 2023", status: "Selesai" },
+            { id: 3, kode: "LAP003", pelanggan: "Citra Dewi", jenis: "Gangguan Perangkat", tanggal: "13 Mei 2023", status: "Diproses" }
+        ];
 
         // Navigation functionality
         document.addEventListener('DOMContentLoaded', function() {
             const menuItems = document.querySelectorAll('.menu-item a');
             const contentAreas = document.querySelectorAll('.content-area');
             const pageTitle = document.getElementById('page-title');
-            
-            // Check if user is logged in
-            const isLoggedIn = localStorage.getItem('adminLoggedIn');
-            if (!isLoggedIn) {
-                window.location.href = 'admin-login.html';
-                return;
-            }
-            
-            // Load packages table
-            loadPackagesTable();
+            const modal = document.getElementById('form-modal');
+            const modalClose = document.getElementById('modal-close');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const searchInput = document.getElementById('search-input');
             
             // Set initial active state
             setActiveContent('dashboard');
@@ -1459,73 +1544,6 @@
                 });
             });
             
-            // User dropdown functionality
-            document.getElementById('userDropdownToggle').addEventListener('click', function(e) {
-                e.stopPropagation();
-                document.getElementById('userDropdown').classList.toggle('active');
-            });
-            
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function() {
-                document.getElementById('userDropdown').classList.remove('active');
-            });
-            
-            // Profile and Settings links in dropdown
-            document.getElementById('profile-link').addEventListener('click', function(e) {
-                e.preventDefault();
-                setActiveContent('profil-saya');
-                document.getElementById('userDropdown').classList.remove('active');
-            });
-            
-            document.getElementById('settings-link').addEventListener('click', function(e) {
-                e.preventDefault();
-                setActiveContent('pengaturan');
-                document.getElementById('userDropdown').classList.remove('active');
-            });
-            
-            // Logout functionality
-            document.getElementById('logoutBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                logout();
-            });
-            
-            // Package modal functionality
-            document.getElementById('tambah-paket-btn').addEventListener('click', addPackage);
-            document.getElementById('modal-close').addEventListener('click', function() {
-                document.getElementById('paket-modal').classList.remove('active');
-            });
-            document.getElementById('paket-form').addEventListener('submit', savePackage);
-            
-            // Close modal when clicking outside
-            document.getElementById('paket-modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                }
-            });
-            
-            // Profile form submission
-            document.getElementById('profile-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Profil berhasil diperbarui!');
-            });
-            
-            // Password form submission
-            document.getElementById('password-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Password berhasil diubah!');
-            });
-            
-            // Settings form submissions
-            document.getElementById('general-settings-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Pengaturan umum berhasil disimpan!');
-            });
-            
-            document.getElementById('notification-settings-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Pengaturan notifikasi berhasil disimpan!');
-            });
-            
             // FAQ toggle functionality
             const faqQuestions = document.querySelectorAll('.faq-question');
             faqQuestions.forEach(question => {
@@ -1535,9 +1553,85 @@
                 });
             });
             
-            // Other button functionality
+            // Modal functionality
+            modalClose.addEventListener('click', function() {
+                modal.classList.remove('active');
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+            
+            // Button functionality
             document.getElementById('export-btn').addEventListener('click', function() {
-                alert('Fitur export data akan segera tersedia!');
+                alert('Data berhasil diexport!');
+            });
+            
+            document.getElementById('tambah-paket-btn').addEventListener('click', function() {
+                showFormModal('paket', 'Tambah Paket Internet');
+            });
+            
+            document.getElementById('tambah-pelanggan-btn').addEventListener('click', function() {
+                showFormModal('pelanggan', 'Tambah Pelanggan');
+            });
+            
+            document.getElementById('tambah-laporan-btn').addEventListener('click', function() {
+                showFormModal('laporan', 'Tambah Laporan Gangguan');
+            });
+            
+            document.getElementById('refresh-status-btn').addEventListener('click', function() {
+                alert('Status server telah diperbarui!');
+            });
+            
+            document.getElementById('tambah-faq-btn').addEventListener('click', function() {
+                showFormModal('faq', 'Tambah FAQ');
+            });
+            
+            document.getElementById('simpan-pengaturan-btn').addEventListener('click', function() {
+                alert('Pengaturan berhasil disimpan!');
+            });
+            
+            document.getElementById('simpan-notifikasi-btn').addEventListener('click', function() {
+                alert('Pengaturan notifikasi berhasil disimpan!');
+            });
+            
+            // Edit and delete buttons
+            const editButtons = document.querySelectorAll('.edit-btn');
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+            
+            editButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const type = this.closest('table').querySelector('th').textContent.includes('Paket') ? 'paket' : 
+                                 this.closest('table').querySelector('th').textContent.includes('Pelanggan') ? 'pelanggan' : 'laporan';
+                    
+                    showFormModal(type, 'Edit Data', id);
+                });
+            });
+            
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if(confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                        alert('Data berhasil dihapus!');
+                    }
+                });
+            });
+            
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const activeContent = document.querySelector('.content-area.active');
+                
+                if (activeContent.id === 'pelanggan') {
+                    filterTable(activeContent, searchTerm, 1); // Filter berdasarkan nama (kolom 1)
+                } else if (activeContent.id === 'paket-internet') {
+                    filterTable(activeContent, searchTerm, 0); // Filter berdasarkan nama paket (kolom 0)
+                } else if (activeContent.id === 'laporan-gangguan') {
+                    filterTable(activeContent, searchTerm, 1); // Filter berdasarkan pelanggan (kolom 1)
+                }
             });
             
             function setActiveContent(target) {
@@ -1558,6 +1652,170 @@
                         pageTitle.textContent = menuText;
                     }
                 }
+            }
+            
+            function showFormModal(type, title, id = null) {
+                modalTitle.textContent = title;
+                
+                let formContent = '';
+                
+                if (type === 'paket') {
+                    const data = id ? dataPaket.find(item => item.id == id) : null;
+                    
+                    formContent = `
+                        <div class="form-group">
+                            <label for="nama-paket">Nama Paket</label>
+                            <input type="text" id="nama-paket" value="${data ? data.nama : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label for="kecepatan-paket">Kecepatan</label>
+                            <input type="text" id="kecepatan-paket" value="${data ? data.kecepatan : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label for="harga-paket">Harga</label>
+                            <input type="text" id="harga-paket" value="${data ? data.harga : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label for="status-paket">Status</label>
+                            <select id="status-paket">
+                                <option value="Aktif" ${data && data.status === 'Aktif' ? 'selected' : ''}>Aktif</option>
+                                <option value="Nonaktif" ${data && data.status === 'Nonaktif' ? 'selected' : ''}>Nonaktif</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" id="simpan-form-btn">
+                            <i class="fas fa-save"></i>
+                            Simpan
+                        </button>
+                    `;
+                } else if (type === 'pelanggan') {
+                    const data = id ? dataPelanggan.find(item => item.id == id) : null;
+                    
+                    formContent = `
+                        <div class="form-group">
+                            <label for="nama-pelanggan">Nama Pelanggan</label>
+                            <input type="text" id="nama-pelanggan" value="${data ? data.nama : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label for="paket-pelanggan">Paket</label>
+                            <select id="paket-pelanggan">
+                                <option value="Basic 10 Mbps" ${data && data.paket === 'Basic 10 Mbps' ? 'selected' : ''}>Basic 10 Mbps</option>
+                                <option value="Standard 20 Mbps" ${data && data.paket === 'Standard 20 Mbps' ? 'selected' : ''}>Standard 20 Mbps</option>
+                                <option value="Premium 50 Mbps" ${data && data.paket === 'Premium 50 Mbps' ? 'selected' : ''}>Premium 50 Mbps</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggal-pelanggan">Tanggal Bergabung</label>
+                            <input type="date" id="tanggal-pelanggan" value="${data ? formatDateForInput(data.tanggal) : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label for="status-pelanggan">Status</label>
+                            <select id="status-pelanggan">
+                                <option value="Aktif" ${data && data.status === 'Aktif' ? 'selected' : ''}>Aktif</option>
+                                <option value="Nonaktif" ${data && data.status === 'Nonaktif' ? 'selected' : ''}>Nonaktif</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" id="simpan-form-btn">
+                            <i class="fas fa-save"></i>
+                            Simpan
+                        </button>
+                    `;
+                } else if (type === 'laporan') {
+                    const data = id ? dataLaporan.find(item => item.id == id) : null;
+                    
+                    formContent = `
+                        <div class="form-group">
+                            <label for="pelanggan-laporan">Pelanggan</label>
+                            <select id="pelanggan-laporan">
+                                <option value="Ahmad Supriyadi" ${data && data.pelanggan === 'Ahmad Supriyadi' ? 'selected' : ''}>Ahmad Supriyadi</option>
+                                <option value="Budi Santoso" ${data && data.pelanggan === 'Budi Santoso' ? 'selected' : ''}>Budi Santoso</option>
+                                <option value="Citra Dewi" ${data && data.pelanggan === 'Citra Dewi' ? 'selected' : ''}>Citra Dewi</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="jenis-laporan">Jenis Gangguan</label>
+                            <select id="jenis-laporan">
+                                <option value="Koneksi Lambat" ${data && data.jenis === 'Koneksi Lambat' ? 'selected' : ''}>Koneksi Lambat</option>
+                                <option value="Putus Total" ${data && data.jenis === 'Putus Total' ? 'selected' : ''}>Putus Total</option>
+                                <option value="Gangguan Perangkat" ${data && data.jenis === 'Gangguan Perangkat' ? 'selected' : ''}>Gangguan Perangkat</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggal-laporan">Tanggal Laporan</label>
+                            <input type="date" id="tanggal-laporan" value="${data ? formatDateForInput(data.tanggal) : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label for="status-laporan">Status</label>
+                            <select id="status-laporan">
+                                <option value="Diproses" ${data && data.status === 'Diproses' ? 'selected' : ''}>Diproses</option>
+                                <option value="Selesai" ${data && data.status === 'Selesai' ? 'selected' : ''}>Selesai</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" id="simpan-form-btn">
+                            <i class="fas fa-save"></i>
+                            Simpan
+                        </button>
+                    `;
+                } else if (type === 'faq') {
+                    formContent = `
+                        <div class="form-group">
+                            <label for="pertanyaan-faq">Pertanyaan</label>
+                            <input type="text" id="pertanyaan-faq">
+                        </div>
+                        <div class="form-group">
+                            <label for="jawaban-faq">Jawaban</label>
+                            <textarea id="jawaban-faq"></textarea>
+                        </div>
+                        <button class="btn btn-primary" id="simpan-form-btn">
+                            <i class="fas fa-save"></i>
+                            Simpan
+                        </button>
+                    `;
+                }
+                
+                modalBody.innerHTML = formContent;
+                modal.classList.add('active');
+                
+                // Add event listener to save button
+                document.getElementById('simpan-form-btn').addEventListener('click', function() {
+                    alert('Data berhasil disimpan!');
+                    modal.classList.remove('active');
+                });
+            }
+            
+            function filterTable(contentArea, searchTerm, columnIndex) {
+                const table = contentArea.querySelector('table tbody');
+                const rows = table.querySelectorAll('tr');
+                
+                rows.forEach(row => {
+                    const cell = row.cells[columnIndex];
+                    if (cell) {
+                        const text = cell.textContent.toLowerCase();
+                        if (text.includes(searchTerm)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    }
+                });
+            }
+            
+            function formatDateForInput(dateString) {
+                // Konversi format "15 Jan 2023" menjadi "2023-01-15"
+                const months = {
+                    'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
+                    'Mei': '05', 'Jun': '06', 'Jul': '07', 'Agu': '08',
+                    'Sep': '09', 'Okt': '10', 'Nov': '11', 'Des': '12'
+                };
+                
+                const parts = dateString.split(' ');
+                if (parts.length === 3) {
+                    const day = parts[0].padStart(2, '0');
+                    const month = months[parts[1]];
+                    const year = parts[2];
+                    return `${year}-${month}-${day}`;
+                }
+                
+                return '';
             }
         });
     </script>

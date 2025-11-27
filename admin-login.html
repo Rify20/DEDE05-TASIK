@@ -4,18 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login • DEDE05 TASIK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --blue: #2563eb;
-            --blue-dark: #1d4ed8;
-            --blue-light: #3b82f6;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --primary-bg: #eff6ff;
             --white: #ffffff;
-            --gray-light: #f8fafc;
-            --gray: #64748b;
-            --gray-dark: #334155;
-            --border: #e2e8f0;
-            --radius: 12px;
-            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --border-radius: 12px;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -25,75 +40,103 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            color: var(--gray-dark);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+            color: var(--gray-800);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            line-height: 1.6;
+            font-weight: 400;
         }
 
         .login-container {
             width: 100%;
-            max-width: 400px;
+            max-width: 440px;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         .login-card {
             background: var(--white);
-            border-radius: var(--radius);
-            padding: 40px 30px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            padding: 48px 40px;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-lg);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
         }
 
         .logo {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 30px;
+            gap: 16px;
+            margin-bottom: 32px;
         }
 
         .logo-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 20px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .logo:hover .logo-img {
+            transform: scale(1.05);
         }
 
         .logo-text h1 {
-            font-size: 1.4rem;
+            font-size: 24px;
             font-weight: 700;
-            color: var(--gray-dark);
+            color: var(--gray-900);
+            letter-spacing: -0.5px;
+            line-height: 1.2;
         }
 
         .logo-text span {
-            font-size: 0.8rem;
-            color: var(--gray);
+            font-size: 14px;
+            color: var(--gray-500);
+            font-weight: 500;
         }
 
         h2 {
-            margin-bottom: 10px;
-            font-size: 1.5rem;
-            color: var(--gray-dark);
+            margin-bottom: 12px;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gray-900);
+            letter-spacing: -0.5px;
         }
 
         .subtitle {
-            color: var(--gray);
-            margin-bottom: 30px;
+            color: var(--gray-500);
+            margin-bottom: 40px;
+            font-size: 16px;
+            font-weight: 400;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             text-align: left;
         }
 
@@ -101,84 +144,261 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--gray-dark);
+            font-size: 14px;
+            color: var(--gray-700);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-container {
+            position: relative;
         }
 
         .form-control {
             width: 100%;
-            padding: 14px 16px;
+            padding: 16px 20px;
             background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            color: var(--gray-dark);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            color: var(--gray-800);
             font-family: inherit;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 400;
+            transition: var(--transition);
+            position: relative;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: var(--blue);
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-control::placeholder {
+            color: var(--gray-400);
+            font-weight: 400;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            transition: var(--transition);
+        }
+
+        .form-control:focus + .input-icon {
+            color: var(--primary);
+        }
+
+        .password-toggle {
+            background: none;
+            border: none;
+            color: var(--gray-400);
+            cursor: pointer;
+            padding: 4px;
+            transition: var(--transition);
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .password-toggle:hover {
+            color: var(--gray-600);
         }
 
         .btn {
             width: 100%;
-            padding: 14px;
-            background: var(--blue);
+            padding: 16px 24px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: var(--white);
             border: none;
-            border-radius: var(--radius);
-            font-size: 1rem;
+            border-radius: var(--border-radius);
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
+            transition: var(--transition);
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
         }
 
         .btn:hover {
-            background: var(--blue-dark);
             transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(37, 99, 235, 0.3);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin: -10px 0 0 -10px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--white);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
         .alert {
-            padding: 12px 16px;
-            border-radius: var(--radius);
-            margin-bottom: 20px;
-            font-size: 0.9rem;
+            padding: 16px 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 500;
             display: none;
+            animation: slideInDown 0.3s ease-out;
+            text-align: left;
         }
 
         .alert-error {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #ef4444;
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: var(--error);
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--success);
         }
 
         .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: var(--gray);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 32px;
+            color: var(--gray-500);
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
         }
 
         .back-link:hover {
-            color: var(--blue);
+            color: var(--primary);
+            background: var(--primary-bg);
+            transform: translateX(-4px);
+        }
+
+        .back-link i {
+            font-size: 12px;
+            transition: var(--transition);
+        }
+
+        .back-link:hover i {
+            transform: translateX(-2px);
+        }
+
+        .login-footer {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--gray-200);
+            color: var(--gray-400);
+            font-size: 12px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
         }
 
         @media (max-width: 480px) {
             .login-card {
-                padding: 30px 20px;
+                padding: 40px 24px;
             }
             
             .logo {
                 flex-direction: column;
                 text-align: center;
+                gap: 12px;
             }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .form-control:focus,
+        .btn:focus,
+        .back-link:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Loading state for form */
+        .form-loading .form-control,
+        .form-loading .btn {
+            pointer-events: none;
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -197,29 +417,62 @@
             <p class="subtitle">Silakan login dengan akun admin Anda</p>
 
             <div class="alert alert-error" id="errorAlert">
-                Username atau password salah!
+                <i class="fas fa-exclamation-circle"></i> Username atau password salah!
             </div>
 
             <form id="loginForm">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" class="form-control" placeholder="Masukkan username" required>
+                    <div class="input-container">
+                        <input type="text" id="username" class="form-control" placeholder="Masukkan username" required>
+                        <i class="fas fa-user input-icon"></i>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" class="form-control" placeholder="Masukkan password" required>
+                    <div class="input-container">
+                        <input type="password" id="password" class="form-control" placeholder="Masukkan password" required>
+                        <button type="button" class="password-toggle" id="passwordToggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
 
-                <button type="submit" class="btn">Masuk</button>
+                <button type="submit" class="btn" id="loginBtn">
+                    <span id="btnText">Masuk</span>
+                </button>
             </form>
 
-            <a href="index.html" class="back-link">← Kembali ke Website Utama</a>
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Kembali ke Website Utama
+            </a>
+
+            <div class="login-footer">
+                &copy; 2024 DEDE05 TASIK. All rights reserved.
+            </div>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script>
-        // Initialize default data jika belum ada
+        // DOM Elements
+        const loginForm = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const passwordToggle = document.getElementById('passwordToggle');
+        const loginBtn = document.getElementById('loginBtn');
+        const btnText = document.getElementById('btnText');
+        const errorAlert = document.getElementById('errorAlert');
+
+        // Login credentials
+        const VALID_CREDENTIALS = {
+            username: 'admin',
+            password: 'dede05tasik2024'
+        };
+
+        // Initialize default data
         function initializeData() {
             if (!localStorage.getItem('websiteData')) {
                 const defaultData = {
@@ -254,7 +507,7 @@
                     ],
                     settings: {
                         whatsapp: "6281222333444",
-                        email: "support@dede05tasik.local",
+                        email: "support@dede05tasik.com",
                         address: "Jl. Contoh No.12, Tasikmalaya",
                         workingHours: "Senin-Minggu: 08:00-20:00",
                         description: "Penyedia layanan internet lokal di Tasikmalaya dengan koneksi stabil dan harga terjangkau. Dukungan teknis 24/7 untuk kepuasan pelanggan.",
@@ -290,7 +543,7 @@
             }
         }
 
-        // Update website content dengan data terbaru
+        // Update website content
         function updateWebsiteContent() {
             const websiteData = JSON.parse(localStorage.getItem('websiteData'));
             if (websiteData) {
@@ -301,39 +554,112 @@
             }
         }
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        // Show error message
+        function showError(message) {
+            errorAlert.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+            errorAlert.style.display = 'block';
+            loginForm.classList.add('shake');
+            
+            setTimeout(() => {
+                loginForm.classList.remove('shake');
+            }, 500);
+        }
+
+        // Hide error message
+        function hideError() {
+            errorAlert.style.display = 'none';
+        }
+
+        // Toggle password visibility
+        function togglePasswordVisibility() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            passwordToggle.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        }
+
+        // Show loading state
+        function setLoadingState(loading) {
+            if (loading) {
+                loginBtn.classList.add('btn-loading');
+                btnText.style.visibility = 'hidden';
+                loginForm.classList.add('form-loading');
+            } else {
+                loginBtn.classList.remove('btn-loading');
+                btnText.style.visibility = 'visible';
+                loginForm.classList.remove('form-loading');
+            }
+        }
+
+        // Validate login credentials
+        function validateLogin(username, password) {
+            return username === VALID_CREDENTIALS.username && password === VALID_CREDENTIALS.password;
+        }
+
+        // Handle form submission
+        function handleLogin(e) {
             e.preventDefault();
             
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorAlert = document.getElementById('errorAlert');
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
 
-            // Default login credentials
-            const validUsername = 'admin';
-            const validPassword = 'dede05tasik2024';
+            // Basic validation
+            if (!username || !password) {
+                showError('Harap isi username dan password');
+                return;
+            }
 
-            if (username === validUsername && password === validPassword) {
-                // Initialize data jika pertama kali login
-                initializeData();
-                
-                // Simpan session dan redirect ke dashboard
-                localStorage.setItem('adminLoggedIn', 'true');
-                localStorage.setItem('adminUsername', username);
-                window.location.href = 'admin-dashboard.html';
-            } else {
-                errorAlert.style.display = 'block';
-                setTimeout(() => {
-                    errorAlert.style.display = 'none';
-                }, 3000);
+            // Show loading state
+            setLoadingState(true);
+
+            // Simulate API call delay
+            setTimeout(() => {
+                if (validateLogin(username, password)) {
+                    // Initialize data if first login
+                    initializeData();
+                    
+                    // Save session and redirect
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    localStorage.setItem('adminUsername', username);
+                    localStorage.setItem('lastLogin', new Date().toISOString());
+                    
+                    // Show success and redirect
+                    hideError();
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    setLoadingState(false);
+                    showError('Username atau password salah!');
+                    
+                    // Clear password field
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            }, 1500);
+        }
+
+        // Event Listeners
+        passwordToggle.addEventListener('click', togglePasswordVisibility);
+        loginForm.addEventListener('submit', handleLogin);
+
+        // Input event listeners for real-time validation
+        usernameInput.addEventListener('input', hideError);
+        passwordInput.addEventListener('input', hideError);
+
+        // Enter key support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !loginBtn.classList.contains('btn-loading')) {
+                loginForm.requestSubmit();
             }
         });
 
-        // Cek jika sudah login
+        // Auto-focus username on page load
+        usernameInput.focus();
+
+        // Check if already logged in
         if (localStorage.getItem('adminLoggedIn') === 'true') {
             window.location.href = 'admin-dashboard.html';
         }
 
-        // Initialize data saat halaman load
+        // Initialize data on page load
         initializeData();
     </script>
 </body>

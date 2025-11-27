@@ -3,238 +3,466 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEDE05 TASIK - Dashboard</title>
+    <title>Dashboard Admin - DEDE05 TASIK</title>
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --success: #27ae60;
-            --warning: #f39c12;
-            --danger: #e74c3c;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --primary-bg: #eff6ff;
+            --white: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --border-radius: 12px;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
-        
+
         body {
-            background-color: #f5f7fa;
-            color: #333;
+            background-color: var(--gray-50);
+            color: var(--gray-800);
             line-height: 1.6;
+            overflow-x: hidden;
         }
-        
-        .container {
+
+        .dashboard-container {
             display: grid;
-            grid-template-columns: 250px 1fr;
+            grid-template-columns: 280px 1fr;
             min-height: 100vh;
         }
-        
+
         /* Sidebar Styles */
         .sidebar {
-            background-color: var(--primary);
-            color: white;
-            padding: 20px 0;
+            background: var(--white);
+            border-right: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+            position: fixed;
+            width: 280px;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transition: var(--transition);
         }
-        
-        .logo {
-            padding: 0 20px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 20px;
-        }
-        
-        .logo h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-        
-        .nav-menu {
-            list-style: none;
-        }
-        
-        .nav-item {
-            padding: 12px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--gray-200);
             display: flex;
             align-items: center;
+            gap: 12px;
         }
-        
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .logo-text h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .logo-text span {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            display: block;
+            margin-top: 2px;
+        }
+
+        .nav-menu {
+            padding: 20px 0;
+            list-style: none;
+        }
+
+        .nav-item {
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--gray-600);
+            font-weight: 500;
+            border-left: 3px solid transparent;
+        }
+
         .nav-item:hover {
-            background-color: rgba(255,255,255,0.1);
+            background-color: var(--primary-bg);
+            color: var(--primary);
         }
-        
+
         .nav-item.active {
-            background-color: var(--secondary);
-            border-left: 4px solid white;
+            background-color: var(--primary-bg);
+            color: var(--primary);
+            border-left-color: var(--primary);
         }
-        
+
         .nav-item i {
-            margin-right: 10px;
             width: 20px;
             text-align: center;
+            font-size: 1.1rem;
         }
-        
+
+        .nav-divider {
+            height: 1px;
+            background-color: var(--gray-200);
+            margin: 16px 24px;
+        }
+
         /* Main Content Styles */
         .main-content {
-            padding: 20px;
-            overflow-y: auto;
+            grid-column: 2;
+            padding: 0;
+            background-color: var(--gray-50);
         }
-        
-        .header {
+
+        .top-header {
+            background: var(--white);
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--gray-200);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #e0e0e0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 99;
         }
-        
+
+        .page-title h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
         .user-info {
             display: flex;
             align-items: center;
+            gap: 12px;
         }
-        
+
         .user-avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: var(--secondary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 10px;
             font-weight: bold;
         }
-        
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+
+        .user-details .user-name {
+            font-weight: 600;
+            color: var(--gray-800);
         }
-        
-        .stat-card {
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            border-left: 4px solid var(--secondary);
-        }
-        
-        .stat-card h3 {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            margin-bottom: 10px;
-        }
-        
-        .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .stat-trend {
+
+        .user-details .user-role {
             font-size: 0.8rem;
-            display: flex;
-            align-items: center;
+            color: var(--gray-500);
         }
-        
-        .trend-up {
-            color: var(--success);
+
+        .dropdown {
+            position: relative;
         }
-        
-        .trend-down {
-            color: var(--danger);
-        }
-        
-        .content-sections {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-        }
-        
-        .section {
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .section-title {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        .menu-list {
-            list-style: none;
-        }
-        
-        .menu-item {
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
+
+        .dropdown-toggle {
+            background: none;
+            border: none;
+            color: var(--gray-500);
             cursor: pointer;
-            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .dropdown-toggle:hover {
+            background-color: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            min-width: 200px;
+            padding: 8px 0;
+            z-index: 1000;
+            display: none;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
             display: flex;
             align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--gray-700);
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
         }
-        
-        .menu-item:last-child {
-            border-bottom: none;
+
+        .dropdown-item:hover {
+            background-color: var(--gray-50);
+            color: var(--primary);
         }
-        
-        .menu-item:hover {
-            color: var(--secondary);
-            padding-left: 5px;
-        }
-        
-        .menu-item i {
-            margin-right: 10px;
+
+        .dropdown-item i {
             width: 20px;
             text-align: center;
         }
-        
-        .activity-item {
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f0f0;
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--gray-200);
+            margin: 8px 0;
         }
-        
+
+        /* Content Area */
+        .content-area {
+            padding: 30px;
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-left: 4px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+        }
+
+        .stat-card h3 {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--gray-900);
+        }
+
+        .stat-trend {
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .trend-up {
+            color: var(--success);
+        }
+
+        .trend-down {
+            color: var(--error);
+        }
+
+        /* Content Sections */
+        .content-sections {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .section {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .section:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--gray-200);
+            color: var(--gray-900);
+            font-weight: 600;
+        }
+
+        .menu-list {
+            list-style: none;
+        }
+
+        .menu-item {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--gray-100);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--gray-700);
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            color: var(--primary);
+            padding-left: 8px;
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .activity-list {
+            list-style: none;
+        }
+
+        .activity-item {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--gray-100);
+            display: flex;
+            flex-direction: column;
+        }
+
         .activity-item:last-child {
             border-bottom: none;
         }
-        
+
+        .activity-title {
+            font-weight: 500;
+            color: var(--gray-800);
+            margin-bottom: 4px;
+        }
+
+        .activity-time {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+
         .btn {
-            display: inline-block;
-            background-color: var(--secondary);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-decoration: none;
             border: none;
             cursor: pointer;
+            transition: var(--transition);
             font-size: 0.9rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
         }
-        
-        .btn:hover {
-            background-color: #2980b9;
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            box-shadow: var(--shadow-md);
         }
-        
-        .btn-export {
-            background-color: var(--success);
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
-        
-        .btn-export:hover {
-            background-color: #219653;
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
         }
-        
+
+        .btn-secondary:hover {
+            background: var(--primary-bg);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #0d9668);
+            color: var(--white);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -242,77 +470,197 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.5);
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(4px);
         }
-        
+
+        .modal.show {
+            display: flex;
+        }
+
         .modal-content {
-            background-color: white;
+            background-color: var(--white);
             padding: 30px;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             width: 90%;
             max-width: 500px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.3s ease;
         }
-        
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
         .modal-title {
             margin-bottom: 20px;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
+            color: var(--gray-900);
+            font-weight: 600;
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
+            color: var(--gray-700);
         }
-        
+
         .form-control {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 12px 16px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius);
             font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--white);
         }
-        
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
         .modal-actions {
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 12px;
+            margin-top: 24px;
         }
-        
+
         .btn-cancel {
-            background-color: #95a5a6;
+            background-color: var(--gray-400);
+            color: var(--white);
         }
-        
+
         .btn-cancel:hover {
-            background-color: #7f8c8d;
+            background-color: var(--gray-500);
+            transform: translateY(-2px);
         }
-        
+
         .btn-danger {
-            background-color: var(--danger);
+            background: linear-gradient(135deg, var(--error), #c53030);
+            color: var(--white);
         }
-        
+
         .btn-danger:hover {
-            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                grid-column: 1;
+            }
+            
+            .content-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-area {
+                padding: 20px;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .top-header {
+                padding: 16px 20px;
+            }
+            
+            .user-details {
+                display: none;
+            }
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--gray-700);
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn:hover {
+            background-color: var(--gray-100);
+        }
+
+        @media (max-width: 992px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        /* Animation for sidebar items */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .nav-item {
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .nav-item:nth-child(1) { animation-delay: 0.05s; }
+        .nav-item:nth-child(2) { animation-delay: 0.1s; }
+        .nav-item:nth-child(3) { animation-delay: 0.15s; }
+        .nav-item:nth-child(4) { animation-delay: 0.2s; }
+        .nav-item:nth-child(5) { animation-delay: 0.25s; }
+        .nav-item:nth-child(6) { animation-delay: 0.3s; }
+        .nav-item:nth-child(7) { animation-delay: 0.35s; }
+        .nav-item:nth-child(8) { animation-delay: 0.4s; }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="dashboard-container">
         <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="logo">
-                <h1>DEDE05 TASIK</h1>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">DT</div>
+                <div class="logo-text">
+                    <h2>DEDE05 TASIK</h2>
+                    <span>Admin Dashboard</span>
+                </div>
             </div>
+            
             <ul class="nav-menu">
-                <li class="nav-item active">
+                <li class="nav-item active" onclick="showSection('dashboard')">
                     <i>📊</i> Dashboard
                 </li>
                 <li class="nav-item" onclick="showSection('data-pelanggan')">
@@ -333,6 +681,9 @@
                 <li class="nav-item" onclick="showSection('pengaturan-sistem')">
                     <i>⚙️</i> Pengaturan Sistem
                 </li>
+                
+                <div class="nav-divider"></div>
+                
                 <li class="nav-item" onclick="goToWebsite()">
                     <i>🌐</i> Kembali ke Website
                 </li>
@@ -341,117 +692,142 @@
         
         <!-- Main Content -->
         <div class="main-content">
-            <div class="header">
-                <h1>Dashboard</h1>
-                <div class="user-info">
-                    <div class="user-avatar">SA</div>
-                    <div class="user-details">
-                        <div class="user-name">Super Admin</div>
-                        <div class="user-menu">
-                            <select id="userMenu" onchange="handleUserMenu(this.value)">
-                                <option value="">Profil Saya</option>
-                                <option value="pengaturan-akun">Pengaturan Akun</option>
-                                <option value="ubah-password">Ubah Password</option>
-                                <option value="logout">Logout</option>
-                            </select>
+            <div class="top-header">
+                <div class="page-title">
+                    <h1>Dashboard</h1>
+                </div>
+                
+                <div class="user-menu">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+                    
+                    <div class="user-info">
+                        <div class="user-avatar">SA</div>
+                        <div class="user-details">
+                            <div class="user-name">Super Admin</div>
+                            <div class="user-role">Administrator</div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Stats Cards -->
-            <div class="stats-container">
-                <div class="stat-card">
-                    <h3>TOTAL PELANGGAN</h3>
-                    <div class="stat-value">1,248</div>
-                    <div class="stat-trend trend-up">↑ +12% dari bulan lalu</div>
-                </div>
-                <div class="stat-card">
-                    <h3>PAKET TERSEDIA</h3>
-                    <div class="stat-value">15</div>
-                    <div class="stat-trend trend-up">↑ +2 paket baru</div>
-                </div>
-                <div class="stat-card">
-                    <h3>UPTIME SERVER</h3>
-                    <div class="stat-value">99.8%</div>
-                    <div class="stat-trend trend-up">↑ Stabil</div>
-                </div>
-            </div>
-            
-            <!-- Content Sections -->
-            <div class="content-sections">
-                <div class="left-column">
-                    <!-- Data Section -->
-                    <div class="section">
-                        <h2 class="section-title">Data</h2>
-                        <ul class="menu-list">
-                            <li class="menu-item" onclick="showSection('data-pelanggan')">
-                                <i>👥</i> Data Pelanggan
-                            </li>
-                            <li class="menu-item" onclick="showSection('paket-internet')">
-                                <i>📦</i> Paket Internet
-                            </li>
-                            <li class="menu-item" onclick="showSection('laporan-gangguan')">
-                                <i>⚠️</i> Laporan Gangguan
-                            </li>
-                            <li class="menu-item" onclick="showSection('uptime-server')">
-                                <i>🖥️</i> Uptime Server
-                            </li>
-                            <li class="menu-item" onclick="showSection('faq')">
-                                <i>❓</i> FAQ
-                            </li>
-                            <li class="menu-item" onclick="showSection('pengaturan-sistem')">
-                                <i>⚙️</i> Pengaturan Sistem
-                            </li>
-                        </ul>
                     </div>
                     
-                    <!-- Aktivitas Terbaru Section -->
-                    <div class="section">
-                        <h2 class="section-title">Aktivitas Terbaru</h2>
-                        <div class="activity-item">
-                            <div class="activity-title">Pelanggan baru terdaftar</div>
-                            <div class="activity-time">2 jam yang lalu</div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-title">Laporan gangguan diperbarui</div>
-                            <div class="activity-time">5 jam yang lalu</div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-title">Paket internet baru ditambahkan</div>
-                            <div class="activity-time">Kemarin</div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-title">Pembaruan sistem selesai</div>
-                            <div class="activity-time">2 hari yang lalu</div>
-                        </div>
-                        <button class="btn btn-export" onclick="exportData()">
-                            <i>📥</i> Export Data
+                    <div class="dropdown">
+                        <button class="dropdown-toggle" id="dropdownToggle">
+                            <i>⌄</i>
                         </button>
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <a class="dropdown-item" onclick="showModal('profil-modal')">
+                                <i>👁️</i> Profil Saya
+                            </a>
+                            <a class="dropdown-item" onclick="showModal('pengaturan-akun-modal')">
+                                <i>⚙️</i> Pengaturan Akun
+                            </a>
+                            <a class="dropdown-item" onclick="showModal('ubah-password-modal')">
+                                <i>🔒</i> Ubah Password
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" onclick="showModal('logout-modal')">
+                                <i>🚪</i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-area">
+                <!-- Stats Cards -->
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h3>TOTAL PELANGGAN</h3>
+                        <div class="stat-value">1,248</div>
+                        <div class="stat-trend trend-up">↑ +12% dari bulan lalu</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>PAKET TERSEDIA</h3>
+                        <div class="stat-value">15</div>
+                        <div class="stat-trend trend-up">↑ +2 paket baru</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>UPTIME SERVER</h3>
+                        <div class="stat-value">99.8%</div>
+                        <div class="stat-trend trend-up">↑ Stabil</div>
                     </div>
                 </div>
                 
-                <div class="right-column">
-                    <!-- Administrator Section -->
-                    <div class="section">
-                        <h2 class="section-title">Administrator</h2>
-                        <ul class="menu-list">
-                            <li class="menu-item">
-                                <i>👤</i> Super Admin
-                            </li>
-                            <li class="menu-item" onclick="showModal('profil-modal')">
-                                <i>👁️</i> Profil Saya
-                            </li>
-                            <li class="menu-item" onclick="showModal('pengaturan-akun-modal')">
-                                <i>⚙️</i> Pengaturan Akun
-                            </li>
-                            <li class="menu-item" onclick="showModal('ubah-password-modal')">
-                                <i>🔒</i> Ubah Password
-                            </li>
-                            <li class="menu-item" onclick="showModal('logout-modal')">
-                                <i>🚪</i> Logout
-                            </li>
-                        </ul>
+                <!-- Content Sections -->
+                <div class="content-sections">
+                    <div class="left-column">
+                        <!-- Data Section -->
+                        <div class="section">
+                            <h2 class="section-title">Menu Utama</h2>
+                            <ul class="menu-list">
+                                <li class="menu-item" onclick="showSection('data-pelanggan')">
+                                    <i>👥</i> Data Pelanggan
+                                </li>
+                                <li class="menu-item" onclick="showSection('paket-internet')">
+                                    <i>📦</i> Paket Internet
+                                </li>
+                                <li class="menu-item" onclick="showSection('laporan-gangguan')">
+                                    <i>⚠️</i> Laporan Gangguan
+                                </li>
+                                <li class="menu-item" onclick="showSection('uptime-server')">
+                                    <i>🖥️</i> Uptime Server
+                                </li>
+                                <li class="menu-item" onclick="showSection('faq')">
+                                    <i>❓</i> FAQ
+                                </li>
+                                <li class="menu-item" onclick="showSection('pengaturan-sistem')">
+                                    <i>⚙️</i> Pengaturan Sistem
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Aktivitas Terbaru Section -->
+                        <div class="section">
+                            <h2 class="section-title">Aktivitas Terbaru</h2>
+                            <ul class="activity-list">
+                                <li class="activity-item">
+                                    <div class="activity-title">Pelanggan baru terdaftar</div>
+                                    <div class="activity-time">2 jam yang lalu</div>
+                                </li>
+                                <li class="activity-item">
+                                    <div class="activity-title">Laporan gangguan diperbarui</div>
+                                    <div class="activity-time">5 jam yang lalu</div>
+                                </li>
+                                <li class="activity-item">
+                                    <div class="activity-title">Paket internet baru ditambahkan</div>
+                                    <div class="activity-time">Kemarin</div>
+                                </li>
+                                <li class="activity-item">
+                                    <div class="activity-title">Pembaruan sistem selesai</div>
+                                    <div class="activity-time">2 hari yang lalu</div>
+                                </li>
+                            </ul>
+                            <button class="btn btn-success" onclick="exportData()" style="margin-top: 16px; width: 100%;">
+                                <i>📥</i> Export Data
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="right-column">
+                        <!-- Administrator Section -->
+                        <div class="section">
+                            <h2 class="section-title">Administrator</h2>
+                            <ul class="menu-list">
+                                <li class="menu-item">
+                                    <i>👤</i> Super Admin
+                                </li>
+                                <li class="menu-item" onclick="showModal('profil-modal')">
+                                    <i>👁️</i> Profil Saya
+                                </li>
+                                <li class="menu-item" onclick="showModal('pengaturan-akun-modal')">
+                                    <i>⚙️</i> Pengaturan Akun
+                                </li>
+                                <li class="menu-item" onclick="showModal('ubah-password-modal')">
+                                    <i>🔒</i> Ubah Password
+                                </li>
+                                <li class="menu-item" onclick="showModal('logout-modal')">
+                                    <i>🚪</i> Logout
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -476,7 +852,7 @@
             </div>
             <div class="modal-actions">
                 <button class="btn btn-cancel" onclick="closeModal('profil-modal')">Batal</button>
-                <button class="btn" onclick="saveProfile()">Simpan</button>
+                <button class="btn btn-primary" onclick="saveProfile()">Simpan</button>
             </div>
         </div>
     </div>
@@ -501,18 +877,20 @@
             </div>
             <div class="form-group">
                 <label>Notifikasi</label>
-                <div>
-                    <input type="checkbox" id="notif-email" checked>
-                    <label for="notif-email">Email</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="notif-browser" checked>
-                    <label for="notif-browser">Browser</label>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="notif-email" checked>
+                        Email
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="notif-browser" checked>
+                        Browser
+                    </label>
                 </div>
             </div>
             <div class="modal-actions">
                 <button class="btn btn-cancel" onclick="closeModal('pengaturan-akun-modal')">Batal</button>
-                <button class="btn" onclick="saveAccountSettings()">Simpan</button>
+                <button class="btn btn-primary" onclick="saveAccountSettings()">Simpan</button>
             </div>
         </div>
     </div>
@@ -534,7 +912,7 @@
             </div>
             <div class="modal-actions">
                 <button class="btn btn-cancel" onclick="closeModal('ubah-password-modal')">Batal</button>
-                <button class="btn" onclick="changePassword()">Ubah Password</button>
+                <button class="btn btn-primary" onclick="changePassword()">Ubah Password</button>
             </div>
         </div>
     </div>
@@ -553,50 +931,54 @@
     <script>
         // Fungsi untuk menampilkan section tertentu
         function showSection(sectionId) {
-            alert(`Membuka section: ${sectionId}`);
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Update page title
+            const pageTitle = document.querySelector('.page-title h1');
+            const sectionTitles = {
+                'dashboard': 'Dashboard',
+                'data-pelanggan': 'Data Pelanggan',
+                'paket-internet': 'Paket Internet',
+                'laporan-gangguan': 'Laporan Gangguan',
+                'uptime-server': 'Uptime Server',
+                'faq': 'FAQ',
+                'pengaturan-sistem': 'Pengaturan Sistem'
+            };
+            
+            if (sectionTitles[sectionId]) {
+                pageTitle.textContent = sectionTitles[sectionId];
+            }
+            
             // Di implementasi nyata, ini akan menampilkan konten yang sesuai
+            console.log(`Membuka section: ${sectionId}`);
         }
         
         // Fungsi untuk menampilkan modal
         function showModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
+            document.getElementById(modalId).classList.add('show');
         }
         
         // Fungsi untuk menutup modal
         function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-        
-        // Fungsi untuk menangani menu user
-        function handleUserMenu(value) {
-            switch(value) {
-                case 'pengaturan-akun':
-                    showModal('pengaturan-akun-modal');
-                    break;
-                case 'ubah-password':
-                    showModal('ubah-password-modal');
-                    break;
-                case 'logout':
-                    showModal('logout-modal');
-                    break;
-                default:
-                    showModal('profil-modal');
-            }
-            // Reset dropdown
-            document.getElementById('userMenu').value = '';
+            document.getElementById(modalId).classList.remove('show');
         }
         
         // Fungsi untuk logout
         function confirmLogout() {
-            alert('Anda telah logout. Mengarahkan ke halaman login...');
-            // Di implementasi nyata, ini akan menghapus session dan redirect ke halaman login
-            window.location.href = 'login.html';
+            // Simulasi logout
+            alert('Anda telah logout. Mengarahkan ke website utama...');
+            
+            // Redirect ke website utama
+            window.location.href = 'index.html'; // Ganti dengan URL website utama
         }
         
         // Fungsi untuk kembali ke website utama
         function goToWebsite() {
-            alert('Mengarahkan ke website utama DEDE05 TASIK...');
-            window.location.href = 'https://www.dede05tasik.com';
+            window.location.href = 'index.html'; // Ganti dengan URL website utama
         }
         
         // Fungsi untuk export data
@@ -623,14 +1005,43 @@
             closeModal('ubah-password-modal');
         }
         
-        // Tutup modal jika klik di luar konten modal
-        window.onclick = function(event) {
+        // Dropdown functionality
+        document.getElementById('dropdownToggle').addEventListener('click', function() {
+            document.getElementById('dropdownMenu').classList.toggle('show');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('dropdownMenu');
+            const toggle = document.getElementById('dropdownToggle');
+            
+            if (!toggle.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+        
+        // Mobile menu functionality
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', function(event) {
             const modals = document.getElementsByClassName('modal');
             for (let i = 0; i < modals.length; i++) {
                 if (event.target == modals[i]) {
-                    modals[i].style.display = 'none';
+                    modals[i].classList.remove('show');
                 }
             }
+        });
+        
+        // Close sidebar when clicking on a link in mobile view
+        if (window.innerWidth <= 992) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.getElementById('sidebar').classList.remove('active');
+                });
+            });
         }
     </script>
 </body>

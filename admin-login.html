@@ -6,15 +6,16 @@
     <title>Admin Login • DEDE05 TASIK</title>
     <style>
         :root {
-            --pink: #ff2abf;
-            --pink-dark: #e024a8;
-            --black: #0b0b0b;
-            --card-bg: #0f0f10;
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+            --blue-light: #3b82f6;
             --white: #ffffff;
-            --gray: #bfbfbf;
-            --border: rgba(255, 255, 255, 0.05);
+            --gray-light: #f8fafc;
+            --gray: #64748b;
+            --gray-dark: #334155;
+            --border: #e2e8f0;
             --radius: 12px;
-            --shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -25,8 +26,8 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: var(--gray-dark);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -40,7 +41,7 @@
         }
 
         .login-card {
-            background: var(--card-bg);
+            background: var(--white);
             border-radius: var(--radius);
             padding: 40px 30px;
             border: 1px solid var(--border);
@@ -60,7 +61,7 @@
             width: 50px;
             height: 50px;
             border-radius: 10px;
-            background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+            background: linear-gradient(135deg, var(--blue), var(--blue-dark));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -72,6 +73,7 @@
         .logo-text h1 {
             font-size: 1.4rem;
             font-weight: 700;
+            color: var(--gray-dark);
         }
 
         .logo-text span {
@@ -82,6 +84,7 @@
         h2 {
             margin-bottom: 10px;
             font-size: 1.5rem;
+            color: var(--gray-dark);
         }
 
         .subtitle {
@@ -99,15 +102,16 @@
             margin-bottom: 8px;
             font-weight: 600;
             font-size: 0.9rem;
+            color: var(--gray-dark);
         }
 
         .form-control {
             width: 100%;
             padding: 14px 16px;
-            background: var(--black);
+            background: var(--white);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            color: var(--white);
+            color: var(--gray-dark);
             font-family: inherit;
             font-size: 1rem;
             transition: all 0.3s ease;
@@ -115,15 +119,15 @@
 
         .form-control:focus {
             outline: none;
-            border-color: var(--pink);
-            box-shadow: 0 0 0 2px rgba(255, 42, 191, 0.1);
+            border-color: var(--blue);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
         }
 
         .btn {
             width: 100%;
             padding: 14px;
-            background: var(--pink);
-            color: var(--black);
+            background: var(--blue);
+            color: var(--white);
             border: none;
             border-radius: var(--radius);
             font-size: 1rem;
@@ -134,8 +138,9 @@
         }
 
         .btn:hover {
-            background: var(--pink-dark);
+            background: var(--blue-dark);
             transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(37, 99, 235, 0.3);
         }
 
         .alert {
@@ -147,9 +152,9 @@
         }
 
         .alert-error {
-            background: rgba(244, 67, 54, 0.1);
-            border: 1px solid rgba(244, 67, 54, 0.3);
-            color: #f44336;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
         }
 
         .back-link {
@@ -158,10 +163,11 @@
             color: var(--gray);
             text-decoration: none;
             font-size: 0.9rem;
+            transition: color 0.3s ease;
         }
 
         .back-link:hover {
-            color: var(--white);
+            color: var(--blue);
         }
 
         @media (max-width: 480px) {

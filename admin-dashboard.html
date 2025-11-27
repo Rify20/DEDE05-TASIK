@@ -851,11 +851,11 @@
                     
                     <!-- Dropdown Menu -->
                     <div class="user-dropdown" id="userDropdown">
-                        <a href="#">
+                        <a href="#" id="profile-link">
                             <i class="fas fa-user"></i>
                             <span>Profil Saya</span>
                         </a>
-                        <a href="#">
+                        <a href="#" id="settings-link">
                             <i class="fas fa-cog"></i>
                             <span>Pengaturan</span>
                         </a>
@@ -1047,6 +1047,131 @@
                         <!-- Data paket akan diisi oleh JavaScript -->
                     </tbody>
                 </table>
+            </div>
+        </div>
+        
+        <!-- Profil Saya Content -->
+        <div id="profil-saya" class="content-area">
+            <div class="settings-section">
+                <h3>Informasi Profil</h3>
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label for="profile-name">Nama Lengkap</label>
+                        <input type="text" id="profile-name" value="Administrator" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-email">Email</label>
+                        <input type="email" id="profile-email" value="admin@dede05tasik.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-phone">Nomor Telepon</label>
+                        <input type="tel" id="profile-phone" value="+62 812-3456-7890">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-role">Jabatan</label>
+                        <input type="text" id="profile-role" value="Super Admin" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-join">Tanggal Bergabung</label>
+                        <input type="text" id="profile-join" value="15 Januari 2023" readonly>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Simpan Perubahan
+                    </button>
+                </form>
+            </div>
+            
+            <div class="settings-section">
+                <h3>Ubah Password</h3>
+                <form id="password-form">
+                    <div class="form-group">
+                        <label for="current-password">Password Saat Ini</label>
+                        <input type="password" id="current-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">Password Baru</label>
+                        <input type="password" id="new-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Konfirmasi Password Baru</label>
+                        <input type="password" id="confirm-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-key"></i>
+                        Ubah Password
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Pengaturan Content -->
+        <div id="pengaturan" class="content-area">
+            <div class="settings-section">
+                <h3>Pengaturan Umum</h3>
+                <form id="general-settings-form">
+                    <div class="form-group">
+                        <label for="site-name">Nama Situs</label>
+                        <input type="text" id="site-name" value="DEDE05 TASIK" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="site-description">Deskripsi Situs</label>
+                        <textarea id="site-description">Penyedia layanan internet terpercaya di Tasikmalaya dan sekitarnya</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="site-language">Bahasa</label>
+                        <select id="site-language">
+                            <option value="id">Bahasa Indonesia</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="site-timezone">Zona Waktu</label>
+                        <select id="site-timezone">
+                            <option value="WIB">WIB (Waktu Indonesia Barat)</option>
+                            <option value="WITA">WITA (Waktu Indonesia Tengah)</option>
+                            <option value="WIT">WIT (Waktu Indonesia Timur)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Simpan Pengaturan
+                    </button>
+                </form>
+            </div>
+            
+            <div class="settings-section">
+                <h3>Pengaturan Notifikasi</h3>
+                <form id="notification-settings-form">
+                    <div class="form-group">
+                        <label for="email-notifications">
+                            <input type="checkbox" id="email-notifications" checked>
+                            Notifikasi Email
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-user-notifications">
+                            <input type="checkbox" id="new-user-notifications" checked>
+                            Notifikasi Pendaftaran Pelanggan Baru
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="report-notifications">
+                            <input type="checkbox" id="report-notifications" checked>
+                            Notifikasi Laporan Gangguan
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="payment-notifications">
+                            <input type="checkbox" id="payment-notifications" checked>
+                            Notifikasi Pembayaran
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Simpan Pengaturan
+                    </button>
+                </form>
             </div>
         </div>
         
@@ -1342,6 +1467,19 @@
                 document.getElementById('userDropdown').classList.remove('active');
             });
             
+            // Profile and Settings links in dropdown
+            document.getElementById('profile-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                setActiveContent('profil-saya');
+                document.getElementById('userDropdown').classList.remove('active');
+            });
+            
+            document.getElementById('settings-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                setActiveContent('pengaturan');
+                document.getElementById('userDropdown').classList.remove('active');
+            });
+            
             // Logout functionality
             document.getElementById('logoutBtn').addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1362,6 +1500,29 @@
                 }
             });
             
+            // Profile form submission
+            document.getElementById('profile-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Profil berhasil diperbarui!');
+            });
+            
+            // Password form submission
+            document.getElementById('password-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Password berhasil diubah!');
+            });
+            
+            // Settings form submissions
+            document.getElementById('general-settings-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Pengaturan umum berhasil disimpan!');
+            });
+            
+            document.getElementById('notification-settings-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Pengaturan notifikasi berhasil disimpan!');
+            });
+            
             // FAQ toggle functionality
             const faqQuestions = document.querySelectorAll('.faq-question');
             faqQuestions.forEach(question => {
@@ -1374,30 +1535,6 @@
             // Other button functionality
             document.getElementById('export-btn').addEventListener('click', function() {
                 alert('Fitur export data akan segera tersedia!');
-            });
-            
-            document.getElementById('tambah-pelanggan-btn').addEventListener('click', function() {
-                alert('Fitur tambah pelanggan akan segera tersedia!');
-            });
-            
-            document.getElementById('tambah-laporan-btn').addEventListener('click', function() {
-                alert('Fitur tambah laporan akan segera tersedia!');
-            });
-            
-            document.getElementById('refresh-status-btn').addEventListener('click', function() {
-                alert('Status server telah diperbarui!');
-            });
-            
-            document.getElementById('tambah-faq-btn').addEventListener('click', function() {
-                alert('Fitur tambah FAQ akan segera tersedia!');
-            });
-            
-            document.getElementById('simpan-pengaturan-btn').addEventListener('click', function() {
-                alert('Pengaturan berhasil disimpan!');
-            });
-            
-            document.getElementById('simpan-notifikasi-btn').addEventListener('click', function() {
-                alert('Pengaturan notifikasi berhasil disimpan!');
             });
             
             function setActiveContent(target) {

@@ -3,569 +3,330 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DEDE05 TASIK - Admin Panel (Full Expanded)</title>
+  <title>DEDE05 TASIK - Admin Dashboard</title>
 
-  <!-- Fonts & Icons (CDN) -->
+  <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-  <!-- ============================================================
-       STYLES (very verbose and sectioned so file becomes "long")
-       ============================================================ -->
   <style>
-    /* =========================================================================
-       ROOT VARIABLES
-       - Using many variables so styles are explicit and long
-       ========================================================================= */
     :root{
       --bg: #eef1f7;
       --card-bg: #ffffff;
       --muted: #f3f6fb;
       --accent: #1E6CE1;
       --accent-2: #0A3D91;
-      --success: #2ecc71;
       --danger: #e74c3c;
       --text: #1f2937;
       --subtext: #6b7280;
       --radius: 12px;
       --shadow-1: 0 3px 14px rgba(15,30,80,0.06);
-      --glass: rgba(255,255,255,0.6);
       --transition-fast: 160ms;
-      --transition-med: 260ms;
       --max-width: 1200px;
     }
 
-    /* =========================================================================
-       BASE RESET
-       ========================================================================= */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html,body,#app { height: 100%; }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html,body,#app{height:100%;}
     body{
-      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: var(--bg);
-      color: var(--text);
+      font-family:'Poppins',system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:var(--bg);
+      color:var(--text);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      line-height: 1.4;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
+      line-height:1.4;
+      padding:20px;
+      display:flex;
+      justify-content:center;
+    }
+    .shell{
+      width:100%;
+      max-width:var(--max-width);
+      display:flex;
+      gap:20px;
+      align-items:stretch;
     }
 
-    /* container to center content and limit width */
-    .shell {
-      width: 100%;
-      max-width: var(--max-width);
-      display: flex;
-      gap: 20px;
-      align-items: stretch;
+    /* SIDEBAR */
+    .sidebar{
+      width:280px;
+      min-height:calc(100vh - 40px);
+      background:linear-gradient(180deg,var(--accent-2),var(--accent));
+      color:#fff;
+      border-radius:16px;
+      padding:22px;
+      box-shadow:var(--shadow-1);
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      transition:width var(--transition-fast) ease;
     }
-
-    /* =========================================================================
-       SIDEBAR (left)
-       - collapsible
-       - explicit, lengthy styles to be verbose
-       ========================================================================= */
-    .sidebar {
-      width: 280px;
-      min-height: calc(100vh - 40px);
-      background: linear-gradient(180deg,var(--accent-2), var(--accent));
-      color: #fff;
-      border-radius: 16px;
-      padding: 22px;
-      box-shadow: var(--shadow-1);
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      transition: width var(--transition-fast) ease;
-      position: relative;
+    .sidebar.collapsed{width:84px;}
+    .brand{display:flex;gap:12px;align-items:center;}
+    .brand .logo{
+      width:56px;height:56px;border-radius:12px;
+      background:linear-gradient(180deg,#2e83ff,#1e6ce1);
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;box-shadow:0 6px 18px rgba(10,30,90,0.18);
     }
-
-    .sidebar.collapsed {
-      width: 84px;
+    .brand .text{font-weight:700;font-size:18px;line-height:1;}
+    .sidebar .meta{color:rgba(255,255,255,.85);font-size:13px;}
+    .collapse-btn{
+      margin-left:auto;background:rgba(255,255,255,0.08);
+      border:none;color:#fff;padding:8px;border-radius:10px;cursor:pointer;
     }
-
-    .brand {
-      display: flex;
-      gap: 12px;
-      align-items: center;
+    .nav{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+    .nav a{
+      display:flex;gap:12px;align-items:center;
+      text-decoration:none;color:rgba(255,255,255,0.9);
+      padding:10px;border-radius:10px;
+      transition:background var(--transition-fast),transform var(--transition-fast);
+      font-weight:500;font-size:15px;
     }
-
-    .brand .logo {
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
-      background: linear-gradient(180deg,#2e83ff,#1e6ce1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      box-shadow: 0 6px 18px rgba(10,30,90,0.18);
+    .nav a:hover{background:rgba(255,255,255,0.06);transform:translateX(2px);}
+    .nav a .ico{width:40px;text-align:center;font-size:18px;}
+    .nav a .label{white-space:nowrap;}
+    .nav a .badge{
+      margin-left:auto;background:white;color:var(--accent-2);
+      padding:4px 8px;border-radius:12px;font-weight:700;font-size:12px;
     }
-
-    .brand .text {
-      font-weight: 700;
-      font-size: 18px;
-      line-height: 1;
-    }
-
-    /* nav list */
-    .nav {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .nav a {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      text-decoration: none;
-      color: rgba(255,255,255,0.9);
-      padding: 10px;
-      border-radius: 10px;
-      transition: background var(--transition-fast), transform var(--transition-fast);
-      font-weight: 500;
-      font-size: 15px;
-    }
-
-    .nav a:hover { background: rgba(255,255,255,0.06); transform: translateX(2px); }
-
-    .nav a .ico {
-      width: 40px;
-      text-align: center;
-      font-size: 18px;
-    }
-
-    .nav a .label { white-space: nowrap; }
-
-    .nav a .badge {
-      margin-left: auto;
-      background: white;
-      color: var(--accent-2);
-      padding: 4px 8px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 12px;
-    }
-
-    /* collapse button */
-    .collapse-btn {
-      margin-left: auto;
-      background: rgba(255,255,255,0.08);
-      border: none;
-      color: #fff;
-      padding: 8px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    /* small helper text that hides on collapse */
-    .sidebar .meta {
-      color: rgba(255,255,255,0.85);
-      font-size: 13px;
-      opacity: 0.95;
-    }
-
     .sidebar.collapsed .label,
     .sidebar.collapsed .meta,
-    .sidebar.collapsed .brand .text {
-      display: none;
+    .sidebar.collapsed .brand .text{display:none;}
+
+    /* MAIN */
+    .main{
+      flex:1;
+      min-height:calc(100vh - 40px);
+      border-radius:16px;
+      background:transparent;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+    .header-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+    }
+    .header-title{font-weight:700;font-size:20px;}
+    .tiny{font-size:12px;color:#9aa4b2;}
+    .muted{color:var(--subtext);}
+
+    .search{
+      display:flex;align-items:center;gap:10px;
+      background:var(--card-bg);padding:10px 12px;
+      border-radius:12px;width:520px;
+      box-shadow:var(--shadow-1);
+      border:1px solid rgba(0,0,0,0.03);
+    }
+    .search input{
+      border:none;outline:none;font-size:14px;
+      flex:1;background:transparent;
+    }
+    .profile{
+      display:flex;align-items:center;gap:10px;
+      padding:8px 12px;background:var(--card-bg);
+      border-radius:999px;box-shadow:var(--shadow-1);
+    }
+    .profile .avatar{
+      width:44px;height:44px;border-radius:50%;
+      background:var(--accent);color:white;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;box-shadow:0 6px 18px rgba(30,108,225,0.12);
     }
 
-    /* =========================================================================
-       MAIN PANEL
-       ========================================================================= */
-    .main {
-      flex: 1;
-      min-height: calc(100vh - 40px);
-      border-radius: 16px;
-      background: transparent; /* keep background so inner cards pop */
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
+    .stats{display:flex;gap:16px;margin-top:6px;}
+    .stat{
+      background:var(--card-bg);padding:18px;border-radius:12px;
+      flex:1;box-shadow:var(--shadow-1);
+      display:flex;align-items:center;gap:12px;
+    }
+    .stat .s-ico{
+      width:56px;height:56px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:18px;color:var(--accent-2);
+      background:linear-gradient(180deg,#d8e9ff,#fff);font-weight:700;
+    }
+    .stat .s-body{display:flex;flex-direction:column;}
+    .stat .s-title{font-size:14px;color:var(--subtext);font-weight:600;}
+    .stat .s-value{font-weight:700;font-size:20px;}
+
+    .content-card{
+      background:var(--card-bg);
+      padding:18px;
+      border-radius:12px;
+      box-shadow:var(--shadow-1);
+    }
+    .btn{
+      border:none;cursor:pointer;font-family:inherit;
+      font-size:14px;padding:8px 12px;border-radius:8px;
+      display:inline-flex;align-items:center;gap:6px;
+      background:var(--card-bg);box-shadow:var(--shadow-1);
+      transition:transform 160ms,box-shadow 160ms,opacity 160ms;
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 6px 16px rgba(15,30,80,0.16);
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:#fff;border:none;
     }
 
-    /* topbar */
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
+    .table-wrap{margin-top:14px;overflow-x:auto;}
+    table{
+      width:100%;border-collapse:collapse;
+      min-width:760px;font-size:14px;
+    }
+    thead tr th{
+      text-align:left;padding:12px 14px;
+      background:var(--muted);font-weight:700;
+    }
+    tbody tr td{
+      padding:12px 14px;border-bottom:1px solid #f1f5fb;
+      vertical-align:middle;
+    }
+    .badge-pill{
+      display:inline-block;padding:6px 10px;
+      border-radius:999px;background:#f4f7fc;
+      color:var(--accent-2);font-weight:700;font-size:12px;
+    }
+    .actions .btn{margin-right:6px;font-size:13px;padding:6px 10px;}
+    .pagination{
+      display:flex;gap:8px;margin-top:12px;
+      justify-content:flex-end;align-items:center;
+    }
+    .page-btn{
+      padding:8px 10px;border-radius:8px;
+      background:#fff;border:1px solid rgba(0,0,0,0.04);
+      cursor:pointer;
+    }
+    .page-btn.active{
+      background:var(--accent);color:white;border-color:transparent;
     }
 
-    .search {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--card-bg);
-      padding: 10px 12px;
-      border-radius: 12px;
-      width: 520px;
-      box-shadow: var(--shadow-1);
-      border: 1px solid rgba(0,0,0,0.03);
+    /* MODAL */
+    .modal{
+      position:fixed;left:0;top:0;right:0;bottom:0;
+      display:none;background:rgba(7,10,20,0.45);
+      align-items:center;justify-content:center;
+      z-index:9999;padding:22px;
+    }
+    .modal.show{display:flex;}
+    .modal-card{
+      width:560px;max-width:calc(100% - 40px);
+      border-radius:12px;padding:20px;background:var(--card-bg);
+      box-shadow:0 10px 40px rgba(10,30,80,0.12);
+    }
+    .modal-grid{
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:12px;margin-top:10px;
+    }
+    .field{display:flex;flex-direction:column;gap:6px;}
+    .field label{font-size:13px;font-weight:600;color:var(--subtext);}
+    .field input,.field select{
+      padding:10px 12px;border-radius:8px;
+      border:1px solid #e6eefc;font-size:14px;
+      outline:none;transition:border 160ms,box-shadow 160ms;
+    }
+    .field input:focus,.field select:focus{
+      box-shadow:0 6px 18px rgba(30,108,225,0.06);
+      border-color:var(--accent);
+    }
+    .modal-footer{
+      display:flex;justify-content:flex-end;
+      gap:12px;margin-top:16px;
     }
 
-    .search input {
-      border: none;
-      outline: none;
-      font-size: 14px;
-      flex: 1;
-      background: transparent;
+    @media(max-width:980px){
+      .sidebar{display:none;}
+      .shell{padding:0 12px;}
+      .search{width:100%;}
+      .modal-card{width:100%;}
+      table{min-width:auto;font-size:13px;}
     }
-
-    .profile {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 12px;
-      background: var(--card-bg);
-      border-radius: 999px;
-      box-shadow: var(--shadow-1);
-    }
-
-    .profile .avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: var(--accent);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      box-shadow: 0 6px 18px rgba(30,108,225,0.12);
-    }
-
-    /* header area card */
-    .header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .header-title {
-      font-weight: 700;
-      font-size: 20px;
-    }
-
-    /* stats cards */
-    .stats {
-      display: flex;
-      gap: 16px;
-      margin-top: 6px;
-    }
-
-    .stat {
-      background: var(--card-bg);
-      padding: 18px;
-      border-radius: 12px;
-      flex: 1;
-      box-shadow: var(--shadow-1);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .stat .s-ico {
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: var(--accent-2);
-      background: linear-gradient(180deg,#d8e9ff,#fff);
-      font-weight: 700;
-    }
-
-    .stat .s-body {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .stat .s-title {
-      font-size: 14px;
-      color: var(--subtext);
-      font-weight: 600;
-    }
-
-    .stat .s-value {
-      font-weight: 700;
-      font-size: 20px;
-    }
-
-    /* content area (table) */
-    .content-card {
-      background: var(--card-bg);
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: var(--shadow-1);
-      overflow: hidden;
-    }
-
-    .table-wrap {
-      margin-top: 12px;
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 760px;
-      font-size: 14px;
-    }
-
-    table thead tr th {
-      text-align: left;
-      padding: 12px 14px;
-      background: var(--muted);
-      font-weight: 700;
-    }
-
-    table tbody tr td {
-      padding: 12px 14px;
-      border-bottom: 1px solid #f1f5fb;
-      vertical-align: middle;
-    }
-
-    .badge-pill {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #f4f7fc;
-      color: var(--accent-2);
-      font-weight: 700;
-      font-size: 12px;
-    }
-
-    .actions .btn {
-      margin-right: 6px;
-      font-size: 13px;
-      padding: 6px 10px;
-    }
-
-    /* pagination */
-    .pagination {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-      justify-content: flex-end;
-      align-items: center;
-    }
-
-    .page-btn {
-      padding: 8px 10px;
-      border-radius: 8px;
-      background: #fff;
-      border: 1px solid rgba(0,0,0,0.04);
-      cursor: pointer;
-    }
-
-    .page-btn.active {
-      background: var(--accent);
-      color: white;
-      border-color: transparent;
-    }
-
-    /* modal styles (long and explicit) */
-    .modal {
-      position: fixed;
-      left: 0; top: 0; right: 0; bottom: 0;
-      display: none;
-      background: rgba(7,10,20,0.45);
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      padding: 22px;
-      transition: opacity var(--transition-fast);
-    }
-
-    .modal.show { display: flex; }
-
-    .modal-card {
-      width: 560px;
-      max-width: calc(100% - 40px);
-      border-radius: 12px;
-      padding: 20px;
-      background: var(--card-bg);
-      box-shadow: 0 10px 40px rgba(10,30,80,0.12);
-    }
-
-    .modal-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .field label { font-size: 13px; font-weight: 600; color: var(--subtext); }
-    .field input, .field select, .field textarea {
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid #e6eefc;
-      font-size: 14px;
-      outline: none;
-      transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
-    }
-
-    .field input:focus, .field select:focus, .field textarea:focus {
-      box-shadow: 0 6px 18px rgba(30,108,225,0.06);
-      border-color: var(--accent);
-    }
-
-    .modal-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    /* helpful micro styles */
-    .muted { color: var(--subtext); font-size: 13px; }
-    .tiny { font-size: 12px; color: #9aa4b2; }
-
-    /* responsive */
-    @media (max-width: 980px) {
-      .sidebar { display: none; }
-      .shell { padding: 0 12px; }
-      .search { width: 100%; }
-      .modal-card { width: 100%; }
-      table { min-width: auto; font-size: 13px; }
-    }
-
-    /* long comment: repeating a bit to add "verbose" feel */
-    /* This CSS section intentionally verbose to emulate long file size.
-       Real project would extract to separate files. For demo, kept inline. */
   </style>
-
 </head>
 <body>
-  <!-- APP SHELL -->
   <div id="app" class="shell" role="application" aria-label="DEDE05 TASIK Admin Panel">
-
-    <!-- SIDEBAR: left column -->
-    <aside id="sidebar" class="sidebar" aria-label="Sidebar navigation">
-      <div class="brand" aria-hidden="false">
-        <div class="logo" aria-hidden="true">AD</div>
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar">
+      <div class="brand">
+        <div class="logo">AD</div>
         <div>
           <div class="text">DEDE05 TASIK</div>
-          <div class="meta">Admin Panel</div>
+          <div class="meta">Admin Dashboard</div>
         </div>
-        <!-- collapse control -->
-        <button id="btnCollapse" class="collapse-btn" aria-label="Collapse sidebar" title="Toggle sidebar" style="margin-left:auto">
+        <button id="btnCollapse" class="collapse-btn" title="Collapse sidebar">
           <i class="fa fa-angle-left"></i>
         </button>
       </div>
 
-      <!-- navigation -->
       <nav>
-        <ul class="nav" role="menu" aria-label="Main menu">
-          <li role="none">
-            <a href="#" role="menuitem" data-section="dashboard" class="active">
-              <div class="ico"><i class="fa fa-chart-line"></i></div>
-              <div class="label">Dashboard</div>
-            </a>
-          </li>
-
-          <li role="none">
-            <a href="#" role="menuitem" data-section="paket">
-              <div class="ico"><i class="fa fa-wifi"></i></div>
-              <div class="label">Paket Internet</div>
-              <div class="badge">3</div>
-            </a>
-          </li>
-
-          <li role="none">
-            <a href="#" role="menuitem" data-section="pelanggan">
-              <div class="ico"><i class="fa fa-users"></i></div>
-              <div class="label">Pelanggan</div>
-            </a>
-          </li>
-
-          <li role="none">
-            <a href="#" role="menuitem" data-section="laporan">
-              <div class="ico"><i class="fa fa-triangle-exclamation"></i></div>
-              <div class="label">Laporan Gangguan</div>
-              <div class="badge">5</div>
-            </a>
-          </li>
-
-          <li role="none">
-            <a href="#" role="menuitem" data-section="server">
-              <div class="ico"><i class="fa fa-server"></i></div>
-              <div class="label">Uptime Server</div>
-            </a>
-          </li>
-
-          <li role="none">
-            <a href="#" role="menuitem" data-section="pengaturan">
-              <div class="ico"><i class="fa fa-gear"></i></div>
-              <div class="label">Pengaturan</div>
-            </a>
-          </li>
+        <ul class="nav">
+          <li><a href="#" class="active">
+            <div class="ico"><i class="fa fa-wifi"></i></div>
+            <div class="label">Paket Internet</div>
+          </a></li>
         </ul>
       </nav>
 
-      <!-- FOOTER / small info in sidebar -->
       <div style="margin-top:auto;font-size:13px;opacity:.95">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <div class="tiny">Logged as</div>
           <div class="tiny">admin</div>
         </div>
         <div style="height:8px"></div>
-        <button id="btnLogout" class="page-btn" style="width:100%;background:#fff;color:var(--accent-2);border:none;padding:10px;border-radius:8px;cursor:pointer">Logout</button>
+        <button id="btnLogout"
+                style="width:100%;background:#fff;color:var(--accent-2);border:none;padding:10px;border-radius:8px;cursor:pointer">
+          Logout
+        </button>
       </div>
     </aside>
 
-    <!-- MAIN (right) -->
-    <main class="main" role="main" aria-live="polite">
-
-      <!-- TOPBAR -->
+    <!-- MAIN -->
+    <main class="main">
       <div class="topbar">
         <div style="display:flex;flex-direction:column;gap:6px;">
           <div class="header-row">
             <div>
-              <div class="header-title" id="pageTitle">Paket Internet</div>
-              <div class="tiny muted">Mengelola paket, harga, dan status</div>
+              <div class="header-title">Paket Internet</div>
+              <div class="tiny muted">Mengelola paket yang tampil di halaman depan (index.html)</div>
             </div>
 
             <div style="display:flex;align-items:center;gap:8px;">
-              <div class="search" title="Pencarian">
-                <i class="fa fa-search" style="color:var(--subtext)"></i>
-                <input id="searchInput" placeholder="Cari nama paket, kecepatan, harga..." aria-label="Cari paket">
-                <button id="clearSearch" title="Bersihkan pencarian" style="display:none;background:transparent;border:0;cursor:pointer"><i class="fa fa-times"></i></button>
+              <div class="search">
+                <i class="fa fa-search" style="color:#6b7280"></i>
+                <input id="searchInput" placeholder="Cari nama paket, kecepatan, harga...">
+                <button id="clearSearch" style="display:none;background:transparent;border:0;cursor:pointer">
+                  <i class="fa fa-times"></i>
+                </button>
               </div>
 
               <div style="width:10px"></div>
 
               <div style="display:flex;gap:8px;align-items:center;">
-                <div class="profile" aria-hidden="false">
-                  <div class="avatar" aria-hidden="true">AD</div>
+                <div class="profile">
+                  <div class="avatar">AD</div>
                   <div style="display:flex;flex-direction:column;">
                     <div style="font-weight:700">Administrator</div>
                     <div class="tiny muted">Super Admin</div>
                   </div>
                 </div>
 
-                <button id="btnExport" class="btn page-btn" title="Export CSV"><i class="fa fa-file-csv"></i></button>
-                <button id="btnTheme" class="btn page-btn" title="Toggle theme"><i class="fa fa-moon"></i></button>
+                <button id="btnExport" class="btn" title="Export CSV"><i class="fa fa-file-csv"></i></button>
               </div>
             </div>
           </div>
 
-          <!-- cards -->
-          <div class="stats" role="region" aria-label="Statistik paket">
+          <div class="stats">
             <div class="stat">
               <div class="s-ico"><i class="fa fa-wifi"></i></div>
               <div class="s-body">
@@ -573,19 +334,17 @@
                 <div class="s-value" id="statTotal">0 Paket</div>
               </div>
             </div>
-
             <div class="stat">
               <div class="s-ico"><i class="fa fa-users"></i></div>
               <div class="s-body">
-                <div class="s-title">Total Pelanggan</div>
+                <div class="s-title">Perkiraan Pelanggan</div>
                 <div class="s-value" id="statPelanggan">0</div>
               </div>
             </div>
-
             <div class="stat">
               <div class="s-ico"><i class="fa fa-server"></i></div>
               <div class="s-body">
-                <div class="s-title">Server Uptime</div>
+                <div class="s-title">Server Uptime (simulasi)</div>
                 <div class="s-value" id="statUptime">99.99%</div>
               </div>
             </div>
@@ -593,8 +352,7 @@
         </div>
       </div>
 
-      <!-- CONTENT: table and actions -->
-      <section class="content-card" aria-label="Daftar Paket">
+      <section class="content-card">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <div style="display:flex;gap:10px;align-items:center">
             <button id="btnAdd" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Paket</button>
@@ -613,21 +371,19 @@
           </div>
         </div>
 
-        <div class="table-wrap" style="margin-top:14px">
-          <table id="paketTable" role="table" aria-label="Tabel paket">
+        <div class="table-wrap">
+          <table id="paketTable">
             <thead>
               <tr>
                 <th>Nama Paket</th>
                 <th>Kecepatan</th>
                 <th>Harga</th>
-                <th>Pelanggan</th>
+                <th>Perkiraan Pelanggan</th>
                 <th>Status</th>
                 <th style="text-align:right">Aksi</th>
               </tr>
             </thead>
-            <tbody id="tableBody">
-              <!-- dynamic -->
-            </tbody>
+            <tbody id="tableBody"></tbody>
           </table>
         </div>
 
@@ -636,296 +392,73 @@
           <div class="pagination" id="pagination"></div>
         </div>
       </section>
-
     </main>
   </div>
 
-  <!-- MODAL: FORM ADD / EDIT -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-card" role="document" aria-labelledby="modalTitle">
+  <!-- MODAL -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-card">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <h3 id="modalTitle">Tambah Paket</h3>
         <button id="modalClose" class="page-btn"><i class="fa fa-times"></i></button>
       </div>
 
-      <p class="muted tiny" id="modalHint">Isi detail paket, lalu simpan.</p>
+      <p class="muted tiny">Perubahan akan langsung tersimpan dan dipakai oleh halaman depan.</p>
 
       <div class="modal-grid">
         <div class="field">
           <label for="fNama">Nama Paket</label>
           <input id="fNama" type="text" placeholder="Contoh: Basic ULTRAMAN">
         </div>
-
         <div class="field">
           <label for="fKecepatan">Kecepatan</label>
           <input id="fKecepatan" type="text" placeholder="Contoh: 10 Mbps">
         </div>
-
         <div class="field">
-          <label for="fHarga">Harga (angka tanpa titik/format bebas)</label>
+          <label for="fHarga">Harga (boleh 99000 / Rp 99.000)</label>
           <input id="fHarga" type="text" placeholder="Contoh: Rp 99.000">
         </div>
-
         <div class="field">
           <label for="fStatus">Status</label>
           <select id="fStatus">
-            <option value="AKTIF">AKTIF</option>
-            <option value="NONAKTIF">NONAKTIF</option>
+            <option value="active">AKTIF (tampil di depan)</option>
+            <option value="inactive">NONAKTIF (disembunyikan)</option>
           </select>
         </div>
-
       </div>
 
       <div class="modal-footer">
-        <button id="btnCancel" class="page-btn">Batal</button>
+        <button id="btnCancel" class="btn">Batal</button>
         <button id="btnSave" class="btn btn-primary">Simpan</button>
       </div>
     </div>
   </div>
 
-  <!-- =========================================================================
-       SCRIPTS
-       - Verbose, modular, heavily commented
-       - All functionality implemented here
-       ========================================================================= -->
   <script>
-    /**********************************************************************
-     * Dashboard Full Script
-     * - Handles data storage, rendering, search, pagination, sort, modal
-     * - Designed to be explicit & verbose for teaching and "long file" vibes
-     **********************************************************************/
+    /* ==== Helpers ==== */
+    const $  = (s,c=document)=>c.querySelector(s);
+    const $$ = (s,c=document)=>Array.from(c.querySelectorAll(s));
 
-    /* ---------------------------
-       Utilities
-       --------------------------- */
+    const STORAGE_KEY = 'websitePackages'; // DIPAKAI index.html juga
 
-    // Simple DOM helpers to make code longer but readable
-    const $ = (sel, ctx=document) => ctx.querySelector(sel);
-    const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
-
-    // Format number to Indonesian currency-like string (best-effort)
-    function formatCurrency(val) {
-      // Accept numeric or string, try to preserve existing prefix 'Rp'
-      if (val === null || val === undefined) return '';
-      let s = String(val).trim();
-      // if already contains 'Rp' or non-digit, return as-is for safety
-      if (/[^0-9\.\,\s]/.test(s)) {
-        // remove extra whitespace
-        return s;
-      }
-      // fallback: format with thousand separator
-      let n = Number(s.replace(/[^\d.-]/g,''));
-      if (isNaN(n)) return s;
-      return 'Rp ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    function formatCurrency(val){
+      if(val===null||val===undefined)return '';
+      let s=String(val).trim();
+      if(/[^0-9\.\,\s]/.test(s) && s.includes('Rp')) return s;
+      let n=Number(s.replace(/[^\d.-]/g,''));
+      if(isNaN(n))return s;
+      return 'Rp '+n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".");
     }
-
-    // parse currency back to number
-    function parseCurrency(str) {
-      if (!str) return 0;
-      let s = String(str).replace(/[^\d\-\.]/g,'');
-      let n = Number(s);
-      if (isNaN(n)) return 0;
-      return n;
+    function parseCurrency(str){
+      if(!str)return 0;
+      let s=String(str).replace(/[^\d\-\.]/g,'');
+      let n=Number(s);
+      return isNaN(n)?0:n;
     }
-
-    // generate ID (simple)
-    function uid(prefix='id') {
-      return prefix + '_' + Math.random().toString(36).slice(2,9);
-    }
-
-    // small debounce
-    function debounce(fn, wait=200) {
-      let t;
-      return (...args) => {
-        clearTimeout(t);
-        t = setTimeout(()=>fn(...args), wait);
-      };
-    }
-
-    /* ---------------------------
-       App State
-       --------------------------- */
-
-    let STATE = {
-      paketData: [],        // array of paket objects { id, nama, kecepatan, harga, pelanggan, status }
-      filter: '',
-      page: 1,
-      pageSize: 8,
-      sortBy: 'default',
-      editId: null,
-      theme: 'light'
-    };
-
-    // Storage key
-    const STORAGE_KEY = 'dede05_paket_v1';
-
-    /* ---------------------------
-       DOM references
-       --------------------------- */
-    const sidebar = $('#sidebar');
-    const btnCollapse = $('#btnCollapse');
-    const btnLogout = $('#btnLogout');
-    const btnAdd = $('#btnAdd');
-    const btnSave = $('#btnSave');
-    const btnCancel = $('#btnCancel');
-    const modal = $('#modal');
-    const modalClose = $('#modalClose');
-    const fNama = $('#fNama');
-    const fKecepatan = $('#fKecepatan');
-    const fHarga = $('#fHarga');
-    const fStatus = $('#fStatus');
-    const tableBody = $('#tableBody');
-    const searchInput = $('#searchInput');
-    const clearSearch = $('#clearSearch');
-    const pagination = $('#pagination');
-    const tableInfo = $('#tableInfo');
-    const statTotal = $('#statTotal');
-    const statPelanggan = $('#statPelanggan');
-    const statUptime = $('#statUptime');
-    const sortBy = $('#sortBy');
-    const btnExport = $('#btnExport');
-    const btnTheme = $('#btnTheme');
-
-    /* ---------------------------
-       Initialization
-       --------------------------- */
-
-    // boot: load from localStorage or seed demo data
-    function boot() {
-      // try load
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        try {
-          const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed)) {
-            STATE.paketData = parsed;
-          } else {
-            STATE.paketData = seedData();
-            persist();
-          }
-        } catch(e) {
-          STATE.paketData = seedData();
-          persist();
-        }
-      } else {
-        STATE.paketData = seedData();
-        persist();
-      }
-
-      // initial render
-      render();
-      attachListeners();
-      updateStats();
-      applyTheme(STATE.theme);
-    }
-
-    // seed demo data (extended)
-    function seedData() {
-      const arr = [
-        { id: uid('p'), nama: 'Basic ULTRAMAN', kecepatan: '10 Mbps', harga: '99000', pelanggan: 24, status: 'AKTIF' },
-        { id: uid('p'), nama: 'Starter 20', kecepatan: '20 Mbps', harga: '149000', pelanggan: 18, status: 'AKTIF' },
-        { id: uid('p'), nama: 'Bisnis Pro', kecepatan: '50 Mbps', harga: '299000', pelanggan: 6, status: 'AKTIF' },
-        { id: uid('p'), nama: 'Premium Max', kecepatan: '100 Mbps', harga: '499000', pelanggan: 3, status: 'NONAKTIF' },
-        { id: uid('p'), nama: 'Rumahan Hemat', kecepatan: '8 Mbps', harga: '75000', pelanggan: 12, status: 'AKTIF' },
-        { id: uid('p'), nama: 'Gaming 75', kecepatan: '75 Mbps', harga: '399000', pelanggan: 9, status: 'AKTIF' },
-        { id: uid('p'), nama: 'Fiber Ultra', kecepatan: '150 Mbps', harga: '799000', pelanggan: 1, status: 'NONAKTIF' },
-        { id: uid('p'), nama: 'Office 1Gb', kecepatan: '1000 Mbps', harga: '1999000', pelanggan: 0, status: 'AKTIF' },
-        { id: uid('p'), nama: 'Siswa Paket', kecepatan: '5 Mbps', harga: '59000', pelanggan: 30, status: 'AKTIF' },
-        { id: uid('p'), nama: 'Promo Weekend', kecepatan: '25 Mbps', harga: '129000', pelanggan: 4, status: 'AKTIF' }
-      ];
-      return arr;
-    }
-
-    // persist state to storage
-    function persist() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE.paketData));
-      } catch(e) {
-        console.error('persist error', e);
-      }
-    }
-
-    /* ---------------------------
-       Rendering
-       --------------------------- */
-
-    // main render function - calculates filtered/sorted/paginated slice
-    function render() {
-      // apply filter
-      const q = (STATE.filter || '').toLowerCase().trim();
-
-      // sort copy
-      let list = STATE.paketData.slice();
-
-      // apply sorting
-      if (STATE.sortBy === 'nama_asc') {
-        list.sort((a,b) => a.nama.localeCompare(b.nama));
-      } else if (STATE.sortBy === 'nama_desc') {
-        list.sort((a,b) => b.nama.localeCompare(a.nama));
-      } else if (STATE.sortBy === 'harga_asc') {
-        list.sort((a,b) => Number(a.harga) - Number(b.harga));
-      } else if (STATE.sortBy === 'harga_desc') {
-        list.sort((a,b) => Number(b.harga) - Number(a.harga));
-      }
-
-      // filter
-      if (q) {
-        list = list.filter(p => {
-          return p.nama.toLowerCase().includes(q) || (p.kecepatan && p.kecepatan.toLowerCase().includes(q)) || (String(p.harga).toLowerCase().includes(q));
-        });
-      }
-
-      // pagination
-      const total = list.length;
-      const pageSize = STATE.pageSize;
-      const totalPages = Math.max(1, Math.ceil(total / pageSize));
-      if (STATE.page > totalPages) STATE.page = totalPages;
-      const start = (STATE.page - 1) * pageSize;
-      const end = start + pageSize;
-      const pageItems = list.slice(start, end);
-
-      // render rows
-      tableBody.innerHTML = '';
-      if (pageItems.length === 0) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td colspan="6" style="text-align:center;padding:24px" class="muted">Tidak ada paket yang cocok</td>`;
-        tableBody.appendChild(tr);
-      } else {
-        pageItems.forEach(item => {
-          const tr = document.createElement('tr');
-          tr.setAttribute('data-id', item.id);
-          tr.innerHTML = `
-            <td><strong>${escapeHtml(item.nama)}</strong><div class="tiny muted">${escapeHtml(item.id)}</div></td>
-            <td>${escapeHtml(item.kecepatan)}</td>
-            <td>${formatCurrency(item.harga)}</td>
-            <td>${item.pelanggan ?? 0}</td>
-            <td><span class="badge-pill">${item.status}</span></td>
-            <td style="text-align:right" class="actions">
-              <button class="btn page-btn btn-edit" title="Edit"><i class="fa fa-pen"></i></button>
-              <button class="btn page-btn btn-copy" title="Duplicate"><i class="fa fa-clone"></i></button>
-              <button class="btn page-btn btn-delete" title="Hapus" style="background:var(--danger);color:#fff"><i class="fa fa-trash"></i></button>
-            </td>
-          `;
-          tableBody.appendChild(tr);
-        });
-      }
-
-      // update table info
-      tableInfo.textContent = `Menampilkan ${Math.min(total, (start + 1))} - ${Math.min(total, end)} dari ${total} item`;
-
-      // update pagination UI
-      renderPagination(totalPages);
-
-      // update stats (like total count)
-      updateStats();
-
-      // attach row-level listeners (delegation used below but some controls require per row)
-      attachRowEvents();
-    }
-
-    // escape html to avoid XSS in this demo
-    function escapeHtml(s) {
-      if (s === null || s === undefined) return '';
+    function uid(p='id'){return p+'_'+Math.random().toString(36).slice(2,9);}
+    function debounce(fn,w=200){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),w);};}
+    function escapeHtml(s){
+      if(s===null||s===undefined)return '';
       return String(s)
         .replace(/&/g,'&amp;')
         .replace(/</g,'&lt;')
@@ -934,341 +467,351 @@
         .replace(/'/g,"&#039;");
     }
 
-    // renders pagination controls with neighbor style
-    function renderPagination(totalPages) {
-      pagination.innerHTML = '';
-      // if only 1 page, hide
-      if (totalPages <= 1) return;
+    function generateDefaultFeatures(speedStr){
+      const m=String(speedStr||'').match(/(\d+)/);
+      const spd=m?parseInt(m[1],10):10;
+      const base=['Unlimited Bandwidth','Support 24/7','Instalasi gratis'];
+      let info='Cocok untuk kebutuhan rumah tangga';
+      if(spd<=10) info='Cocok untuk 1–3 perangkat (chat & browsing)';
+      else if(spd<=20) info='Cocok untuk 3–5 perangkat (streaming HD)';
+      else if(spd<=50) info='Cocok untuk 5–10 perangkat (streaming & gaming)';
+      else info='Cocok untuk kantor / banyak perangkat';
+      base.splice(1,0,info);
+      return base;
+    }
 
-      // prev
-      const prev = document.createElement('button');
-      prev.className = 'page-btn';
-      prev.textContent = '‹';
-      prev.disabled = STATE.page === 1;
-      prev.onclick = () => { STATE.page = Math.max(1, STATE.page - 1); render(); };
+    /* ==== State ==== */
+    let STATE={
+      paketData:[],
+      filter:'',
+      page:1,
+      pageSize:8,
+      sortBy:'default',
+      editId:null
+    };
+
+    /* ==== DOM ==== */
+    const sidebar      = $('#sidebar');
+    const btnCollapse  = $('#btnCollapse');
+    const btnLogout    = $('#btnLogout');
+    const btnAdd       = $('#btnAdd');
+    const btnSave      = $('#btnSave');
+    const btnCancel    = $('#btnCancel');
+    const modal        = $('#modal');
+    const modalClose   = $('#modalClose');
+    const fNama        = $('#fNama');
+    const fKecepatan   = $('#fKecepatan');
+    const fHarga       = $('#fHarga');
+    const fStatus      = $('#fStatus');
+    const tableBody    = $('#tableBody');
+    const searchInput  = $('#searchInput');
+    const clearSearch  = $('#clearSearch');
+    const pagination   = $('#pagination');
+    const tableInfo    = $('#tableInfo');
+    const statTotal    = $('#statTotal');
+    const statPelanggan= $('#statPelanggan');
+    const statUptime   = $('#statUptime');
+    const sortBySel    = $('#sortBy');
+    const btnExport    = $('#btnExport');
+
+    /* ==== Boot ==== */
+    function seedData(){
+      return [
+        {id:uid('p'),name:'Basic',speed:'10 Mbps',price:formatCurrency(99000),pelanggan:24,status:'active',features:generateDefaultFeatures('10 Mbps'),popular:false},
+        {id:uid('p'),name:'Standard',speed:'20 Mbps',price:formatCurrency(199000),pelanggan:18,status:'active',features:generateDefaultFeatures('20 Mbps'),popular:true},
+        {id:uid('p'),name:'Premium',speed:'50 Mbps',price:formatCurrency(349000),pelanggan:6,status:'active',features:generateDefaultFeatures('50 Mbps'),popular:false}
+      ];
+    }
+
+    function persist(){
+      try{localStorage.setItem(STORAGE_KEY,JSON.stringify(STATE.paketData));}catch(e){console.error(e);}
+    }
+
+    function boot(){
+      const raw=localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        try{
+          const parsed=JSON.parse(raw);
+          if(Array.isArray(parsed)){
+            STATE.paketData=parsed.map(p=>({
+              ...p,
+              features:Array.isArray(p.features)?p.features:generateDefaultFeatures(p.speed),
+              pelanggan:typeof p.pelanggan==='number'?p.pelanggan:0
+            }));
+          }else{
+            STATE.paketData=seedData();persist();
+          }
+        }catch(e){
+          STATE.paketData=seedData();persist();
+        }
+      }else{
+        STATE.paketData=seedData();persist();
+      }
+
+      render();
+      attachListeners();
+      updateStats();
+    }
+
+    /* ==== Rendering ==== */
+    function render(){
+      const q=(STATE.filter||'').toLowerCase().trim();
+      let list=STATE.paketData.slice();
+
+      if(STATE.sortBy==='nama_asc') list.sort((a,b)=>a.name.localeCompare(b.name));
+      else if(STATE.sortBy==='nama_desc') list.sort((a,b)=>b.name.localeCompare(a.name));
+      else if(STATE.sortBy==='harga_asc') list.sort((a,b)=>parseCurrency(a.price)-parseCurrency(b.price));
+      else if(STATE.sortBy==='harga_desc') list.sort((a,b)=>parseCurrency(b.price)-parseCurrency(a.price));
+
+      if(q){
+        list=list.filter(p=>
+          p.name.toLowerCase().includes(q) ||
+          (p.speed&&p.speed.toLowerCase().includes(q)) ||
+          String(p.price).toLowerCase().includes(q)
+        );
+      }
+
+      const total=list.length;
+      const pageSize=STATE.pageSize;
+      const totalPages=Math.max(1,Math.ceil(total/pageSize));
+      if(STATE.page>totalPages)STATE.page=totalPages;
+      const start=(STATE.page-1)*pageSize;
+      const end=start+pageSize;
+      const pageItems=list.slice(start,end);
+
+      tableBody.innerHTML='';
+      if(pageItems.length===0){
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td colspan="6" style="text-align:center;padding:24px" class="muted">Tidak ada paket yang cocok</td>`;
+        tableBody.appendChild(tr);
+      }else{
+        pageItems.forEach(item=>{
+          const tr=document.createElement('tr');
+          tr.setAttribute('data-id',item.id);
+          const statusLabel=item.status==='active'?'AKTIF':'NONAKTIF';
+          tr.innerHTML=`
+            <td><strong>${escapeHtml(item.name)}</strong><div class="tiny muted">${escapeHtml(item.id)}</div></td>
+            <td>${escapeHtml(item.speed)}</td>
+            <td>${formatCurrency(item.price)}</td>
+            <td>${item.pelanggan??0}</td>
+            <td><span class="badge-pill">${statusLabel}</span></td>
+            <td style="text-align:right" class="actions">
+              <button class="btn page-btn btn-edit" title="Edit"><i class="fa fa-pen"></i></button>
+              <button class="btn page-btn btn-copy" title="Duplicate"><i class="fa fa-clone"></i></button>
+              <button class="btn page-btn btn-delete" title="Hapus" style="background:var(--danger);color:#fff"><i class="fa fa-trash"></i></button>
+            </td>`;
+          tableBody.appendChild(tr);
+        });
+      }
+
+      if(total===0) tableInfo.textContent='Menampilkan 0 dari 0 item';
+      else tableInfo.textContent=`Menampilkan ${Math.min(total,(start+1))} - ${Math.min(total,end)} dari ${total} item`;
+
+      renderPagination(totalPages);
+      updateStats();
+      attachRowEvents();
+    }
+
+    function renderPagination(totalPages){
+      pagination.innerHTML='';
+      if(totalPages<=1)return;
+
+      const prev=document.createElement('button');
+      prev.className='page-btn';
+      prev.textContent='‹';
+      prev.disabled=STATE.page===1;
+      prev.onclick=()=>{STATE.page=Math.max(1,STATE.page-1);render();};
       pagination.appendChild(prev);
 
-      // page numbers
-      for (let i = 1; i <= totalPages; i++) {
-        const btn = document.createElement('button');
-        btn.className = 'page-btn' + (i === STATE.page ? ' active' : '');
-        btn.textContent = i;
-        btn.onclick = () => { STATE.page = i; render(); };
+      for(let i=1;i<=totalPages;i++){
+        const btn=document.createElement('button');
+        btn.className='page-btn'+(i===STATE.page?' active':'');
+        btn.textContent=i;
+        btn.onclick=()=>{STATE.page=i;render();};
         pagination.appendChild(btn);
       }
 
-      // next
-      const next = document.createElement('button');
-      next.className = 'page-btn';
-      next.textContent = '›';
-      next.disabled = STATE.page === totalPages;
-      next.onclick = () => { STATE.page = Math.min(totalPages, STATE.page + 1); render(); };
+      const next=document.createElement('button');
+      next.className='page-btn';
+      next.textContent='›';
+      next.disabled=STATE.page===totalPages;
+      next.onclick=()=>{STATE.page=Math.min(totalPages,STATE.page+1);render();};
       pagination.appendChild(next);
     }
 
-    // update stats and small values
-    function updateStats() {
-      statTotal.textContent = `${STATE.paketData.length} Paket`;
-      // sum of pelanggan
-      let sum = STATE.paketData.reduce((acc, p) => acc + (Number(p.pelanggan) || 0), 0);
-      statPelanggan.textContent = sum;
-      // uptime static for demo but display dynamic timestamp
-      statUptime.textContent = `${(99.5 + (STATE.paketData.length % 10) * 0.05).toFixed(2)}%`;
+    function updateStats(){
+      statTotal.textContent=`${STATE.paketData.length} Paket`;
+      let sum=STATE.paketData.reduce((acc,p)=>acc+(Number(p.pelanggan)||0),0);
+      statPelanggan.textContent=sum;
+      statUptime.textContent=`${(99.5+(STATE.paketData.length%10)*0.05).toFixed(2)}%`;
     }
 
-    /* ---------------------------
-       Event binding / listeners
-       --------------------------- */
-
-    function attachListeners() {
-      // collapse sidebar
-      btnCollapse.addEventListener('click', () => {
+    /* ==== Events ==== */
+    function attachListeners(){
+      btnCollapse.addEventListener('click',()=>{
         sidebar.classList.toggle('collapsed');
-        // change icon rotate
-        const icon = btnCollapse.querySelector('i');
-        if (sidebar.classList.contains('collapsed')) {
+        const icon=btnCollapse.querySelector('i');
+        if(sidebar.classList.contains('collapsed')){
           icon.classList.remove('fa-angle-left');
           icon.classList.add('fa-angle-right');
-        } else {
+        }else{
           icon.classList.remove('fa-angle-right');
           icon.classList.add('fa-angle-left');
         }
       });
 
-      // LOGOUT: clear local data + redirect ke menu utama
-      btnLogout.addEventListener('click', () => {
-        if (confirm('Logout sekarang?')) {
-          try {
-            localStorage.removeItem(STORAGE_KEY);
-          } catch (e) {
-            console.error('Gagal menghapus data lokal saat logout', e);
-          }
-          // ganti "index.html" kalau nama halaman utamamu berbeda
-          window.location.href = 'index.html';
+      // LOGOUT: balik ke halaman depan, data paket tetap
+      btnLogout.addEventListener('click',()=>{
+        if(confirm('Logout sekarang dan kembali ke halaman utama?')){
+          window.location.href='index.html';
         }
       });
 
-      // open modal
-      btnAdd.addEventListener('click', () => {
-        openModal('add');
-      });
+      btnAdd.addEventListener('click',()=>openModal('add'));
+      modalClose.addEventListener('click',closeModal);
+      btnCancel.addEventListener('click',closeModal);
+      btnSave.addEventListener('click',onSave);
 
-      // modal close
-      modalClose.addEventListener('click', closeModal);
-      btnCancel.addEventListener('click', closeModal);
-
-      // save
-      btnSave.addEventListener('click', onSave);
-
-      // search (debounced)
-      searchInput.addEventListener('input', debounce((e) => {
-        STATE.filter = e.target.value;
-        STATE.page = 1;
+      searchInput.addEventListener('input',debounce(e=>{
+        STATE.filter=e.target.value;
+        STATE.page=1;
         render();
-        clearSearch.style.display = STATE.filter ? 'inline-block' : 'none';
-      }, 180));
+        clearSearch.style.display=STATE.filter?'inline-block':'none';
+      },180));
 
-      clearSearch.addEventListener('click', () => {
-        searchInput.value = '';
-        STATE.filter = '';
-        STATE.page = 1;
-        clearSearch.style.display = 'none';
-        render();
+      clearSearch.addEventListener('click',()=>{
+        searchInput.value='';STATE.filter='';STATE.page=1;
+        clearSearch.style.display='none';render();
       });
 
-      // keyboard shortcuts
-      document.addEventListener('keydown', (e) => {
-        // ESC to close modal
-        if (e.key === 'Escape') {
-          if (modal.classList.contains('show')) closeModal();
+      document.addEventListener('keydown',e=>{
+        if(e.key==='Escape'){
+          if(modal.classList.contains('show'))closeModal();
         }
-        // N to new
-        if (e.key.toLowerCase() === 'n' && !modal.classList.contains('show')) {
-          openModal('add');
-          e.preventDefault();
+        if(e.key.toLowerCase()==='n' && !modal.classList.contains('show')){
+          openModal('add');e.preventDefault();
         }
-        // / to focus search
-        if (e.key === '/' && document.activeElement !== searchInput) {
-          e.preventDefault();
-          searchInput.focus();
+        if(e.key==='/' && document.activeElement!==searchInput){
+          e.preventDefault();searchInput.focus();
         }
       });
 
-      // sort change
-      sortBy.addEventListener('change', (e) => {
-        STATE.sortBy = e.target.value;
-        render();
-      });
+      sortBySel.addEventListener('change',e=>{STATE.sortBy=e.target.value;render();});
+      btnExport.addEventListener('click',exportCSV);
 
-      // export CSV
-      btnExport.addEventListener('click', exportCSV);
-
-      // theme toggle
-      btnTheme.addEventListener('click', () => {
-        STATE.theme = STATE.theme === 'light' ? 'dark' : 'light';
-        applyTheme(STATE.theme);
-      });
-
-      // click outside modal closes it
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-      });
-
-      // delegate nav clicks to change page title (illustrative)
-      $$('.nav a').forEach(a => {
-        a.addEventListener('click', (ev) => {
-          ev.preventDefault();
-          $$('.nav a').forEach(x => x.classList.remove('active'));
-          a.classList.add('active');
-          const sec = a.getAttribute('data-section') || 'dashboard';
-          $('#pageTitle').textContent = a.querySelector('.label').textContent || 'Dashboard';
-          // for demo, only change title
-        });
-      });
+      modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
     }
 
-    // row event delegation (rebind for new rows)
-    function attachRowEvents() {
-      // edit
-      $$('.btn-edit').forEach(btn => {
-        btn.onclick = (ev) => {
-          const id = ev.target.closest('tr').getAttribute('data-id');
-          openModal('edit', id);
+    function attachRowEvents(){
+      $$('.btn-edit').forEach(btn=>{
+        btn.onclick=ev=>{
+          const row=ev.target.closest('tr'); if(!row)return;
+          const id=row.getAttribute('data-id');
+          openModal('edit',id);
         };
       });
-
-      // copy / duplicate
-      $$('.btn-copy').forEach(btn => {
-        btn.onclick = (ev) => {
-          const id = ev.target.closest('tr').getAttribute('data-id');
-          const item = STATE.paketData.find(p => p.id === id);
-          if (!item) return;
-          const copy = { ...item, id: uid('p'), nama: item.nama + ' (Copy)' };
-          STATE.paketData.unshift(copy);
-          persist();
-          render();
-          alert('Item duplicated');
+      $$('.btn-copy').forEach(btn=>{
+        btn.onclick=ev=>{
+          const row=ev.target.closest('tr'); if(!row)return;
+          const id=row.getAttribute('data-id');
+          const item=STATE.paketData.find(p=>p.id===id);
+          if(!item)return;
+          const copy={...item,id:uid('p'),name:item.name+' (Copy)'};
+          STATE.paketData.unshift(copy);persist();render();alert('Item duplicated');
         };
       });
-
-      // delete
-      $$('.btn-delete').forEach(btn => {
-        btn.onclick = (ev) => {
-          const id = ev.target.closest('tr').getAttribute('data-id');
-          if (confirm('Yakin hapus paket ini?')) {
-            STATE.paketData = STATE.paketData.filter(p => p.id !== id);
-            persist();
-            render();
+      $$('.btn-delete').forEach(btn=>{
+        btn.onclick=ev=>{
+          const row=ev.target.closest('tr'); if(!row)return;
+          const id=row.getAttribute('data-id');
+          if(confirm('Yakin hapus paket ini?')){
+            STATE.paketData=STATE.paketData.filter(p=>p.id!==id);
+            persist();render();
           }
         };
       });
     }
 
-    /* ---------------------------
-       Modal logic
-       --------------------------- */
-
-    function openModal(mode='add', id=null) {
-      STATE.editId = null;
-      if (mode === 'add') {
-        $('#modalTitle').textContent = 'Tambah Paket';
-        fNama.value = '';
-        fKecepatan.value = '';
-        fHarga.value = '';
-        fStatus.value = 'AKTIF';
-      } else {
-        $('#modalTitle').textContent = 'Edit Paket';
-        const item = STATE.paketData.find(p => p.id === id);
-        if (!item) {
-          alert('Item tidak ditemukan');
-          return;
-        }
-        STATE.editId = item.id;
-        fNama.value = item.nama;
-        fKecepatan.value = item.kecepatan;
-        fHarga.value = item.harga;
-        fStatus.value = item.status;
+    /* ==== Modal ==== */
+    function openModal(mode='add',id=null){
+      STATE.editId=null;
+      if(mode==='add'){
+        $('#modalTitle').textContent='Tambah Paket';
+        fNama.value='';fKecepatan.value='';fHarga.value='';fStatus.value='active';
+      }else{
+        $('#modalTitle').textContent='Edit Paket';
+        const item=STATE.paketData.find(p=>p.id===id);
+        if(!item){alert('Item tidak ditemukan');return;}
+        STATE.editId=item.id;
+        fNama.value=item.name;
+        fKecepatan.value=item.speed;
+        fHarga.value=item.price;
+        fStatus.value=item.status||'active';
       }
       modal.classList.add('show');
       modal.setAttribute('aria-hidden','false');
       fNama.focus();
     }
 
-    function closeModal() {
+    function closeModal(){
       modal.classList.remove('show');
       modal.setAttribute('aria-hidden','true');
-      STATE.editId = null;
+      STATE.editId=null;
     }
 
-    /* ---------------------------
-       Save / Update data
-       --------------------------- */
+    function onSave(){
+      const nama=fNama.value.trim();
+      const kecepatan=fKecepatan.value.trim();
+      const hargaRaw=fHarga.value.trim();
+      const status=fStatus.value;
+      const errors=[];
+      if(!nama)errors.push('Nama paket wajib diisi');
+      if(!kecepatan)errors.push('Kecepatan wajib diisi');
+      if(!hargaRaw)errors.push('Harga wajib diisi');
+      if(errors.length>0){alert(errors.join('\n'));return;}
 
-    function onSave() {
-      const nama = fNama.value.trim();
-      const kecepatan = fKecepatan.value.trim();
-      const hargaRaw = fHarga.value.trim();
-      const hargaNum = parseCurrency(hargaRaw) || parseCurrency(hargaRaw.replace(/\./g,'')) || 0;
-      const status = fStatus.value;
+      const hargaNum=parseCurrency(hargaRaw)||parseCurrency(hargaRaw.replace(/\./g,''))||0;
+      const hargaFormatted=formatCurrency(hargaNum);
+      const features=generateDefaultFeatures(kecepatan);
 
-      // validation (verbose)
-      const errors = [];
-      if (!nama) errors.push('Nama paket wajib diisi');
-      if (!kecepatan) errors.push('Kecepatan wajib diisi');
-      if (!hargaRaw) errors.push('Harga wajib diisi');
-
-      if (errors.length > 0) {
-        alert(errors.join('\\n'));
-        return;
-      }
-
-      if (STATE.editId) {
-        // update existing
-        const idx = STATE.paketData.findIndex(p => p.id === STATE.editId);
-        if (idx === -1) {
-          alert('Gagal menemukan item untuk diupdate');
-          closeModal();
-          return;
-        }
-        STATE.paketData[idx] = {
-          ...STATE.paketData[idx],
-          nama,
-          kecepatan,
-          harga: String(hargaNum),
-          status
-        };
-      } else {
-        // create new at top
-        const newItem = {
-          id: uid('p'),
-          nama,
-          kecepatan,
-          harga: String(hargaNum),
-          pelanggan: 0,
-          status
-        };
+      if(STATE.editId){
+        const idx=STATE.paketData.findIndex(p=>p.id===STATE.editId);
+        if(idx===-1){alert('Gagal menemukan item untuk diupdate');closeModal();return;}
+        STATE.paketData[idx]={...STATE.paketData[idx],name:nama,speed:kecepatan,price:hargaFormatted,status,features};
+      }else{
+        const newItem={id:uid('p'),name:nama,speed:kecepatan,price:hargaFormatted,pelanggan:0,status,features};
         STATE.paketData.unshift(newItem);
-        // if adding, go to first page to see new item
-        STATE.page = 1;
+        STATE.page=1;
       }
 
-      persist();
-      closeModal();
-      render();
+      persist();closeModal();render();
     }
 
-    /* ---------------------------
-       CSV Export
-       --------------------------- */
-
-    function exportCSV() {
-      const header = ['id','nama','kecepatan','harga','pelanggan','status'];
-      const rows = [header.join(',')];
-      STATE.paketData.forEach(p => {
-        const line = [p.id, `"${p.nama.replace(/"/g,'""')}"`, `"${p.kecepatan.replace(/"/g,'""')}"`, p.harga, p.pelanggan, p.status].join(',');
+    /* ==== CSV ==== */
+    function exportCSV(){
+      const header=['id','name','speed','price','pelanggan','status'];
+      const rows=[header.join(',')];
+      STATE.paketData.forEach(p=>{
+        const line=[
+          p.id,
+          `"${String(p.name||'').replace(/"/g,'""')}"`,
+          `"${String(p.speed||'').replace(/"/g,'""')}"`,
+          `"${String(p.price||'').replace(/"/g,'""')}"`,
+          p.pelanggan??0,
+          p.status
+        ].join(',');
         rows.push(line);
       });
-      const csv = rows.join('\\n');
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'paket_export.csv';
-      a.click();
+      const csv=rows.join('\n');
+      const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;a.download='paket_export.csv';a.click();
       URL.revokeObjectURL(url);
     }
 
-    /* ---------------------------
-       Theme
-       --------------------------- */
-
-    function applyTheme(theme) {
-      if (theme === 'dark') {
-        document.documentElement.style.setProperty('--bg', '#0b1020');
-        document.documentElement.style.setProperty('--card-bg', '#0f1724');
-        document.documentElement.style.setProperty('--muted', '#0b1220');
-        document.body.style.background = '#071127';
-        btnTheme.innerHTML = '<i class="fa fa-sun"></i>';
-      } else {
-        document.documentElement.style.setProperty('--bg', '#eef1f7');
-        document.documentElement.style.setProperty('--card-bg', '#ffffff');
-        document.documentElement.style.setProperty('--muted', '#f3f6fb');
-        document.body.style.background = 'var(--bg)';
-        btnTheme.innerHTML = '<i class="fa fa-moon"></i>';
-      }
-      STATE.theme = theme;
-    }
-
-    /* ---------------------------
-       Initialize app
-       --------------------------- */
+    /* ==== Start ==== */
     boot();
-
-    // expose small helper for debug in console if needed
-    window._APP = {
-      STATE, render, persist
-    };
-
   </script>
 </body>
 </html>

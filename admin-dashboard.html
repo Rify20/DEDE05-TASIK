@@ -1,1274 +1,1076 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DEDE05 TASIK - Admin Panel (Full Expanded)</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard • DEDE05 TASIK</title>
 
-  <!-- Fonts & Icons (CDN) -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <!-- Font Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- ============================================================
-       STYLES (very verbose and sectioned so file becomes "long")
-       ============================================================ -->
-  <style>
-    /* =========================================================================
-       ROOT VARIABLES
-       - Using many variables so styles are explicit and long
-       ========================================================================= */
-    :root{
-      --bg: #eef1f7;
-      --card-bg: #ffffff;
-      --muted: #f3f6fb;
-      --accent: #1E6CE1;
-      --accent-2: #0A3D91;
-      --success: #2ecc71;
-      --danger: #e74c3c;
-      --text: #1f2937;
-      --subtext: #6b7280;
-      --radius: 12px;
-      --shadow-1: 0 3px 14px rgba(15,30,80,0.06);
-      --glass: rgba(255,255,255,0.6);
-      --transition-fast: 160ms;
-      --transition-med: 260ms;
-      --max-width: 1200px;
-    }
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-soft: #eff6ff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-500: #6b7280;
+            --gray-700: #374151;
+            --gray-800: #1f2933;
+            --danger: #ef4444;
+            --success: #10b981;
+            --radius: 10px;
+            --shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+        }
 
-    /* =========================================================================
-       BASE RESET
-       ========================================================================= */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html,body,#app { height: 100%; }
-    body{
-      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: var(--bg);
-      color: var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height: 1.4;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    /* container to center content and limit width */
-    .shell {
-      width: 100%;
-      max-width: var(--max-width);
-      display: flex;
-      gap: 20px;
-      align-items: stretch;
-    }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            min-height: 100vh;
+            display: flex;
+        }
 
-    /* =========================================================================
-       SIDEBAR (left)
-       - collapsible
-       - explicit, lengthy styles to be verbose
-       ========================================================================= */
-    .sidebar {
-      width: 280px;
-      min-height: calc(100vh - 40px);
-      background: linear-gradient(180deg,var(--accent-2), var(--accent));
-      color: #fff;
-      border-radius: 16px;
-      padding: 22px;
-      box-shadow: var(--shadow-1);
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      transition: width var(--transition-fast) ease;
-      position: relative;
-    }
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: #0f172a;
+            color: white;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .sidebar.collapsed {
-      width: 84px;
-    }
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 32px;
+        }
 
-    .brand {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
+        .sidebar-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
 
-    .brand .logo {
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
-      background: linear-gradient(180deg,#2e83ff,#1e6ce1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      box-shadow: 0 6px 18px rgba(10,30,90,0.18);
-    }
+        .sidebar-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
 
-    .brand .text {
-      font-weight: 700;
-      font-size: 18px;
-      line-height: 1;
-    }
+        .sidebar-subtitle {
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
 
-    /* nav list */
-    .nav {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 10px;
-    }
+        .nav {
+            list-style: none;
+            margin-top: 10px;
+            flex: 1;
+        }
 
-    .nav a {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      text-decoration: none;
-      color: rgba(255,255,255,0.9);
-      padding: 10px;
-      border-radius: 10px;
-      transition: background var(--transition-fast), transform var(--transition-fast);
-      font-weight: 500;
-      font-size: 15px;
-    }
+        .nav li {
+            margin-bottom: 6px;
+        }
 
-    .nav a:hover { background: rgba(255,255,255,0.06); transform: translateX(2px); }
+        .nav button {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: #e5e7eb;
+            font-size: 0.92rem;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-    .nav a .ico {
-      width: 40px;
-      text-align: center;
-      font-size: 18px;
-    }
+        .nav button span.badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: rgba(59, 130, 246, 0.2);
+            color: #bfdbfe;
+        }
 
-    .nav a .label { white-space: nowrap; }
+        .nav button:hover {
+            background: rgba(148, 163, 184, 0.2);
+        }
 
-    .nav a .badge {
-      margin-left: auto;
-      background: white;
-      color: var(--accent-2);
-      padding: 4px 8px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 12px;
-    }
+        .nav button.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
 
-    /* collapse button */
-    .collapse-btn {
-      margin-left: auto;
-      background: rgba(255,255,255,0.08);
-      border: none;
-      color: #fff;
-      padding: 8px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
+        .sidebar-footer {
+            margin-top: 20px;
+            border-top: 1px solid rgba(148, 163, 184, 0.25);
+            padding-top: 14px;
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
 
-    /* small helper text that hides on collapse */
-    .sidebar .meta {
-      color: rgba(255,255,255,0.85);
-      font-size: 13px;
-      opacity: 0.95;
-    }
+        .sidebar-footer strong {
+            color: #e5e7eb;
+        }
 
-    .sidebar.collapsed .label,
-    .sidebar.collapsed .meta,
-    .sidebar.collapsed .brand .text {
-      display: none;
-    }
+        .logout-btn {
+            margin-top: 10px;
+            width: 100%;
+            padding: 9px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(248, 113, 113, 0.6);
+            background: rgba(239, 68, 68, 0.05);
+            color: #fecaca;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-    /* =========================================================================
-       MAIN PANEL
-       ========================================================================= */
-    .main {
-      flex: 1;
-      min-height: calc(100vh - 40px);
-      border-radius: 16px;
-      background: transparent; /* keep background so inner cards pop */
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.12);
+        }
 
-    /* topbar */
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
+        /* Main content */
+        .main {
+            flex: 1;
+            padding: 24px 26px;
+            max-width: 100%;
+        }
 
-    .search {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--card-bg);
-      padding: 10px 12px;
-      border-radius: 12px;
-      width: 520px;
-      box-shadow: var(--shadow-1);
-      border: 1px solid rgba(0,0,0,0.03);
-    }
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
 
-    .search input {
-      border: none;
-      outline: none;
-      font-size: 14px;
-      flex: 1;
-      background: transparent;
-    }
+        .main-header h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
 
-    .profile {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 12px;
-      background: var(--card-bg);
-      border-radius: 999px;
-      box-shadow: var(--shadow-1);
-    }
+        .main-header small {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
 
-    .profile .avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: var(--accent);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      box-shadow: 0 6px 18px rgba(30,108,225,0.12);
-    }
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            background: var(--primary-soft);
+            color: var(--primary-dark);
+        }
 
-    /* header area card */
-    .header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-    }
+        .content {
+            margin-top: 10px;
+        }
 
-    .header-title {
-      font-weight: 700;
-      font-size: 20px;
-    }
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 18px 18px 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-100);
+            margin-bottom: 18px;
+        }
 
-    /* stats cards */
-    .stats {
-      display: flex;
-      gap: 16px;
-      margin-top: 6px;
-    }
+        .card h2 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
 
-    .stat {
-      background: var(--card-bg);
-      padding: 18px;
-      border-radius: 12px;
-      flex: 1;
-      box-shadow: var(--shadow-1);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+        .card small {
+            color: var(--gray-500);
+            font-size: 0.82rem;
+        }
 
-    .stat .s-ico {
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: var(--accent-2);
-      background: linear-gradient(180deg,#d8e9ff,#fff);
-      font-weight: 700;
-    }
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
 
-    .stat .s-body {
-      display: flex;
-      flex-direction: column;
-    }
+        .form-group {
+            margin-top: 10px;
+        }
 
-    .stat .s-title {
-      font-size: 14px;
-      color: var(--subtext);
-      font-weight: 600;
-    }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
 
-    .stat .s-value {
-      font-weight: 700;
-      font-size: 20px;
-    }
+        .form-control,
+        .form-select,
+        textarea {
+            width: 100%;
+            padding: 10px 11px;
+            border-radius: 8px;
+            border: 1px solid var(--gray-300);
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: 0.2s;
+        }
 
-    /* content area (table) */
-    .content-card {
-      background: var(--card-bg);
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: var(--shadow-1);
-      overflow: hidden;
-    }
+        .form-control:focus,
+        .form-select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
 
-    .table-wrap {
-      margin-top: 12px;
-      overflow-x: auto;
-    }
+        textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 760px;
-      font-size: 14px;
-    }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 9px 14px;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-    table thead tr th {
-      text-align: left;
-      padding: 12px 14px;
-      background: var(--muted);
-      font-weight: 700;
-    }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
 
-    table tbody tr td {
-      padding: 12px 14px;
-      border-bottom: 1px solid #f1f5fb;
-      vertical-align: middle;
-    }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
+        }
 
-    .badge-pill {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #f4f7fc;
-      color: var(--accent-2);
-      font-weight: 700;
-      font-size: 12px;
-    }
+        .btn-ghost {
+            background: transparent;
+            color: var(--gray-700);
+        }
 
-    .actions .btn {
-      margin-right: 6px;
-      font-size: 13px;
-      padding: 6px 10px;
-    }
+        .btn-ghost:hover {
+            background: var(--gray-100);
+        }
 
-    /* pagination */
-    .pagination {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-      justify-content: flex-end;
-      align-items: center;
-    }
+        .btn-danger {
+            background: rgba(248, 113, 113, 0.1);
+            color: #b91c1c;
+        }
 
-    .page-btn {
-      padding: 8px 10px;
-      border-radius: 8px;
-      background: #fff;
-      border: 1px solid rgba(0,0,0,0.04);
-      cursor: pointer;
-    }
+        .btn-danger:hover {
+            background: rgba(248, 113, 113, 0.2);
+        }
 
-    .page-btn.active {
-      background: var(--accent);
-      color: white;
-      border-color: transparent;
-    }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
 
-    /* modal styles (long and explicit) */
-    .modal {
-      position: fixed;
-      left: 0; top: 0; right: 0; bottom: 0;
-      display: none;
-      background: rgba(7,10,20,0.45);
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      padding: 22px;
-      transition: opacity var(--transition-fast);
-    }
+        .table th,
+        .table td {
+            padding: 8px 6px;
+            border-bottom: 1px solid var(--gray-200);
+            text-align: left;
+            vertical-align: top;
+        }
 
-    .modal.show { display: flex; }
+        .table th {
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 0.8rem;
+        }
 
-    .modal-card {
-      width: 560px;
-      max-width: calc(100% - 40px);
-      border-radius: 12px;
-      padding: 20px;
-      background: var(--card-bg);
-      box-shadow: 0 10px 40px rgba(10,30,80,0.12);
-    }
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 8px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
 
-    .modal-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
+        .tag-success {
+            background: rgba(16, 185, 129, 0.12);
+            color: #059669;
+        }
 
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+        .tag-warning {
+            background: rgba(234, 179, 8, 0.12);
+            color: #b45309;
+        }
 
-    .field label { font-size: 13px; font-weight: 600; color: var(--subtext); }
-    .field input, .field select, .field textarea {
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid #e6eefc;
-      font-size: 14px;
-      outline: none;
-      transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
-    }
+        .tag-danger {
+            background: rgba(248, 113, 113, 0.12);
+            color: #b91c1c;
+        }
 
-    .field input:focus, .field select:focus, .field textarea:focus {
-      box-shadow: 0 6px 18px rgba(30,108,225,0.06);
-      border-color: var(--accent);
-    }
+        .notification {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            background: #111827;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: 0.2s;
+        }
 
-    .modal-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      margin-top: 16px;
-    }
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    /* helpful micro styles */
-    .muted { color: var(--subtext); font-size: 13px; }
-    .tiny { font-size: 12px; color: #9aa4b2; }
+        @media (max-width: 900px) {
+            .sidebar {
+                display: none;
+            }
 
-    /* responsive */
-    @media (max-width: 980px) {
-      .sidebar { display: none; }
-      .shell { padding: 0 12px; }
-      .search { width: 100%; }
-      .modal-card { width: 100%; }
-      table { min-width: auto; font-size: 13px; }
-    }
+            body {
+                display: block;
+            }
 
-    /* long comment: repeating a bit to add "verbose" feel */
-    /* This CSS section intentionally verbose to emulate long file size.
-       Real project would extract to separate files. For demo, kept inline. */
-  </style>
+            .main {
+                padding: 16px;
+            }
+        }
 
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 14px 12px 16px;
+            }
+
+            .main-header h1 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- APP SHELL -->
-  <div id="app" class="shell" role="application" aria-label="DEDE05 TASIK Admin Panel">
 
-    <!-- SIDEBAR: left column -->
-    <aside id="sidebar" class="sidebar" aria-label="Sidebar navigation">
-      <div class="brand" aria-hidden="false">
-        <div class="logo" aria-hidden="true">AD</div>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <img src="assets/logo.png" alt="Logo DEDE05 TASIK" class="sidebar-logo">
         <div>
-          <div class="text">DEDE05 TASIK</div>
-          <div class="meta">Admin Panel</div>
+            <div class="sidebar-title">DEDE05 TASIK</div>
+            <div class="sidebar-subtitle">Admin Panel</div>
         </div>
-        <!-- collapse control -->
-        <button id="btnCollapse" class="collapse-btn" aria-label="Collapse sidebar" title="Toggle sidebar" style="margin-left:auto">
-          <i class="fa fa-angle-left"></i>
-        </button>
-      </div>
+    </div>
 
-      <!-- navigation -->
-      <nav>
-        <ul class="nav" role="menu" aria-label="Main menu">
-          <li role="none">
-            <a href="#" role="menuitem" data-section="dashboard" class="active">
-              <div class="ico"><i class="fa fa-chart-line"></i></div>
-              <div class="label">Dashboard</div>
-            </a>
-          </li>
+    <ul class="nav">
+        <li><button class="nav-link active" data-target="tab-packages">Paket Internet</button></li>
+        <li><button class="nav-link" data-target="tab-faq">FAQ</button></li>
+        <li><button class="nav-link" data-target="tab-settings">Pengaturan Website</button></li>
+        <li><button class="nav-link" data-target="tab-reports">Laporan Gangguan <span class="badge" id="badgeReports">0</span></button></li>
+    </ul>
 
-          <li role="none">
-            <a href="#" role="menuitem" data-section="paket">
-              <div class="ico"><i class="fa fa-wifi"></i></div>
-              <div class="label">Paket Internet</div>
-              <div class="badge">3</div>
-            </a>
-          </li>
+    <div class="sidebar-footer">
+        <div>Login sebagai: <strong>admin</strong></div>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
+</aside>
 
-          <li role="none">
-            <a href="#" role="menuitem" data-section="pelanggan">
-              <div class="ico"><i class="fa fa-users"></i></div>
-              <div class="label">Pelanggan</div>
-            </a>
-          </li>
-
-          <li role="none">
-            <a href="#" role="menuitem" data-section="laporan">
-              <div class="ico"><i class="fa fa-triangle-exclamation"></i></div>
-              <div class="label">Laporan Gangguan</div>
-              <div class="badge">5</div>
-            </a>
-          </li>
-
-          <li role="none">
-            <a href="#" role="menuitem" data-section="server">
-              <div class="ico"><i class="fa fa-server"></i></div>
-              <div class="label">Uptime Server</div>
-            </a>
-          </li>
-
-          <li role="none">
-            <a href="#" role="menuitem" data-section="pengaturan">
-              <div class="ico"><i class="fa fa-gear"></i></div>
-              <div class="label">Pengaturan</div>
-            </a>
-          </li>
-        </ul>
-      </nav>
-
-      <!-- FOOTER / small info in sidebar -->
-      <div style="margin-top:auto;font-size:13px;opacity:.95">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div class="tiny">Logged as</div>
-          <div class="tiny">admin</div>
+<!-- MAIN -->
+<main class="main">
+    <header class="main-header">
+        <div>
+            <h1>Dashboard Admin</h1>
+            <small>Kelola konten yang tampil di halaman utama DEDE05 TASIK.</small>
         </div>
-        <div style="height:8px"></div>
-        <button id="btnLogout" class="page-btn" style="width:100%;background:#fff;color:var(--accent-2);border:none;padding:10px;border-radius:8px;cursor:pointer">Logout</button>
-      </div>
-    </aside>
+        <div class="pill">
+            • Mode Lokal
+            <span>Data disimpan di browser (localStorage)</span>
+        </div>
+    </header>
 
-    <!-- MAIN (right) -->
-    <main class="main" role="main" aria-live="polite">
+    <section class="content">
+        <!-- TAB: PAKET INTERNET -->
+        <div class="tab" id="tab-packages">
+            <div class="card">
+                <h2>Paket Internet</h2>
+                <small>Tambah, ubah, dan hapus paket yang muncul di homepage.</small>
 
-      <!-- TOPBAR -->
-      <div class="topbar">
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <div class="header-row">
-            <div>
-              <div class="header-title" id="pageTitle">Paket Internet</div>
-              <div class="tiny muted">Mengelola paket, harga, dan status</div>
-            </div>
-
-            <div style="display:flex;align-items:center;gap:8px;">
-              <div class="search" title="Pencarian">
-                <i class="fa fa-search" style="color:var(--subtext)"></i>
-                <input id="searchInput" placeholder="Cari nama paket, kecepatan, harga..." aria-label="Cari paket">
-                <button id="clearSearch" title="Bersihkan pencarian" style="display:none;background:transparent;border:0;cursor:pointer"><i class="fa fa-times"></i></button>
-              </div>
-
-              <div style="width:10px"></div>
-
-              <div style="display:flex;gap:8px;align-items:center;">
-                <div class="profile" aria-hidden="false">
-                  <div class="avatar" aria-hidden="true">AD</div>
-                  <div style="display:flex;flex-direction:column;">
-                    <div style="font-weight:700">Administrator</div>
-                    <div class="tiny muted">Super Admin</div>
-                  </div>
+                <div class="form-row" style="margin-top: 14px;">
+                    <div class="form-group">
+                        <label for="pkgName">Nama Paket</label>
+                        <input type="text" id="pkgName" class="form-control" placeholder="Mis: Standard">
+                    </div>
+                    <div class="form-group">
+                        <label for="pkgSpeed">Kecepatan (Mbps)</label>
+                        <input type="number" id="pkgSpeed" class="form-control" placeholder="Mis: 20">
+                    </div>
                 </div>
 
-                <button id="btnExport" class="btn page-btn" title="Export CSV"><i class="fa fa-file-csv"></i></button>
-                <button id="btnTheme" class="btn page-btn" title="Toggle theme"><i class="fa fa-moon"></i></button>
-              </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pkgPrice">Harga / bulan (contoh: Rp 199.000)</label>
+                        <input type="text" id="pkgPrice" class="form-control" placeholder="Rp 199.000">
+                    </div>
+                    <div class="form-group">
+                        <label for="pkgStatus">Status</label>
+                        <select id="pkgStatus" class="form-select">
+                            <option value="active">Aktif</option>
+                            <option value="inactive">Nonaktif</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pkgFeatures">Fitur (satu per baris)</label>
+                        <textarea id="pkgFeatures" placeholder="Unlimited Bandwidth&#10;Untuk 1-3 perangkat&#10;Support 24/7"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Populer?</label>
+                        <select id="pkgPopular" class="form-select">
+                            <option value="false">Tidak</option>
+                            <option value="true">Ya</option>
+                        </select>
+                        <div style="margin-top: 18px;">
+                            <button class="btn btn-primary" id="btnSavePackage">Simpan Paket</button>
+                            <button class="btn btn-ghost" id="btnClearPackageForm">Bersihkan Form</button>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" id="pkgEditingId" value="">
             </div>
-          </div>
 
-          <!-- cards -->
-          <div class="stats" role="region" aria-label="Statistik paket">
-            <div class="stat">
-              <div class="s-ico"><i class="fa fa-wifi"></i></div>
-              <div class="s-body">
-                <div class="s-title">Total Paket</div>
-                <div class="s-value" id="statTotal">0 Paket</div>
-              </div>
+            <div class="card">
+                <h2>Daftar Paket</h2>
+                <small>Klik "Edit" untuk memasukkan data paket ke form di atas.</small>
+
+                <table class="table" id="packagesTable">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Speed</th>
+                            <th>Harga</th>
+                            <th>Status</th>
+                            <th>Populer</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- diisi via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB: FAQ -->
+        <div class="tab" id="tab-faq" style="display:none;">
+            <div class="card">
+                <h2>FAQ</h2>
+                <small>Kelola pertanyaan yang tampil di bagian FAQ website.</small>
+
+                <div class="form-group" style="margin-top: 14px;">
+                    <label for="faqQuestion">Pertanyaan</label>
+                    <input type="text" id="faqQuestion" class="form-control" placeholder="Contoh: Berapa lama proses pemasangan?">
+                </div>
+                <div class="form-group">
+                    <label for="faqAnswer">Jawaban</label>
+                    <textarea id="faqAnswer" placeholder="Tulis jawaban untuk pelanggan di sini..."></textarea>
+                </div>
+                <div>
+                    <button class="btn btn-primary" id="btnSaveFAQ">Simpan FAQ</button>
+                    <button class="btn btn-ghost" id="btnClearFAQForm">Bersihkan Form</button>
+                </div>
+                <input type="hidden" id="faqEditingIndex" value="">
             </div>
 
-            <div class="stat">
-              <div class="s-ico"><i class="fa fa-users"></i></div>
-              <div class="s-body">
-                <div class="s-title">Total Pelanggan</div>
-                <div class="s-value" id="statPelanggan">0</div>
-              </div>
+            <div class="card">
+                <h2>Daftar FAQ</h2>
+                <table class="table" id="faqTable">
+                    <thead>
+                        <tr>
+                            <th>Pertanyaan</th>
+                            <th>Jawaban</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- diisi via JS -->
+                    </tbody>
+                </table>
             </div>
+        </div>
 
-            <div class="stat">
-              <div class="s-ico"><i class="fa fa-server"></i></div>
-              <div class="s-body">
-                <div class="s-title">Server Uptime</div>
-                <div class="s-value" id="statUptime">99.99%</div>
-              </div>
+        <!-- TAB: SETTINGS -->
+        <div class="tab" id="tab-settings" style="display:none;">
+            <div class="card">
+                <h2>Pengaturan Website</h2>
+                <small>Konten teks yang akan tampil di homepage (hero, tentang, footer & kontak).</small>
+
+                <div class="form-group" style="margin-top: 14px;">
+                    <label for="heroTitle">Judul Hero</label>
+                    <input type="text" id="heroTitle" class="form-control" placeholder="Stabil untuk Semua Kebutuhan">
+                </div>
+                <div class="form-group">
+                    <label for="heroDescription">Deskripsi Hero</label>
+                    <textarea id="heroDescription" placeholder="Teks singkat di bagian atas halaman..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="aboutTitle">Judul Tentang Kami</label>
+                    <input type="text" id="aboutTitle" class="form-control" placeholder="Tentang DEDE05 TASIK">
+                </div>
+
+                <div class="form-group">
+                    <label for="aboutDescription1">Tentang Kami - Paragraf 1</label>
+                    <textarea id="aboutDescription1"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="aboutDescription2">Tentang Kami - Paragraf 2</label>
+                    <textarea id="aboutDescription2"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="footerDescription">Deskripsi Footer</label>
+                    <textarea id="footerDescription" placeholder="Penyedia layanan internet lokal di Tasikmalaya ..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="whatsapp">Nomor WhatsApp / Telepon</label>
+                        <input type="text" id="whatsapp" class="form-control" placeholder="0812-XXXX-XXXX">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Support</label>
+                        <input type="email" id="email" class="form-control" placeholder="support@dede05tasik.local">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="address">Alamat</label>
+                        <input type="text" id="address" class="form-control" placeholder="Jl. Contoh No.12, Tasikmalaya">
+                    </div>
+                    <div class="form-group">
+                        <label for="workingHours">Jam Operasional</label>
+                        <input type="text" id="workingHours" class="form-control" placeholder="Senin-Minggu: 08:00-20:00">
+                    </div>
+                </div>
+
+                <div style="margin-top: 10px;">
+                    <button class="btn btn-primary" id="btnSaveSettings">Simpan Pengaturan</button>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- CONTENT: table and actions -->
-      <section class="content-card" aria-label="Daftar Paket">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div style="display:flex;gap:10px;align-items:center">
-            <button id="btnAdd" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Paket</button>
-            <div class="muted tiny">Tekan <kbd>N</kbd> untuk buat baru</div>
-          </div>
-
-          <div style="display:flex;gap:8px;align-items:center">
-            <div class="muted tiny">Sort:</div>
-            <select id="sortBy" style="padding:8px;border-radius:8px;border:1px solid #eef3ff">
-              <option value="default">Default</option>
-              <option value="nama_asc">Nama A-Z</option>
-              <option value="nama_desc">Nama Z-A</option>
-              <option value="harga_asc">Harga terendah</option>
-              <option value="harga_desc">Harga tertinggi</option>
-            </select>
-          </div>
         </div>
 
-        <div class="table-wrap" style="margin-top:14px">
-          <table id="paketTable" role="table" aria-label="Tabel paket">
-            <thead>
-              <tr>
-                <th>Nama Paket</th>
-                <th>Kecepatan</th>
-                <th>Harga</th>
-                <th>Pelanggan</th>
-                <th>Status</th>
-                <th style="text-align:right">Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="tableBody">
-              <!-- dynamic -->
-            </tbody>
-          </table>
+        <!-- TAB: REPORTS -->
+        <div class="tab" id="tab-reports" style="display:none;">
+            <div class="card">
+                <h2>Laporan Gangguan</h2>
+                <small>Laporan ini berasal dari form “Lapor Gangguan” di website utama.</small>
+
+                <table class="table" id="reportsTable" style="margin-top: 14px;">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Kontak</th>
+                            <th>Alamat</th>
+                            <th>Masalah</th>
+                            <th>Tanggal</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- diisi via JS -->
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 10px;">
+                    <button class="btn btn-ghost" id="btnClearReports">Hapus Semua Laporan</button>
+                </div>
+            </div>
         </div>
+    </section>
+</main>
 
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
-          <div class="muted tiny" id="tableInfo">Menampilkan 0 dari 0 item</div>
-          <div class="pagination" id="pagination"></div>
-        </div>
-      </section>
+<div class="notification" id="notificationBox"></div>
 
-    </main>
-  </div>
-
-  <!-- MODAL: FORM ADD / EDIT -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-card" role="document" aria-labelledby="modalTitle">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <h3 id="modalTitle">Tambah Paket</h3>
-        <button id="modalClose" class="page-btn"><i class="fa fa-times"></i></button>
-      </div>
-
-      <p class="muted tiny" id="modalHint">Isi detail paket, lalu simpan.</p>
-
-      <div class="modal-grid">
-        <div class="field">
-          <label for="fNama">Nama Paket</label>
-          <input id="fNama" type="text" placeholder="Contoh: Basic ULTRAMAN">
-        </div>
-
-        <div class="field">
-          <label for="fKecepatan">Kecepatan</label>
-          <input id="fKecepatan" type="text" placeholder="Contoh: 10 Mbps">
-        </div>
-
-        <div class="field">
-          <label for="fHarga">Harga (angka tanpa titik/format bebas)</label>
-          <input id="fHarga" type="text" placeholder="Contoh: Rp 99.000">
-        </div>
-
-        <div class="field">
-          <label for="fStatus">Status</label>
-          <select id="fStatus">
-            <option value="AKTIF">AKTIF</option>
-            <option value="NONAKTIF">NONAKTIF</option>
-          </select>
-        </div>
-
-      </div>
-
-      <div class="modal-footer">
-        <button id="btnCancel" class="page-btn">Batal</button>
-        <button id="btnSave" class="btn btn-primary">Simpan</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- =========================================================================
-       SCRIPTS
-       - Verbose, modular, heavily commented
-       - All functionality implemented here
-       ========================================================================= -->
-  <script>
-    /**********************************************************************
-     * Dashboard Full Script
-     * - Handles data storage, rendering, search, pagination, sort, modal
-     * - Designed to be explicit & verbose for teaching and "long file" vibes
-     **********************************************************************/
-
-    /* ---------------------------
-       Utilities
-       --------------------------- */
-
-    // Simple DOM helpers to make code longer but readable
-    const $ = (sel, ctx=document) => ctx.querySelector(sel);
-    const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
-
-    // Format number to Indonesian currency-like string (best-effort)
-    function formatCurrency(val) {
-      // Accept numeric or string, try to preserve existing prefix 'Rp'
-      if (val === null || val === undefined) return '';
-      let s = String(val).trim();
-      // if already contains 'Rp' or non-digit, return as-is for safety
-      if (/[^0-9\.\,\s]/.test(s)) {
-        // remove extra whitespace
-        return s;
-      }
-      // fallback: format with thousand separator
-      let n = Number(s.replace(/[^\d.-]/g,''));
-      if (isNaN(n)) return s;
-      return 'Rp ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+<script>
+    // Proteksi: jika belum login, lempar ke halaman login
+    if (localStorage.getItem('adminLoggedIn') !== 'true') {
+        window.location.href = 'admin-login.html';
     }
 
-    // parse currency back to number
-    function parseCurrency(str) {
-      if (!str) return 0;
-      let s = String(str).replace(/[^\d\-\.]/g,'');
-      let n = Number(s);
-      if (isNaN(n)) return 0;
-      return n;
+    function showNotification(message) {
+        const box = document.getElementById('notificationBox');
+        box.textContent = message;
+        box.classList.add('show');
+        setTimeout(() => box.classList.remove('show'), 2500);
     }
 
-    // generate ID (simple)
-    function uid(prefix='id') {
-      return prefix + '_' + Math.random().toString(36).slice(2,9);
-    }
-
-    // small debounce
-    function debounce(fn, wait=200) {
-      let t;
-      return (...args) => {
-        clearTimeout(t);
-        t = setTimeout(()=>fn(...args), wait);
-      };
-    }
-
-    /* ---------------------------
-       App State
-       --------------------------- */
-
-    let STATE = {
-      paketData: [],        // array of paket objects { id, nama, kecepatan, harga, pelanggan, status }
-      filter: '',
-      page: 1,
-      pageSize: 8,
-      sortBy: 'default',
-      editId: null,
-      theme: 'light'
-    };
-
-    // Storage key
-    const STORAGE_KEY = 'dede05_paket_v1';
-
-    /* ---------------------------
-       DOM references
-       --------------------------- */
-    const sidebar = $('#sidebar');
-    const btnCollapse = $('#btnCollapse');
-    const btnLogout = $('#btnLogout');
-    const btnAdd = $('#btnAdd');
-    const btnSave = $('#btnSave');
-    const btnCancel = $('#btnCancel');
-    const modal = $('#modal');
-    const modalClose = $('#modalClose');
-    const fNama = $('#fNama');
-    const fKecepatan = $('#fKecepatan');
-    const fHarga = $('#fHarga');
-    const fStatus = $('#fStatus');
-    const tableBody = $('#tableBody');
-    const searchInput = $('#searchInput');
-    const clearSearch = $('#clearSearch');
-    const pagination = $('#pagination');
-    const tableInfo = $('#tableInfo');
-    const statTotal = $('#statTotal');
-    const statPelanggan = $('#statPelanggan');
-    const statUptime = $('#statUptime');
-    const sortBy = $('#sortBy');
-    const btnExport = $('#btnExport');
-    const btnTheme = $('#btnTheme');
-
-    /* ---------------------------
-       Initialization
-       --------------------------- */
-
-    // boot: load from localStorage or seed demo data
-    function boot() {
-      // try load
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
+    function safeParseJSON(value, fallback) {
         try {
-          const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed)) {
-            STATE.paketData = parsed;
-          } else {
-            STATE.paketData = seedData();
-            persist();
-          }
-        } catch(e) {
-          STATE.paketData = seedData();
-          persist();
+            return JSON.parse(value);
+        } catch (e) {
+            return fallback;
         }
-      } else {
-        STATE.paketData = seedData();
-        persist();
-      }
-
-      // initial render
-      render();
-      attachListeners();
-      updateStats();
-      applyTheme(STATE.theme);
     }
 
-    // seed demo data (extended)
-    function seedData() {
-      const arr = [
-        { id: uid('p'), nama: 'Basic ULTRAMAN', kecepatan: '10 Mbps', harga: '99000', pelanggan: 24, status: 'AKTIF' },
-        { id: uid('p'), nama: 'Starter 20', kecepatan: '20 Mbps', harga: '149000', pelanggan: 18, status: 'AKTIF' },
-        { id: uid('p'), nama: 'Bisnis Pro', kecepatan: '50 Mbps', harga: '299000', pelanggan: 6, status: 'AKTIF' },
-        { id: uid('p'), nama: 'Premium Max', kecepatan: '100 Mbps', harga: '499000', pelanggan: 3, status: 'NONAKTIF' },
-        { id: uid('p'), nama: 'Rumahan Hemat', kecepatan: '8 Mbps', harga: '75000', pelanggan: 12, status: 'AKTIF' },
-        { id: uid('p'), nama: 'Gaming 75', kecepatan: '75 Mbps', harga: '399000', pelanggan: 9, status: 'AKTIF' },
-        { id: uid('p'), nama: 'Fiber Ultra', kecepatan: '150 Mbps', harga: '799000', pelanggan: 1, status: 'NONAKTIF' },
-        { id: uid('p'), nama: 'Office 1Gb', kecepatan: '1000 Mbps', harga: '1999000', pelanggan: 0, status: 'AKTIF' },
-        { id: uid('p'), nama: 'Siswa Paket', kecepatan: '5 Mbps', harga: '59000', pelanggan: 30, status: 'AKTIF' },
-        { id: uid('p'), nama: 'Promo Weekend', kecepatan: '25 Mbps', harga: '129000', pelanggan: 4, status: 'AKTIF' }
-      ];
-      return arr;
+    // Default data
+    const defaultPackages = [
+        {
+            id: 1,
+            name: "Basic",
+            speed: "10 Mbps",
+            price: "Rp 99.000",
+            features: ["Unlimited Bandwidth", "Untuk 1-3 perangkat", "Streaming SD", "Support 24/7"],
+            status: "active",
+            popular: false
+        },
+        {
+            id: 2,
+            name: "Standard",
+            speed: "20 Mbps",
+            price: "Rp 199.000",
+            features: ["Unlimited Bandwidth", "Untuk 5-8 perangkat", "Streaming HD", "Prioritas Teknisi"],
+            status: "active",
+            popular: true
+        },
+        {
+            id: 3,
+            name: "Premium",
+            speed: "50 Mbps",
+            price: "Rp 349.000",
+            features: ["Unlimited Bandwidth", "Untuk 10+ perangkat", "Streaming 4K & Gaming", "SLA Khusus"],
+            status: "active",
+            popular: false
+        }
+    ];
+
+    const defaultFAQ = [
+        {
+            question: "Apa itu FUP (Fair Usage Policy)?",
+            answer: "FUP adalah kebijakan penggunaan wajar. Kami memberikan batasan tertentu pada kecepatan setelah penggunaan data melebihi ambang tertentu pada beberapa paket promosi untuk menjaga kualitas jaringan bagi semua pelanggan."
+        },
+        {
+            question: "Bagaimana cara membayar tagihan?",
+            answer: "Pembayaran dapat dilakukan lewat transfer bank (BCA, BRI, BNI, Mandiri), e-wallet (GoPay, OVO, Dana), atau aplikasi pembayaran yang tertera di invoice. Kami juga menerima pembayaran via minimarket (Alfamart, Indomaret) dengan tambahan biaya admin."
+        },
+        {
+            question: "Berapa lama proses pemasangan?",
+            answer: "Standar pemasangan adalah 2-5 hari kerja tergantung ketersediaan tim dan lokasi Anda. Untuk area prioritas di Tasikmalaya kota, bisa lebih cepat dalam 1-2 hari kerja setelah survey lokasi selesai."
+        },
+        {
+            question: "Bagaimana cara meminta teknisi?",
+            answer: "Gunakan form \"Lapor Gangguan\" pada website atau hubungi WhatsApp support kami. Teknisi kami akan menghubungi Anda untuk jadwal kunjungan dalam waktu 2-4 jam pada jam operasional."
+        }
+    ];
+
+    // Data state
+    let packages = [];
+    let faqItems = [];
+    let settings = {};
+    let reports = [];
+
+    function loadData() {
+        packages = safeParseJSON(localStorage.getItem('websitePackages'), defaultPackages);
+        faqItems = safeParseJSON(localStorage.getItem('websiteFAQ'), defaultFAQ);
+        settings = safeParseJSON(localStorage.getItem('websiteSettings'), {});
+        reports = safeParseJSON(localStorage.getItem('websiteReports'), []);
     }
 
-    // persist state to storage
-    function persist() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE.paketData));
-      } catch(e) {
-        console.error('persist error', e);
-      }
+    function savePackages() {
+        localStorage.setItem('websitePackages', JSON.stringify(packages));
+        showNotification('Paket internet berhasil disimpan.');
     }
 
-    /* ---------------------------
-       Rendering
-       --------------------------- */
+    function saveFAQ() {
+        localStorage.setItem('websiteFAQ', JSON.stringify(faqItems));
+        showNotification('FAQ berhasil disimpan.');
+    }
 
-    // main render function - calculates filtered/sorted/paginated slice
-    function render() {
-      // apply filter
-      const q = (STATE.filter || '').toLowerCase().trim();
+    function saveSettings() {
+        localStorage.setItem('websiteSettings', JSON.stringify(settings));
+        showNotification('Pengaturan website berhasil disimpan.');
+    }
 
-      // sort copy
-      let list = STATE.paketData.slice();
+    function saveReports() {
+        localStorage.setItem('websiteReports', JSON.stringify(reports));
+        updateReportsBadge();
+    }
 
-      // apply sorting
-      if (STATE.sortBy === 'nama_asc') {
-        list.sort((a,b) => a.nama.localeCompare(b.nama));
-      } else if (STATE.sortBy === 'nama_desc') {
-        list.sort((a,b) => b.nama.localeCompare(a.nama));
-      } else if (STATE.sortBy === 'harga_asc') {
-        list.sort((a,b) => Number(a.harga) - Number(b.harga));
-      } else if (STATE.sortBy === 'harga_desc') {
-        list.sort((a,b) => Number(b.harga) - Number(a.harga));
-      }
+    // Render functions
+    function renderPackages() {
+        const tbody = document.querySelector('#packagesTable tbody');
+        tbody.innerHTML = '';
 
-      // filter
-      if (q) {
-        list = list.filter(p => {
-          return p.nama.toLowerCase().includes(q) || (p.kecepatan && p.kecepatan.toLowerCase().includes(q)) || (String(p.harga).toLowerCase().includes(q));
+        packages.forEach(pkg => {
+            const tr = document.createElement('tr');
+
+            const statusTag = pkg.status === 'active'
+                ? '<span class="tag tag-success">Aktif</span>'
+                : '<span class="tag tag-warning">Nonaktif</span>';
+
+            tr.innerHTML = `
+                <td>${pkg.name}</td>
+                <td>${pkg.speed}</td>
+                <td>${pkg.price}</td>
+                <td>${statusTag}</td>
+                <td>${pkg.popular ? '<span class="tag tag-success">Populer</span>' : '-'}</td>
+                <td>
+                    <button class="btn btn-ghost btn-sm" data-action="edit" data-id="${pkg.id}">Edit</button>
+                    <button class="btn btn-danger btn-sm" data-action="delete" data-id="${pkg.id}">Hapus</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
         });
-      }
+    }
 
-      // pagination
-      const total = list.length;
-      const pageSize = STATE.pageSize;
-      const totalPages = Math.max(1, Math.ceil(total / pageSize));
-      if (STATE.page > totalPages) STATE.page = totalPages;
-      const start = (STATE.page - 1) * pageSize;
-      const end = start + pageSize;
-      const pageItems = list.slice(start, end);
+    function renderFAQList() {
+        const tbody = document.querySelector('#faqTable tbody');
+        tbody.innerHTML = '';
 
-      // render rows
-      tableBody.innerHTML = '';
-      if (pageItems.length === 0) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td colspan="6" style="text-align:center;padding:24px" class="muted">Tidak ada paket yang cocok</td>`;
-        tableBody.appendChild(tr);
-      } else {
-        pageItems.forEach(item => {
-          const tr = document.createElement('tr');
-          tr.setAttribute('data-id', item.id);
-          tr.innerHTML = `
-            <td><strong>${escapeHtml(item.nama)}</strong><div class="tiny muted">${escapeHtml(item.id)}</div></td>
-            <td>${escapeHtml(item.kecepatan)}</td>
-            <td>${formatCurrency(item.harga)}</td>
-            <td>${item.pelanggan ?? 0}</td>
-            <td><span class="badge-pill">${item.status}</span></td>
-            <td style="text-align:right" class="actions">
-              <button class="btn page-btn btn-edit" title="Edit"><i class="fa fa-pen"></i></button>
-              <button class="btn page-btn btn-copy" title="Duplicate"><i class="fa fa-clone"></i></button>
-              <button class="btn page-btn btn-delete" title="Hapus" style="background:var(--danger);color:#fff"><i class="fa fa-trash"></i></button>
-            </td>
-          `;
-          tableBody.appendChild(tr);
+        faqItems.forEach((item, index) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${item.question}</td>
+                <td>${item.answer}</td>
+                <td>
+                    <button class="btn btn-ghost btn-sm" data-action="edit-faq" data-index="${index}">Edit</button>
+                    <button class="btn btn-danger btn-sm" data-action="delete-faq" data-index="${index}">Hapus</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
         });
-      }
-
-      // update table info
-      tableInfo.textContent = `Menampilkan ${Math.min(total, (start + 1))} - ${Math.min(total, end)} dari ${total} item`;
-
-      // update pagination UI
-      renderPagination(totalPages);
-
-      // update stats (like total count)
-      updateStats();
-
-      // attach row-level listeners (delegation used below but some controls require per row)
-      attachRowEvents();
     }
 
-    // escape html to avoid XSS in this demo
-    function escapeHtml(s) {
-      if (s === null || s === undefined) return '';
-      return String(s)
-        .replace(/&/g,'&amp;')
-        .replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;')
-        .replace(/"/g,'&quot;')
-        .replace(/'/g,"&#039;");
+    function renderSettingsForm() {
+        document.getElementById('heroTitle').value = settings.heroTitle || 'Stabil untuk Semua Kebutuhan';
+        document.getElementById('heroDescription').value = settings.heroDescription || 'Nikmati pengalaman internet terbaik dengan harga terjangkau. Instalasi gratis dan dukungan teknis 24/7.';
+        document.getElementById('aboutTitle').value = settings.aboutTitle || 'Tentang DEDE05 TASIK';
+        document.getElementById('aboutDescription1').value = settings.aboutDescription1 || 'Kami adalah penyedia layanan internet lokal yang berfokus pada kualitas, respon cepat, dan harga yang bersaing. Beroperasi di wilayah Tasikmalaya dan sekitarnya dengan teknisi lokal yang handal.';
+        document.getElementById('aboutDescription2').value = settings.aboutDescription2 || 'Dengan pengalaman lebih dari 5 tahun di industri telekomunikasi, kami berkomitmen untuk memberikan layanan terbaik kepada pelanggan dengan jaringan yang stabil dan dukungan 24/7.';
+        document.getElementById('footerDescription').value = settings.description || 'Penyedia layanan internet lokal di Tasikmalaya dengan koneksi stabil dan harga terjangkau. Dukungan teknis 24/7 untuk kepuasan pelanggan.';
+        document.getElementById('whatsapp').value = settings.whatsapp || '0812-XXXX-XXXX';
+        document.getElementById('email').value = settings.email || 'support@dede05tasik.local';
+        document.getElementById('address').value = settings.address || 'Jl. Contoh No.12, Tasikmalaya';
+        document.getElementById('workingHours').value = settings.workingHours || 'Senin-Minggu: 08:00-20:00';
     }
 
-    // renders pagination controls with neighbor style
-    function renderPagination(totalPages) {
-      pagination.innerHTML = '';
-      // if only 1 page, hide
-      if (totalPages <= 1) return;
+    function renderReports() {
+        const tbody = document.querySelector('#reportsTable tbody');
+        tbody.innerHTML = '';
 
-      // prev
-      const prev = document.createElement('button');
-      prev.className = 'page-btn';
-      prev.textContent = '‹';
-      prev.disabled = STATE.page === 1;
-      prev.onclick = () => { STATE.page = Math.max(1, STATE.page - 1); render(); };
-      pagination.appendChild(prev);
+        if (!reports.length) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td colspan="7" style="padding-top:8px;color:${'#6b7280'};">Belum ada laporan masuk.</td>`;
+            tbody.appendChild(tr);
+            updateReportsBadge();
+            return;
+        }
 
-      // page numbers
-      for (let i = 1; i <= totalPages; i++) {
-        const btn = document.createElement('button');
-        btn.className = 'page-btn' + (i === STATE.page ? ' active' : '');
-        btn.textContent = i;
-        btn.onclick = () => { STATE.page = i; render(); };
-        pagination.appendChild(btn);
-      }
+        reports
+            .sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal))
+            .forEach((r, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${r.nama}</td>
+                    <td>${r.telepon}</td>
+                    <td>${r.alamat}</td>
+                    <td>
+                        <div><strong>${r.jenisMasalah}</strong></div>
+                        <div style="margin-top:2px;">${r.keterangan || '-'}</div>
+                    </td>
+                    <td>${new Date(r.tanggal).toLocaleString('id-ID')}</td>
+                    <td>
+                        <select data-report-index="${index}" class="form-select report-status-select">
+                            <option value="pending"${r.status === 'pending' ? ' selected' : ''}>Pending</option>
+                            <option value="proses"${r.status === 'proses' ? ' selected' : ''}>Diproses</option>
+                            <option value="selesai"${r.status === 'selesai' ? ' selected' : ''}>Selesai</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" data-action="delete-report" data-index="${index}">Hapus</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
 
-      // next
-      const next = document.createElement('button');
-      next.className = 'page-btn';
-      next.textContent = '›';
-      next.disabled = STATE.page === totalPages;
-      next.onclick = () => { STATE.page = Math.min(totalPages, STATE.page + 1); render(); };
-      pagination.appendChild(next);
+        updateReportsBadge();
     }
 
-    // update stats and small values
-    function updateStats() {
-      statTotal.textContent = `${STATE.paketData.length} Paket`;
-      // sum of pelanggan
-      let sum = STATE.paketData.reduce((acc, p) => acc + (Number(p.pelanggan) || 0), 0);
-      statPelanggan.textContent = sum;
-      // uptime static for demo but display dynamic timestamp
-      statUptime.textContent = `${(99.5 + (STATE.paketData.length % 10) * 0.05).toFixed(2)}%`;
+    function updateReportsBadge() {
+        const badge = document.getElementById('badgeReports');
+        if (!badge) return;
+        badge.textContent = reports.length;
     }
 
-    /* ---------------------------
-       Event binding / listeners
-       --------------------------- */
+    // Event handlers
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+        localStorage.removeItem('adminLoggedIn');
+        window.location.href = 'admin-login.html';
+    });
 
-    function attachListeners() {
-      // collapse sidebar
-      btnCollapse.addEventListener('click', () => {
-        sidebar.classList.toggle('collapsed');
-        // change icon rotate
-        const icon = btnCollapse.querySelector('i');
-        if (sidebar.classList.contains('collapsed')) {
-          icon.classList.remove('fa-angle-left');
-          icon.classList.add('fa-angle-right');
+    // Nav tab switching
+    document.querySelectorAll('.nav-link').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const targetId = btn.getAttribute('data-target');
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.style.display = (tab.id === targetId) ? 'block' : 'none';
+            });
+        });
+    });
+
+    // Paket: simpan / edit
+    document.getElementById('btnSavePackage').addEventListener('click', () => {
+        const name = document.getElementById('pkgName').value.trim();
+        const speedValue = document.getElementById('pkgSpeed').value.trim();
+        const price = document.getElementById('pkgPrice').value.trim();
+        const status = document.getElementById('pkgStatus').value;
+        const featuresText = document.getElementById('pkgFeatures').value.trim();
+        const popular = document.getElementById('pkgPopular').value === 'true';
+        const editingId = document.getElementById('pkgEditingId').value;
+
+        if (!name || !speedValue || !price) {
+            showNotification('Nama, speed, dan harga wajib diisi.');
+            return;
+        }
+
+        const speed = speedValue + ' Mbps';
+        const features = featuresText
+            ? featuresText.split('\n').map(f => f.trim()).filter(f => f)
+            : [];
+
+        if (editingId) {
+            // update existing
+            const idNum = Number(editingId);
+            packages = packages.map(p => p.id === idNum ? {
+                ...p,
+                name,
+                speed,
+                price,
+                status,
+                popular,
+                features
+            } : p);
         } else {
-          icon.classList.remove('fa-angle-right');
-          icon.classList.add('fa-angle-left');
+            // new
+            const newId = Date.now();
+            packages.push({
+                id: newId,
+                name,
+                speed,
+                price,
+                status,
+                popular,
+                features
+            });
         }
-      });
 
-      // LOGOUT: clear local data + redirect ke menu utama
-      btnLogout.addEventListener('click', () => {
-        if (confirm('Logout sekarang?')) {
-          try {
-            localStorage.removeItem(STORAGE_KEY);
-          } catch (e) {
-            console.error('Gagal menghapus data lokal saat logout', e);
-          }
-          // ganti "index.html" kalau nama halaman utamamu berbeda
-          window.location.href = 'index.html';
-        }
-      });
+        savePackages();
+        renderPackages();
+        clearPackageForm();
+    });
 
-      // open modal
-      btnAdd.addEventListener('click', () => {
-        openModal('add');
-      });
-
-      // modal close
-      modalClose.addEventListener('click', closeModal);
-      btnCancel.addEventListener('click', closeModal);
-
-      // save
-      btnSave.addEventListener('click', onSave);
-
-      // search (debounced)
-      searchInput.addEventListener('input', debounce((e) => {
-        STATE.filter = e.target.value;
-        STATE.page = 1;
-        render();
-        clearSearch.style.display = STATE.filter ? 'inline-block' : 'none';
-      }, 180));
-
-      clearSearch.addEventListener('click', () => {
-        searchInput.value = '';
-        STATE.filter = '';
-        STATE.page = 1;
-        clearSearch.style.display = 'none';
-        render();
-      });
-
-      // keyboard shortcuts
-      document.addEventListener('keydown', (e) => {
-        // ESC to close modal
-        if (e.key === 'Escape') {
-          if (modal.classList.contains('show')) closeModal();
-        }
-        // N to new
-        if (e.key.toLowerCase() === 'n' && !modal.classList.contains('show')) {
-          openModal('add');
-          e.preventDefault();
-        }
-        // / to focus search
-        if (e.key === '/' && document.activeElement !== searchInput) {
-          e.preventDefault();
-          searchInput.focus();
-        }
-      });
-
-      // sort change
-      sortBy.addEventListener('change', (e) => {
-        STATE.sortBy = e.target.value;
-        render();
-      });
-
-      // export CSV
-      btnExport.addEventListener('click', exportCSV);
-
-      // theme toggle
-      btnTheme.addEventListener('click', () => {
-        STATE.theme = STATE.theme === 'light' ? 'dark' : 'light';
-        applyTheme(STATE.theme);
-      });
-
-      // click outside modal closes it
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-      });
-
-      // delegate nav clicks to change page title (illustrative)
-      $$('.nav a').forEach(a => {
-        a.addEventListener('click', (ev) => {
-          ev.preventDefault();
-          $$('.nav a').forEach(x => x.classList.remove('active'));
-          a.classList.add('active');
-          const sec = a.getAttribute('data-section') || 'dashboard';
-          $('#pageTitle').textContent = a.querySelector('.label').textContent || 'Dashboard';
-          // for demo, only change title
-        });
-      });
+    function clearPackageForm() {
+        document.getElementById('pkgName').value = '';
+        document.getElementById('pkgSpeed').value = '';
+        document.getElementById('pkgPrice').value = '';
+        document.getElementById('pkgStatus').value = 'active';
+        document.getElementById('pkgFeatures').value = '';
+        document.getElementById('pkgPopular').value = 'false';
+        document.getElementById('pkgEditingId').value = '';
     }
 
-    // row event delegation (rebind for new rows)
-    function attachRowEvents() {
-      // edit
-      $$('.btn-edit').forEach(btn => {
-        btn.onclick = (ev) => {
-          const id = ev.target.closest('tr').getAttribute('data-id');
-          openModal('edit', id);
-        };
-      });
+    document.getElementById('btnClearPackageForm').addEventListener('click', clearPackageForm);
 
-      // copy / duplicate
-      $$('.btn-copy').forEach(btn => {
-        btn.onclick = (ev) => {
-          const id = ev.target.closest('tr').getAttribute('data-id');
-          const item = STATE.paketData.find(p => p.id === id);
-          if (!item) return;
-          const copy = { ...item, id: uid('p'), nama: item.nama + ' (Copy)' };
-          STATE.paketData.unshift(copy);
-          persist();
-          render();
-          alert('Item duplicated');
-        };
-      });
+    // Handle edit/delete paket
+    document.querySelector('#packagesTable tbody').addEventListener('click', (e) => {
+        const btn = e.target.closest('button');
+        if (!btn) return;
 
-      // delete
-      $$('.btn-delete').forEach(btn => {
-        btn.onclick = (ev) => {
-          const id = ev.target.closest('tr').getAttribute('data-id');
-          if (confirm('Yakin hapus paket ini?')) {
-            STATE.paketData = STATE.paketData.filter(p => p.id !== id);
-            persist();
-            render();
-          }
-        };
-      });
-    }
+        const action = btn.getAttribute('data-action');
+        const id = Number(btn.getAttribute('data-id'));
 
-    /* ---------------------------
-       Modal logic
-       --------------------------- */
-
-    function openModal(mode='add', id=null) {
-      STATE.editId = null;
-      if (mode === 'add') {
-        $('#modalTitle').textContent = 'Tambah Paket';
-        fNama.value = '';
-        fKecepatan.value = '';
-        fHarga.value = '';
-        fStatus.value = 'AKTIF';
-      } else {
-        $('#modalTitle').textContent = 'Edit Paket';
-        const item = STATE.paketData.find(p => p.id === id);
-        if (!item) {
-          alert('Item tidak ditemukan');
-          return;
+        if (action === 'edit') {
+            const pkg = packages.find(p => p.id === id);
+            if (!pkg) return;
+            document.getElementById('pkgName').value = pkg.name;
+            document.getElementById('pkgSpeed').value = pkg.speed.split(' ')[0];
+            document.getElementById('pkgPrice').value = pkg.price;
+            document.getElementById('pkgStatus').value = pkg.status;
+            document.getElementById('pkgPopular').value = pkg.popular ? 'true' : 'false';
+            document.getElementById('pkgFeatures').value = (pkg.features || []).join('\n');
+            document.getElementById('pkgEditingId').value = pkg.id;
+            showNotification('Paket dimuat ke form, silakan edit lalu simpan.');
         }
-        STATE.editId = item.id;
-        fNama.value = item.nama;
-        fKecepatan.value = item.kecepatan;
-        fHarga.value = item.harga;
-        fStatus.value = item.status;
-      }
-      modal.classList.add('show');
-      modal.setAttribute('aria-hidden','false');
-      fNama.focus();
-    }
 
-    function closeModal() {
-      modal.classList.remove('show');
-      modal.setAttribute('aria-hidden','true');
-      STATE.editId = null;
-    }
-
-    /* ---------------------------
-       Save / Update data
-       --------------------------- */
-
-    function onSave() {
-      const nama = fNama.value.trim();
-      const kecepatan = fKecepatan.value.trim();
-      const hargaRaw = fHarga.value.trim();
-      const hargaNum = parseCurrency(hargaRaw) || parseCurrency(hargaRaw.replace(/\./g,'')) || 0;
-      const status = fStatus.value;
-
-      // validation (verbose)
-      const errors = [];
-      if (!nama) errors.push('Nama paket wajib diisi');
-      if (!kecepatan) errors.push('Kecepatan wajib diisi');
-      if (!hargaRaw) errors.push('Harga wajib diisi');
-
-      if (errors.length > 0) {
-        alert(errors.join('\\n'));
-        return;
-      }
-
-      if (STATE.editId) {
-        // update existing
-        const idx = STATE.paketData.findIndex(p => p.id === STATE.editId);
-        if (idx === -1) {
-          alert('Gagal menemukan item untuk diupdate');
-          closeModal();
-          return;
+        if (action === 'delete') {
+            if (!confirm('Yakin ingin menghapus paket ini?')) return;
+            packages = packages.filter(p => p.id !== id);
+            savePackages();
+            renderPackages();
         }
-        STATE.paketData[idx] = {
-          ...STATE.paketData[idx],
-          nama,
-          kecepatan,
-          harga: String(hargaNum),
-          status
-        };
-      } else {
-        // create new at top
-        const newItem = {
-          id: uid('p'),
-          nama,
-          kecepatan,
-          harga: String(hargaNum),
-          pelanggan: 0,
-          status
-        };
-        STATE.paketData.unshift(newItem);
-        // if adding, go to first page to see new item
-        STATE.page = 1;
-      }
+    });
 
-      persist();
-      closeModal();
-      render();
+    // FAQ: simpan
+    document.getElementById('btnSaveFAQ').addEventListener('click', () => {
+        const question = document.getElementById('faqQuestion').value.trim();
+        const answer = document.getElementById('faqAnswer').value.trim();
+        const editingIndex = document.getElementById('faqEditingIndex').value;
+
+        if (!question || !answer) {
+            showNotification('Pertanyaan dan jawaban wajib diisi.');
+            return;
+        }
+
+        if (editingIndex !== '') {
+            const idx = Number(editingIndex);
+            faqItems[idx] = { question, answer };
+        } else {
+            faqItems.push({ question, answer });
+        }
+
+        saveFAQ();
+        renderFAQList();
+        clearFAQForm();
+    });
+
+    function clearFAQForm() {
+        document.getElementById('faqQuestion').value = '';
+        document.getElementById('faqAnswer').value = '';
+        document.getElementById('faqEditingIndex').value = '';
     }
 
-    /* ---------------------------
-       CSV Export
-       --------------------------- */
+    document.getElementById('btnClearFAQForm').addEventListener('click', clearFAQForm);
 
-    function exportCSV() {
-      const header = ['id','nama','kecepatan','harga','pelanggan','status'];
-      const rows = [header.join(',')];
-      STATE.paketData.forEach(p => {
-        const line = [p.id, `"${p.nama.replace(/"/g,'""')}"`, `"${p.kecepatan.replace(/"/g,'""')}"`, p.harga, p.pelanggan, p.status].join(',');
-        rows.push(line);
-      });
-      const csv = rows.join('\\n');
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'paket_export.csv';
-      a.click();
-      URL.revokeObjectURL(url);
-    }
+    document.querySelector('#faqTable tbody').addEventListener('click', (e) => {
+        const btn = e.target.closest('button');
+        if (!btn) return;
 
-    /* ---------------------------
-       Theme
-       --------------------------- */
+        const action = btn.getAttribute('data-action');
+        const index = Number(btn.getAttribute('data-index'));
 
-    function applyTheme(theme) {
-      if (theme === 'dark') {
-        document.documentElement.style.setProperty('--bg', '#0b1020');
-        document.documentElement.style.setProperty('--card-bg', '#0f1724');
-        document.documentElement.style.setProperty('--muted', '#0b1220');
-        document.body.style.background = '#071127';
-        btnTheme.innerHTML = '<i class="fa fa-sun"></i>';
-      } else {
-        document.documentElement.style.setProperty('--bg', '#eef1f7');
-        document.documentElement.style.setProperty('--card-bg', '#ffffff');
-        document.documentElement.style.setProperty('--muted', '#f3f6fb');
-        document.body.style.background = 'var(--bg)';
-        btnTheme.innerHTML = '<i class="fa fa-moon"></i>';
-      }
-      STATE.theme = theme;
-    }
+        if (action === 'edit-faq') {
+            const item = faqItems[index];
+            if (!item) return;
+            document.getElementById('faqQuestion').value = item.question;
+            document.getElementById('faqAnswer').value = item.answer;
+            document.getElementById('faqEditingIndex').value = index;
+        }
 
-    /* ---------------------------
-       Initialize app
-       --------------------------- */
-    boot();
+        if (action === 'delete-faq') {
+            if (!confirm('Yakin ingin menghapus FAQ ini?')) return;
+            faqItems.splice(index, 1);
+            saveFAQ();
+            renderFAQList();
+        }
+    });
 
-    // expose small helper for debug in console if needed
-    window._APP = {
-      STATE, render, persist
-    };
+    // Settings: simpan
+    document.getElementById('btnSaveSettings').addEventListener('click', () => {
+        settings.heroTitle = document.getElementById('heroTitle').value.trim();
+        settings.heroDescription = document.getElementById('heroDescription').value.trim();
+        settings.aboutTitle = document.getElementById('aboutTitle').value.trim();
+        settings.aboutDescription1 = document.getElementById('aboutDescription1').value.trim();
+        settings.aboutDescription2 = document.getElementById('aboutDescription2').value.trim();
+        settings.description = document.getElementById('footerDescription').value.trim();
+        settings.whatsapp = document.getElementById('whatsapp').value.trim();
+        settings.email = document.getElementById('email').value.trim();
+        settings.address = document.getElementById('address').value.trim();
+        settings.workingHours = document.getElementById('workingHours').value.trim();
 
-  </script>
+        saveSettings();
+    });
+
+    // Reports: change status / delete / clear all
+    document.querySelector('#reportsTable tbody').addEventListener('change', (e) => {
+        if (e.target.classList.contains('report-status-select')) {
+            const index = Number(e.target.getAttribute('data-report-index'));
+            const val = e.target.value;
+            if (!reports[index]) return;
+            reports[index].status = val;
+            saveReports();
+            showNotification('Status laporan diperbarui.');
+        }
+    });
+
+    document.querySelector('#reportsTable tbody').addEventListener('click', (e) => {
+        const btn = e.target.closest('button');
+        if (!btn) return;
+        const action = btn.getAttribute('data-action');
+        const index = Number(btn.getAttribute('data-index'));
+        if (action === 'delete-report') {
+            if (!confirm('Yakin ingin menghapus laporan ini?')) return;
+            reports.splice(index, 1);
+            saveReports();
+            renderReports();
+            showNotification('Laporan dihapus.');
+        }
+    });
+
+    document.getElementById('btnClearReports').addEventListener('click', () => {
+        if (!reports.length) {
+            showNotification('Belum ada laporan yang perlu dihapus.');
+            return;
+        }
+        if (!confirm('Yakin ingin menghapus semua laporan?')) return;
+        reports = [];
+        saveReports();
+        renderReports();
+        showNotification('Semua laporan dihapus.');
+    });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+        loadData();
+        renderPackages();
+        renderFAQList();
+        renderSettingsForm();
+        renderReports();
+    });
+</script>
 </body>
 </html>

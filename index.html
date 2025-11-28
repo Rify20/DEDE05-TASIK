@@ -364,7 +364,6 @@
             border: 1px solid var(--gray-200);
             box-shadow: var(--shadow);
             transition: var(--transition);
-            position: relative;
         }
 
         .package-mini-card:hover {
@@ -1758,14 +1757,16 @@ Terima kasih.`;
 
             tombolKontak.addEventListener('click', kontakUmum);
 
+            // LOGIN DESKTOP -> SUDAH PAKAI admin-login.php
             tombolLogin.addEventListener('click', () => {
-                window.location.href = 'admin-login.html';
+                window.location.href = 'admin-login.php';
             });
 
+            // LOGIN MOBILE -> SUDAH PAKAI admin-login.php
             tombolLoginMobile.addEventListener('click', () => {
                 toggleMenuMobile();
                 setTimeout(() => {
-                    window.location.href = 'admin-login.html';
+                    window.location.href = 'admin-login.php';
                 }, 300);
             });
 

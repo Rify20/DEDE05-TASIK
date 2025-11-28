@@ -1,0 +1,1275 @@
+<?php
+session_start();
+if (!isset($_SESSION['is_admin'])) {
+    header('Location: admin-login.php');
+    exit;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DEDE05 TASIK - Admin Dashboard</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root{
+      --bg: #eef1f7;
+      --card-bg: #ffffff;
+      --muted: #f3f6fb;
+      --accent: #1E6CE1;
+      --accent-2: #0A3D91;
+      --danger: #e74c3c;
+      --text: #1f2937;
+      --subtext: #6b7280;
+      --radius: 12px;
+      --shadow-1: 0 3px 14px rgba(15,30,80,0.06);
+      --transition-fast: 160ms;
+      --max-width: 1200px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html,body,#app{height:100%;}
+    body{
+      font-family:'Poppins',system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.4;
+      padding:20px;
+      display:flex;
+      justify-content:center;
+    }
+    .shell{
+      width:100%;
+      max-width:var(--max-width);
+      display:flex;
+      gap:20px;
+      align-items:stretch;
+    }
+
+    /* SIDEBAR */
+    .sidebar{
+      width:280px;
+      min-height:calc(100vh - 40px);
+      background:linear-gradient(180deg,var(--accent-2),var(--accent));
+      color:#fff;
+      border-radius:16px;
+      padding:22px;
+      box-shadow:var(--shadow-1);
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      transition:width var(--transition-fast) ease;
+    }
+    .sidebar.collapsed{width:84px;}
+    .brand{display:flex;gap:12px;align-items:center;}
+    .brand .logo{
+      width:56px;height:56px;border-radius:12px;
+      background:linear-gradient(180deg,#2e83ff,#1e6ce1);
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;box-shadow:0 6px 18px rgba(10,30,90,0.18);
+    }
+    .brand .text{font-weight:700;font-size:18px;line-height:1;}
+    .sidebar .meta{color:rgba(255,255,255,.85);font-size:13px;}
+    .collapse-btn{
+      margin-left:auto;background:rgba(255,255,255,0.08);
+      border:none;color:#fff;padding:8px;border-radius:10px;cursor:pointer;
+    }
+    .nav{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+    .nav a{
+      display:flex;gap:12px;align-items:center;
+      text-decoration:none;color:rgba(255,255,255,0.9);
+      padding:10px;border-radius:10px;
+      transition:background var(--transition-fast),transform var(--transition-fast);
+      font-weight:500;font-size:15px;
+    }
+    .nav a:hover{background:rgba(255,255,255,0.06);transform:translateX(2px);}
+    .nav a .ico{width:40px;text-align:center;font-size:18px;}
+    .nav a .label{white-space:nowrap;}
+    .nav a .badge{
+      margin-left:auto;background:white;color:var(--accent-2);
+      padding:4px 8px;border-radius:12px;font-weight:700;font-size:12px;
+    }
+    .nav a.active{background:rgba(255,255,255,0.16);}
+    .sidebar.collapsed .label,
+    .sidebar.collapsed .meta,
+    .sidebar.collapsed .brand .text{display:none;}
+
+    /* MAIN */
+    .main{
+      flex:1;
+      min-height:calc(100vh - 40px);
+      border-radius:16px;
+      background:transparent;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+    .header-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+    }
+    .header-title{font-weight:700;font-size:20px;}
+    .tiny{font-size:12px;color:#9aa4b2;}
+    .muted{color:var(--subtext);}
+
+    .search{
+      display:flex;align-items:center;gap:10px;
+      background:var(--card-bg);padding:10px 12px;
+      border-radius:12px;width:520px;
+      box-shadow:var(--shadow-1);
+      border:1px solid rgba(0,0,0,0.03);
+    }
+    .search input{
+      border:none;outline:none;font-size:14px;
+      flex:1;background:transparent;
+    }
+    .profile{
+      display:flex;align-items:center;gap:10px;
+      padding:8px 12px;background:var(--card-bg);
+      border-radius:999px;box-shadow:var(--shadow-1);
+    }
+    .profile .avatar{
+      width:44px;height:44px;border-radius:50%;
+      background:var(--accent);color:white;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;box-shadow:0 6px 18px rgba(30,108,225,0.12);
+    }
+
+    .stats{display:flex;gap:16px;margin-top:6px;flex-wrap:wrap;}
+    .stat{
+      background:var(--card-bg);padding:18px;border-radius:12px;
+      flex:1;box-shadow:var(--shadow-1);
+      display:flex;align-items:center;gap:12px;min-width:180px;
+    }
+    .stat .s-ico{
+      width:56px;height:56px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:18px;color:var(--accent-2);
+      background:linear-gradient(180deg,#d8e9ff,#fff);font-weight:700;
+    }
+    .stat .s-body{display:flex;flex-direction:column;}
+    .stat .s-title{font-size:14px;color:var(--subtext);font-weight:600;}
+    .stat .s-value{font-weight:700;font-size:20px;}
+
+    .content-card{
+      background:var(--card-bg);
+      padding:18px;
+      border-radius:12px;
+      box-shadow:var(--shadow-1);
+    }
+    .content-title{
+      font-weight:600;font-size:16px;margin-bottom:8px;
+    }
+    .content-sub{
+      font-size:12px;color:var(--subtext);margin-bottom:12px;
+    }
+    .btn{
+      border:none;cursor:pointer;font-family:inherit;
+      font-size:14px;padding:8px 12px;border-radius:8px;
+      display:inline-flex;align-items:center;gap:6px;
+      background:var(--card-bg);box-shadow:var(--shadow-1);
+      transition:transform 160ms,box-shadow 160ms,opacity 160ms;
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 6px 16px rgba(15,30,80,0.16);
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:#fff;border:none;
+    }
+
+    .table-wrap{margin-top:14px;overflow-x:auto;}
+    table{
+      width:100%;border-collapse:collapse;
+      min-width:760px;font-size:14px;
+    }
+    thead tr th{
+      text-align:left;padding:12px 14px;
+      background:var(--muted);font-weight:700;
+    }
+    tbody tr td{
+      padding:12px 14px;border-bottom:1px solid #f1f5fb;
+      vertical-align:middle;
+    }
+    .badge-pill{
+      display:inline-block;padding:6px 10px;
+      border-radius:999px;background:#f4f7fc;
+      color:var(--accent-2);font-weight:700;font-size:12px;
+    }
+    .actions .btn{margin-right:6px;font-size:13px;padding:6px 10px;}
+    .pagination{
+      display:flex;gap:8px;margin-top:12px;
+      justify-content:flex-end;align-items:center;
+    }
+    .page-btn{
+      padding:8px 10px;border-radius:8px;
+      background:#fff;border:1px solid rgba(0,0,0,0.04);
+      cursor:pointer;
+    }
+    .page-btn.active{
+      background:var(--accent);color:white;border-color:transparent;
+    }
+
+    /* FORM GRID */
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+    .field{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;}
+    .field label{font-size:13px;font-weight:600;color:var(--subtext);}
+    .field input,.field textarea,.field select{
+      padding:9px 11px;border-radius:8px;
+      border:1px solid #e6eefc;font-size:13px;
+      outline:none;transition:border 160ms,box-shadow 160ms;
+      font-family:inherit;resize:vertical;
+    }
+    .field input:focus,.field textarea:focus,.field select:focus{
+      box-shadow:0 6px 18px rgba(30,108,225,0.06);
+      border-color:var(--accent);
+    }
+    .field small{font-size:11px;color:#9ca3af;}
+
+    .section-divider{
+      margin:14px 0 10px;
+      border-top:1px dashed #e5e7eb;
+      padding-top:10px;
+      font-size:12px;
+      text-transform:uppercase;
+      color:#9ca3af;
+      font-weight:600;
+      letter-spacing:.03em;
+    }
+
+    /* MODAL */
+    .modal{
+      position:fixed;left:0;top:0;right:0;bottom:0;
+      display:none;background:rgba(7,10,20,0.45);
+      align-items:center;justify-content:center;
+      z-index:9999;padding:22px;
+    }
+    .modal.show{display:flex;}
+    .modal-card{
+      width:560px;max-width:calc(100% - 40px);
+      border-radius:12px;padding:20px;background:var(--card-bg);
+      box-shadow:0 10px 40px rgba(10,30,80,0.12);
+    }
+    .modal-grid{
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:12px;margin-top:10px;
+    }
+    .modal-footer{
+      display:flex;justify-content:flex-end;
+      gap:12px;margin-top:16px;
+    }
+
+    @media(max-width:980px){
+      .sidebar{display:none;}
+      .shell{padding:0 12px;}
+      .search{width:100%;}
+      .modal-card{width:100%;}
+      table{min-width:auto;font-size:13px;}
+      .grid-2,.grid-3{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+  <div id="app" class="shell" role="application" aria-label="DEDE05 TASIK Admin Panel">
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar">
+      <div class="brand">
+        <div class="logo">AD</div>
+        <div>
+          <div class="text">DEDE05 TASIK</div>
+          <div class="meta">Admin Dashboard</div>
+        </div>
+        <button id="btnCollapse" class="collapse-btn" title="Collapse sidebar">
+          <i class="fa fa-angle-left"></i>
+        </button>
+      </div>
+
+      <nav>
+        <ul class="nav">
+          <li><a href="#" class="active" data-section="paket">
+            <div class="ico"><i class="fa fa-wifi"></i></div>
+            <div class="label">Paket Internet</div>
+          </a></li>
+          <li><a href="#" data-section="front">
+            <div class="ico"><i class="fa fa-font"></i></div>
+            <div class="label">Teks Halaman Depan</div>
+          </a></li>
+        </ul>
+      </nav>
+
+      <div style="margin-top:auto;font-size:13px;opacity:.95">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="tiny">Logged as</div>
+          <div class="tiny">admin</div>
+        </div>
+        <div style="height:8px"></div>
+        <button id="btnLogout"
+                style="width:100%;background:#fff;color:var(--accent-2);border:none;padding:10px;border-radius:8px;cursor:pointer">
+          Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <div class="topbar">
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div class="header-row">
+            <div>
+              <div class="header-title">Admin Dashboard</div>
+              <div class="tiny muted">Kelola paket & teks yang tampil di <code>index.html</code></div>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div class="search">
+                <i class="fa fa-search" style="color:#6b7280"></i>
+                <input id="searchInput" placeholder="Cari paket (nama, kecepatan, harga)...">
+                <button id="clearSearch" style="display:none;background:transparent;border:0;cursor:pointer">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+
+              <div style="width:10px"></div>
+
+              <div style="display:flex;gap:8px;align-items:center;">
+                <div class="profile">
+                  <div class="avatar">AD</div>
+                  <div style="display:flex;flex-direction:column;">
+                    <div style="font-weight:700">Administrator</div>
+                    <div class="tiny muted">Super Admin</div>
+                  </div>
+                </div>
+
+                <button id="btnExport" class="btn" title="Export CSV"><i class="fa fa-file-csv"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <div class="s-ico"><i class="fa fa-wifi"></i></div>
+              <div class="s-body">
+                <div class="s-title">Total Paket</div>
+                <div class="s-value" id="statTotal">0 Paket</div>
+              </div>
+            </div>
+            <div class="stat">
+              <div class="s-ico"><i class="fa fa-users"></i></div>
+              <div class="s-body">
+                <div class="s-title">Perkiraan Pelanggan</div>
+                <div class="s-value" id="statPelanggan">0</div>
+              </div>
+            </div>
+            <div class="stat">
+              <div class="s-ico"><i class="fa fa-server"></i></div>
+              <div class="s-body">
+                <div class="s-title">Server Uptime (simulasi)</div>
+                <div class="s-value" id="statUptime">99.99%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: PAKET -->
+      <section id="section-paket" class="content-card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="display:flex;gap:10px;align-items:center">
+            <div>
+              <div class="content-title">Paket Internet</div>
+              <div class="content-sub">Data ini dipakai oleh hero & bagian "Paket Internet" di <code>index.html</code>.</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:8px;align-items:center">
+            <button id="btnAdd" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Paket</button>
+            <div class="muted tiny">Tekan <kbd>N</kbd> untuk buat baru</div>
+
+            <div style="display:flex;gap:8px;align-items:center;margin-left:18px;">
+              <div class="muted tiny">Sort:</div>
+              <select id="sortBy" style="padding:8px;border-radius:8px;border:1px solid #eef3ff">
+                <option value="default">Default</option>
+                <option value="nama_asc">Nama A-Z</option>
+                <option value="nama_desc">Nama Z-A</option>
+                <option value="harga_asc">Harga terendah</option>
+                <option value="harga_desc">Harga tertinggi</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table id="paketTable">
+            <thead>
+              <tr>
+                <th>Nama Paket</th>
+                <th>Kecepatan</th>
+                <th>Harga</th>
+                <th>Perkiraan Pelanggan</th>
+                <th>Status</th>
+                <th style="text-align:right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+          <div class="muted tiny" id="tableInfo">Menampilkan 0 dari 0 item</div>
+          <div class="pagination" id="pagination"></div>
+        </div>
+      </section>
+
+      <!-- SECTION: FRONT TEXT -->
+      <section id="section-front" class="content-card" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div>
+            <div class="content-title">Teks Halaman Depan</div>
+            <div class="content-sub">
+              Semua teks di hero, menu, judul section, footer & kontak akan mengikuti pengaturan di sini (disimpan ke <code>websiteFrontSettings</code>).
+            </div>
+          </div>
+          <button id="btnSaveFront" class="btn btn-primary">
+            <i class="fa fa-save"></i> Simpan Perubahan
+          </button>
+        </div>
+
+        <!-- Brand & tagline -->
+        <div class="section-divider">Brand & Tagline</div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsSiteName">Nama Brand / Site</label>
+            <input id="fsSiteName" type="text" placeholder="Contoh: DEDE05 TASIK">
+          </div>
+          <div class="field">
+            <label for="fsSiteTagline">Tagline singkat</label>
+            <input id="fsSiteTagline" type="text" placeholder="Contoh: Internet Cepat &amp; Stabil">
+          </div>
+        </div>
+
+        <!-- Hero -->
+        <div class="section-divider">Hero (bagian paling atas)</div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsHeroTitle">Judul besar Hero</label>
+            <input id="fsHeroTitle" type="text" placeholder="Contoh: Internet Cepat Untuk Keluarga Anda">
+          </div>
+          <div class="field">
+            <label for="fsHeroSubtitle">Deskripsi Hero</label>
+            <input id="fsHeroSubtitle" type="text" placeholder="Teks pendek di bawah judul hero">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsHeroCTA">Teks tombol CTA (Daftar)</label>
+            <input id="fsHeroCTA" type="text" placeholder="Contoh: Daftar Sekarang">
+          </div>
+          <div class="field">
+            <label for="fsHeroContactBtnText">Teks tombol "Hubungi Kami"</label>
+            <input id="fsHeroContactBtnText" type="text" placeholder="Contoh: Hubungi Kami">
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="field">
+            <label for="fsHeroFeature1">Hero Feature 1</label>
+            <input id="fsHeroFeature1" type="text">
+          </div>
+          <div class="field">
+            <label for="fsHeroFeature2">Hero Feature 2</label>
+            <input id="fsHeroFeature2" type="text">
+          </div>
+          <div class="field">
+            <label for="fsHeroFeature3">Hero Feature 3</label>
+            <input id="fsHeroFeature3" type="text">
+          </div>
+        </div>
+
+        <!-- NAV -->
+        <div class="section-divider">Menu Navigasi</div>
+        <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+          <div class="field">
+            <label for="fsNavPackages">Label menu Paket</label>
+            <input id="fsNavPackages" type="text">
+          </div>
+          <div class="field">
+            <label for="fsNavAbout">Label menu Tentang Kami</label>
+            <input id="fsNavAbout" type="text">
+          </div>
+          <div class="field">
+            <label for="fsNavFAQ">Label menu FAQ</label>
+            <input id="fsNavFAQ" type="text">
+          </div>
+          <div class="field">
+            <label for="fsNavReport">Label menu Lapor Gangguan</label>
+            <input id="fsNavReport" type="text">
+          </div>
+        </div>
+
+        <!-- SECTION TITLES -->
+        <div class="section-divider">Judul & Subjudul Section</div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsPackagesTitle">Judul section Paket</label>
+            <input id="fsPackagesTitle" type="text">
+          </div>
+          <div class="field">
+            <label for="fsPackagesSubtitle">Subjudul section Paket</label>
+            <input id="fsPackagesSubtitle" type="text">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsAboutTitle">Judul section Tentang Kami</label>
+            <input id="fsAboutTitle" type="text">
+          </div>
+          <div class="field">
+            <label for="fsAboutDescription1">Deskripsi Tentang 1</label>
+            <textarea id="fsAboutDescription1" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fsAboutDescription2">Deskripsi Tentang 2</label>
+          <textarea id="fsAboutDescription2" rows="2"></textarea>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsFaqTitle">Judul section FAQ</label>
+            <input id="fsFaqTitle" type="text">
+          </div>
+          <div class="field">
+            <label for="fsFaqSubtitle">Subjudul section FAQ</label>
+            <input id="fsFaqSubtitle" type="text">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsReportTitle">Judul section Lapor Gangguan</label>
+            <input id="fsReportTitle" type="text">
+          </div>
+          <div class="field">
+            <label for="fsReportSubtitle">Subjudul section Lapor Gangguan</label>
+            <input id="fsReportSubtitle" type="text">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsSpeedtestTitle">Judul section Speedtest</label>
+            <input id="fsSpeedtestTitle" type="text">
+          </div>
+          <div class="field">
+            <label for="fsSpeedtestSubtitle">Subjudul section Speedtest</label>
+            <input id="fsSpeedtestSubtitle" type="text">
+          </div>
+        </div>
+
+        <!-- FOOTER & CONTACT -->
+        <div class="section-divider">Footer & Kontak</div>
+        <div class="field">
+          <label for="fsFooterDescription">Deskripsi singkat di footer</label>
+          <textarea id="fsFooterDescription" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label for="fsCopyrightText">Teks copyright</label>
+          <input id="fsCopyrightText" type="text" placeholder="© 2024 DEDE05 TASIK. Semua hak dilindungi.">
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsContactPhone">Nomor WhatsApp (tanpa +, diawali 62)</label>
+            <input id="fsContactPhone" type="text" placeholder="Contoh: 6288269074542">
+            <small>Nomor ini dipakai untuk semua link WhatsApp di halaman depan.</small>
+          </div>
+          <div class="field">
+            <label for="fsContactEmail">Email</label>
+            <input id="fsContactEmail" type="email" placeholder="support@dede05tasik.local">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsAddress">Alamat</label>
+            <input id="fsAddress" type="text">
+          </div>
+          <div class="field">
+            <label for="fsWorkingHours">Jam Operasional</label>
+            <input id="fsWorkingHours" type="text" placeholder="Contoh: Senin-Minggu: 08:00-20:00">
+          </div>
+        </div>
+        <div class="field">
+          <label for="fsContactNote">Catatan kecil (tooltip WhatsApp)</label>
+          <input id="fsContactNote" type="text" placeholder="Contoh: Fast response 08.00–21.00 WIB">
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL PAKET -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3 id="modalTitle">Tambah Paket</h3>
+        <button id="modalClose" class="page-btn"><i class="fa fa-times"></i></button>
+      </div>
+
+      <p class="muted tiny"></p>
+
+      <div class="modal-grid">
+        <div class="field">
+          <label for="fNama">Nama Paket</label>
+          <input id="fNama" type="text" placeholder="Contoh: Basic ULTRAMAN">
+        </div>
+        <div class="field">
+          <label for="fKecepatan">Kecepatan</label>
+          <input id="fKecepatan" type="text" placeholder="Contoh: 10 Mbps">
+        </div>
+        <div class="field">
+          <label for="fHarga">Harga (boleh 99000 / Rp 99.000)</label>
+          <input id="fHarga" type="text" placeholder="Contoh: Rp 99.000">
+        </div>
+        <div class="field">
+          <label for="fStatus">Status</label>
+          <select id="fStatus">
+            <option value="active">AKTIF (tampil di depan)</option>
+            <option value="inactive">NONAKTIF (disembunyikan)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="btnCancel" class="btn">Batal</button>
+        <button id="btnSave" class="btn btn-primary">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ====== Proteksi: wajib login dulu via admin-login.html ======
+    (function(){
+      if (sessionStorage.getItem('isAdmin') !== 'true') {
+        window.location.href = 'admin-login.html';
+      }
+    })();
+
+    /* ==== Helpers ==== */
+    const $  = (s,c=document)=>c.querySelector(s);
+    const $$ = (s,c=document)=>Array.from(c.querySelectorAll(s));
+
+    const STORAGE_PACKAGES = 'websitePackages';
+    const FRONT_SETTINGS_KEY = 'websiteFrontSettings';
+
+    // DEFAULT sama persis dengan yang ada di index.html
+    const DEFAULT_FRONT_SETTINGS = {
+      siteName: 'DEDE05 TASIK',
+      siteTagline: 'Internet Cepat & Stabil',
+
+      heroTitle: 'Internet Cepat Untuk Keluarga Anda',
+      heroSubtitle: 'Nikmati pengalaman internet terbaik dengan harga terjangkau. Instalasi gratis dan dukungan teknis 24/7.',
+      heroCTA: 'Daftar Sekarang',
+      heroContactBtnText: 'Hubungi Kami',
+
+      heroFeature1: 'Instalasi gratis untuk pelanggan baru',
+      heroFeature2: 'Teknisi lokal siap membantu 24/7',
+      heroFeature3: 'Garansi kepuasan 30 hari',
+
+      navPackages: 'Paket',
+      navAbout: 'Tentang Kami',
+      navFAQ: 'FAQ',
+      navReport: 'Lapor Gangguan',
+
+      packagesTitle: 'Paket Internet',
+      packagesSubtitle: 'Pilih paket yang sesuai dengan kebutuhan Anda. Semua paket sudah termasuk instalasi gratis.',
+
+      aboutTitle: 'Tentang DEDE05 TASIK',
+      aboutDescription1: 'Kami adalah penyedia layanan internet lokal yang berfokus pada kualitas, respon cepat, dan harga yang bersaing. Beroperasi di wilayah Tasikmalaya dan sekitarnya dengan teknisi lokal yang handal.',
+      aboutDescription2: 'Dengan pengalaman lebih dari 5 tahun di industri telekomunikasi, kami berkomitmen untuk memberikan layanan terbaik kepada pelanggan dengan jaringan yang stabil dan dukungan 24/7.',
+
+      faqTitle: 'Pertanyaan Umum',
+      faqSubtitle: 'Beberapa pertanyaan yang sering diajukan oleh pelanggan kami.',
+
+      reportTitle: 'Lapor Gangguan',
+      reportSubtitle: 'Isi form berikut untuk melaporkan gangguan atau meminta bantuan teknisi.',
+
+      speedtestTitle: 'Tes Kecepatan Internet',
+      speedtestSubtitle: 'Periksa kecepatan internet Anda dengan alat tes kecepatan kami.',
+
+      footerDescription: 'Penyedia layanan internet lokal di Tasikmalaya dengan koneksi stabil dan harga terjangkau. Dukungan teknis 24/7 untuk kepuasan pelanggan.',
+      copyrightText: '© 2024 DEDE05 TASIK. Semua hak dilindungi.',
+
+      contactPhone: '6288269074542',
+      contactEmail: 'support@dede05tasik.local',
+      address: 'Jl. Contoh No.12, Tasikmalaya',
+      workingHours: 'Senin-Minggu: 08:00-20:00',
+      contactNote: 'Fast response 08.00–21.00 WIB'
+    };
+
+    function formatCurrency(val){
+      if(val===null||val===undefined)return '';
+      let s=String(val).trim();
+      if(/[^0-9\.\,\s]/.test(s) && s.includes('Rp')) return s;
+      let n=Number(s.replace(/[^\d.-]/g,''));
+      if(isNaN(n))return s;
+      return 'Rp '+n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".");
+    }
+    function parseCurrency(str){
+      if(!str)return 0;
+      let s=String(str).replace(/[^\d\-\.]/g,'');
+      let n=Number(s);
+      return isNaN(n)?0:n;
+    }
+    function uid(p='id'){return p+'_'+Math.random().toString(36).slice(2,9);}
+    function debounce(fn,w=200){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),w);};}
+    function escapeHtml(s){
+      if(s===null||s===undefined)return '';
+      return String(s)
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,"&#039;");
+    }
+
+    function generateDefaultFeatures(speedStr){
+      const m=String(speedStr||'').match(/(\d+)/);
+      const spd=m?parseInt(m[1],10):10;
+      const base=['Unlimited Bandwidth','Support 24/7','Instalasi gratis'];
+      let info='Cocok untuk kebutuhan rumah tangga';
+      if(spd<=10) info='Cocok untuk 1–3 perangkat (chat & browsing)';
+      else if(spd<=20) info='Cocok untuk 3–5 perangkat (streaming HD)';
+      else if(spd<=50) info='Cocok untuk 5–10 perangkat (streaming & gaming)';
+      else info='Cocok untuk kantor / banyak perangkat';
+      base.splice(1,0,info);
+      return base;
+    }
+
+    /* ==== State ==== */
+    let STATE={
+      paketData:[],
+      filter:'',
+      page:1,
+      pageSize:8,
+      sortBy:'default',
+      editId:null,
+      frontSettings:{...DEFAULT_FRONT_SETTINGS}
+    };
+
+    /* ==== DOM ==== */
+    const sidebar      = $('#sidebar');
+    const btnCollapse  = $('#btnCollapse');
+    const btnLogout    = $('#btnLogout');
+    const btnAdd       = $('#btnAdd');
+    const btnSave      = $('#btnSave');
+    const btnCancel    = $('#btnCancel');
+    const modal        = $('#modal');
+    const modalClose   = $('#modalClose');
+    const fNama        = $('#fNama');
+    const fKecepatan   = $('#fKecepatan');
+    const fHarga       = $('#fHarga');
+    const fStatus      = $('#fStatus');
+    const tableBody    = $('#tableBody');
+    const searchInput  = $('#searchInput');
+    const clearSearch  = $('#clearSearch');
+    const pagination   = $('#pagination');
+    const tableInfo    = $('#tableInfo');
+    const statTotal    = $('#statTotal');
+    const statPelanggan= $('#statPelanggan');
+    const statUptime   = $('#statUptime');
+    const sortBySel    = $('#sortBy');
+    const btnExport    = $('#btnExport');
+
+    const sectionPaket = $('#section-paket');
+    const sectionFront = $('#section-front');
+    const btnSaveFront = $('#btnSaveFront');
+
+    // front-setting inputs
+    const fsSiteName           = $('#fsSiteName');
+    const fsSiteTagline        = $('#fsSiteTagline');
+    const fsHeroTitle          = $('#fsHeroTitle');
+    const fsHeroSubtitle       = $('#fsHeroSubtitle');
+    const fsHeroCTA            = $('#fsHeroCTA');
+    const fsHeroContactBtnText = $('#fsHeroContactBtnText');
+    const fsHeroFeature1       = $('#fsHeroFeature1');
+    const fsHeroFeature2       = $('#fsHeroFeature2');
+    const fsHeroFeature3       = $('#fsHeroFeature3');
+    const fsNavPackages        = $('#fsNavPackages');
+    const fsNavAbout           = $('#fsNavAbout');
+    const fsNavFAQ             = $('#fsNavFAQ');
+    const fsNavReport          = $('#fsNavReport');
+    const fsPackagesTitle      = $('#fsPackagesTitle');
+    const fsPackagesSubtitle   = $('#fsPackagesSubtitle');
+    const fsAboutTitle         = $('#fsAboutTitle');
+    const fsAboutDescription1  = $('#fsAboutDescription1');
+    const fsAboutDescription2  = $('#fsAboutDescription2');
+    const fsFaqTitle           = $('#fsFaqTitle');
+    const fsFaqSubtitle        = $('#fsFaqSubtitle');
+    const fsReportTitle        = $('#fsReportTitle');
+    const fsReportSubtitle     = $('#fsReportSubtitle');
+    const fsSpeedtestTitle     = $('#fsSpeedtestTitle');
+    const fsSpeedtestSubtitle  = $('#fsSpeedtestSubtitle');
+    const fsFooterDescription  = $('#fsFooterDescription');
+    const fsCopyrightText      = $('#fsCopyrightText');
+    const fsContactPhone       = $('#fsContactPhone');
+    const fsContactEmail       = $('#fsContactEmail');
+    const fsAddress            = $('#fsAddress');
+    const fsWorkingHours       = $('#fsWorkingHours');
+    const fsContactNote        = $('#fsContactNote');
+
+    /* ==== Boot ==== */
+    function loadFrontSettings(){
+      const raw = localStorage.getItem(FRONT_SETTINGS_KEY);
+      if(!raw){
+        STATE.frontSettings = {...DEFAULT_FRONT_SETTINGS};
+        return;
+      }
+      try{
+        const parsed = JSON.parse(raw);
+        STATE.frontSettings = {...DEFAULT_FRONT_SETTINGS, ...parsed};
+      }catch(e){
+        console.warn('Gagal parse websiteFrontSettings:', e);
+        STATE.frontSettings = {...DEFAULT_FRONT_SETTINGS};
+      }
+    }
+
+    function fillFrontSettingsForm(){
+      const s = STATE.frontSettings;
+      if(fsSiteName)          fsSiteName.value          = s.siteName || '';
+      if(fsSiteTagline)       fsSiteTagline.value       = s.siteTagline || '';
+      if(fsHeroTitle)         fsHeroTitle.value         = s.heroTitle || '';
+      if(fsHeroSubtitle)      fsHeroSubtitle.value      = s.heroSubtitle || '';
+      if(fsHeroCTA)           fsHeroCTA.value           = s.heroCTA || '';
+      if(fsHeroContactBtnText)fsHeroContactBtnText.value= s.heroContactBtnText || '';
+      if(fsHeroFeature1)      fsHeroFeature1.value      = s.heroFeature1 || '';
+      if(fsHeroFeature2)      fsHeroFeature2.value      = s.heroFeature2 || '';
+      if(fsHeroFeature3)      fsHeroFeature3.value      = s.heroFeature3 || '';
+
+      if(fsNavPackages)       fsNavPackages.value       = s.navPackages || '';
+      if(fsNavAbout)          fsNavAbout.value          = s.navAbout || '';
+      if(fsNavFAQ)            fsNavFAQ.value            = s.navFAQ || '';
+      if(fsNavReport)         fsNavReport.value         = s.navReport || '';
+
+      if(fsPackagesTitle)     fsPackagesTitle.value     = s.packagesTitle || '';
+      if(fsPackagesSubtitle)  fsPackagesSubtitle.value  = s.packagesSubtitle || '';
+
+      if(fsAboutTitle)        fsAboutTitle.value        = s.aboutTitle || '';
+      if(fsAboutDescription1) fsAboutDescription1.value = s.aboutDescription1 || '';
+      if(fsAboutDescription2) fsAboutDescription2.value = s.aboutDescription2 || '';
+
+      if(fsFaqTitle)          fsFaqTitle.value          = s.faqTitle || '';
+      if(fsFaqSubtitle)       fsFaqSubtitle.value       = s.faqSubtitle || '';
+
+      if(fsReportTitle)       fsReportTitle.value       = s.reportTitle || '';
+      if(fsReportSubtitle)    fsReportSubtitle.value    = s.reportSubtitle || '';
+
+      if(fsSpeedtestTitle)    fsSpeedtestTitle.value    = s.speedtestTitle || '';
+      if(fsSpeedtestSubtitle) fsSpeedtestSubtitle.value = s.speedtestSubtitle || '';
+
+      if(fsFooterDescription) fsFooterDescription.value = s.footerDescription || '';
+      if(fsCopyrightText)     fsCopyrightText.value     = s.copyrightText || '';
+
+      if(fsContactPhone)      fsContactPhone.value      = s.contactPhone || '';
+      if(fsContactEmail)      fsContactEmail.value      = s.contactEmail || '';
+      if(fsAddress)           fsAddress.value           = s.address || '';
+      if(fsWorkingHours)      fsWorkingHours.value      = s.workingHours || '';
+      if(fsContactNote)       fsContactNote.value       = s.contactNote || '';
+    }
+
+    function saveFrontSettings(){
+      const data = {
+        siteName          : fsSiteName.value.trim(),
+        siteTagline       : fsSiteTagline.value.trim(),
+        heroTitle         : fsHeroTitle.value.trim(),
+        heroSubtitle      : fsHeroSubtitle.value.trim(),
+        heroCTA           : fsHeroCTA.value.trim(),
+        heroContactBtnText: fsHeroContactBtnText.value.trim(),
+        heroFeature1      : fsHeroFeature1.value.trim(),
+        heroFeature2      : fsHeroFeature2.value.trim(),
+        heroFeature3      : fsHeroFeature3.value.trim(),
+
+        navPackages       : fsNavPackages.value.trim(),
+        navAbout          : fsNavAbout.value.trim(),
+        navFAQ            : fsNavFAQ.value.trim(),
+        navReport         : fsNavReport.value.trim(),
+
+        packagesTitle     : fsPackagesTitle.value.trim(),
+        packagesSubtitle  : fsPackagesSubtitle.value.trim(),
+
+        aboutTitle        : fsAboutTitle.value.trim(),
+        aboutDescription1 : fsAboutDescription1.value.trim(),
+        aboutDescription2 : fsAboutDescription2.value.trim(),
+
+        faqTitle          : fsFaqTitle.value.trim(),
+        faqSubtitle       : fsFaqSubtitle.value.trim(),
+
+        reportTitle       : fsReportTitle.value.trim(),
+        reportSubtitle    : fsReportSubtitle.value.trim(),
+
+        speedtestTitle    : fsSpeedtestTitle.value.trim(),
+        speedtestSubtitle : fsSpeedtestSubtitle.value.trim(),
+
+        footerDescription : fsFooterDescription.value.trim(),
+        copyrightText     : fsCopyrightText.value.trim(),
+
+        contactPhone      : fsContactPhone.value.trim(),
+        contactEmail      : fsContactEmail.value.trim(),
+        address           : fsAddress.value.trim(),
+        workingHours      : fsWorkingHours.value.trim(),
+        contactNote       : fsContactNote.value.trim()
+      };
+
+      STATE.frontSettings = {...DEFAULT_FRONT_SETTINGS, ...data};
+      localStorage.setItem(FRONT_SETTINGS_KEY, JSON.stringify(STATE.frontSettings));
+      alert('Teks halaman depan berhasil disimpan.\nSilakan refresh halaman utama (index.html) untuk melihat perubahan.');
+    }
+
+    function seedData(){
+      return [
+        {id:uid('p'),name:'Basic',speed:'10 Mbps',price:formatCurrency(99000),pelanggan:24,status:'active',features:generateDefaultFeatures('10 Mbps'),popular:false},
+        {id:uid('p'),name:'Standard',speed:'20 Mbps',price:formatCurrency(199000),pelanggan:18,status:'active',features:generateDefaultFeatures('20 Mbps'),popular:true},
+        {id:uid('p'),name:'Premium',speed:'50 Mbps',price:formatCurrency(349000),pelanggan:6,status:'active',features:generateDefaultFeatures('50 Mbps'),popular:false}
+      ];
+    }
+
+    function persistPackages(){
+      try{localStorage.setItem(STORAGE_PACKAGES,JSON.stringify(STATE.paketData));}catch(e){console.error(e);}
+    }
+
+    function boot(){
+      const raw=localStorage.getItem(STORAGE_PACKAGES);
+      if(raw){
+        try{
+          const parsed=JSON.parse(raw);
+          if(Array.isArray(parsed)){
+            STATE.paketData=parsed.map(p=>({
+              ...p,
+              features:Array.isArray(p.features)?p.features:generateDefaultFeatures(p.speed),
+              pelanggan:typeof p.pelanggan==='number'?p.pelanggan:0
+            }));
+          }else{
+            STATE.paketData=seedData();persistPackages();
+          }
+        }catch(e){
+          STATE.paketData=seedData();persistPackages();
+        }
+      }else{
+        STATE.paketData=seedData();persistPackages();
+      }
+
+      loadFrontSettings();
+      fillFrontSettingsForm();
+      render();
+      attachListeners();
+      updateStats();
+    }
+
+    /* ==== Rendering Paket ==== */
+    function render(){
+      const q=(STATE.filter||'').toLowerCase().trim();
+      let list=STATE.paketData.slice();
+
+      if(STATE.sortBy==='nama_asc') list.sort((a,b)=>a.name.localeCompare(b.name));
+      else if(STATE.sortBy==='nama_desc') list.sort((a,b)=>b.name.localeCompare(a.name));
+      else if(STATE.sortBy==='harga_asc') list.sort((a,b)=>parseCurrency(a.price)-parseCurrency(b.price));
+      else if(STATE.sortBy==='harga_desc') list.sort((a,b)=>parseCurrency(b.price)-parseCurrency(a.price));
+
+      if(q){
+        list=list.filter(p=>
+          p.name.toLowerCase().includes(q) ||
+          (p.speed&&p.speed.toLowerCase().includes(q)) ||
+          String(p.price).toLowerCase().includes(q)
+        );
+      }
+
+      const total=list.length;
+      const pageSize=STATE.pageSize;
+      const totalPages=Math.max(1,Math.ceil(total/pageSize));
+      if(STATE.page>totalPages)STATE.page=totalPages;
+      const start=(STATE.page-1)*pageSize;
+      const end=start+pageSize;
+      const pageItems=list.slice(start,end);
+
+      tableBody.innerHTML='';
+      if(pageItems.length===0){
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td colspan="6" style="text-align:center;padding:24px" class="muted">Tidak ada paket yang cocok</td>`;
+        tableBody.appendChild(tr);
+      }else{
+        pageItems.forEach(item=>{
+          const tr=document.createElement('tr');
+          tr.setAttribute('data-id',item.id);
+          const statusLabel=item.status==='active'?'AKTIF':'NONAKTIF';
+          tr.innerHTML=`
+            <td><strong>${escapeHtml(item.name)}</strong><div class="tiny muted">${escapeHtml(item.id)}</div></td>
+            <td>${escapeHtml(item.speed)}</td>
+            <td>${formatCurrency(item.price)}</td>
+            <td>${item.pelanggan??0}</td>
+            <td><span class="badge-pill">${statusLabel}</span></td>
+            <td style="text-align:right" class="actions">
+              <button class="btn page-btn btn-edit" title="Edit"><i class="fa fa-pen"></i></button>
+              <button class="btn page-btn btn-copy" title="Duplicate"><i class="fa fa-clone"></i></button>
+              <button class="btn page-btn btn-delete" title="Hapus" style="background:var(--danger);color:#fff"><i class="fa fa-trash"></i></button>
+            </td>`;
+          tableBody.appendChild(tr);
+        });
+      }
+
+      if(total===0) tableInfo.textContent='Menampilkan 0 dari 0 item';
+      else tableInfo.textContent=`Menampilkan ${Math.min(total,(start+1))} - ${Math.min(total,end)} dari ${total} item`;
+
+      renderPagination(totalPages);
+      updateStats();
+      attachRowEvents();
+    }
+
+    function renderPagination(totalPages){
+      pagination.innerHTML='';
+      if(totalPages<=1)return;
+
+      const prev=document.createElement('button');
+      prev.className='page-btn';
+      prev.textContent='‹';
+      prev.disabled=STATE.page===1;
+      prev.onclick=()=>{STATE.page=Math.max(1,STATE.page-1);render();};
+      pagination.appendChild(prev);
+
+      for(let i=1;i<=totalPages;i++){
+        const btn=document.createElement('button');
+        btn.className='page-btn'+(i===STATE.page?' active':'');
+        btn.textContent=i;
+        btn.onclick=()=>{STATE.page=i;render();};
+        pagination.appendChild(btn);
+      }
+
+      const next=document.createElement('button');
+      next.className='page-btn';
+      next.textContent='›';
+      next.disabled=STATE.page===totalPages;
+      next.onclick=()=>{STATE.page=Math.min(totalPages,STATE.page+1);render();};
+      pagination.appendChild(next);
+    }
+
+    function updateStats(){
+      statTotal.textContent=`${STATE.paketData.length} Paket`;
+      let sum=STATE.paketData.reduce((acc,p)=>acc+(Number(p.pelanggan)||0),0);
+      statPelanggan.textContent=sum;
+      statUptime.textContent=`${(99.5+(STATE.paketData.length%10)*0.05).toFixed(2)}%`;
+    }
+
+    /* ==== Events ==== */
+    function attachListeners(){
+      btnCollapse.addEventListener('click',()=>{
+        sidebar.classList.toggle('collapsed');
+        const icon=btnCollapse.querySelector('i');
+        if(sidebar.classList.contains('collapsed')){
+          icon.classList.remove('fa-angle-left');
+          icon.classList.add('fa-angle-right');
+        }else{
+          icon.classList.remove('fa-angle-right');
+          icon.classList.add('fa-angle-left');
+        }
+      });
+
+      // nav switch
+      $$('.nav a').forEach(a=>{
+        a.addEventListener('click',e=>{
+          e.preventDefault();
+          $$('.nav a').forEach(x=>x.classList.remove('active'));
+          a.classList.add('active');
+          const target=a.getAttribute('data-section');
+          if(target==='paket'){
+            sectionPaket.style.display='block';
+            sectionFront.style.display='block'; // boleh 2 section terlihat
+          }else if(target==='front'){
+            sectionPaket.style.display='none';
+            sectionFront.style.display='block';
+          }
+        });
+      });
+
+      // LOGOUT
+      btnLogout.addEventListener('click',()=>{
+        if(confirm('Logout sekarang?')){
+          sessionStorage.removeItem('isAdmin');
+          window.location.href='index.html';
+        }
+      });
+
+      btnAdd.addEventListener('click',()=>openModal('add'));
+      modalClose.addEventListener('click',closeModal);
+      btnCancel.addEventListener('click',closeModal);
+      btnSave.addEventListener('click',onSave);
+
+      searchInput.addEventListener('input',debounce(e=>{
+        STATE.filter=e.target.value;
+        STATE.page=1;
+        render();
+        clearSearch.style.display=STATE.filter?'inline-block':'none';
+      },180));
+
+      clearSearch.addEventListener('click',()=>{
+        searchInput.value='';STATE.filter='';STATE.page=1;
+        clearSearch.style.display='none';render();
+      });
+
+      document.addEventListener('keydown',e=>{
+        if(e.key==='Escape'){
+          if(modal.classList.contains('show'))closeModal();
+        }
+        if(e.key.toLowerCase()==='n' && !modal.classList.contains('show')){
+          openModal('add');e.preventDefault();
+        }
+        if(e.key==='/' && document.activeElement!==searchInput){
+          e.preventDefault();searchInput.focus();
+        }
+      });
+
+      sortBySel.addEventListener('change',e=>{STATE.sortBy=e.target.value;render();});
+      btnExport.addEventListener('click',exportCSV);
+
+      modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
+
+      if(btnSaveFront){
+        btnSaveFront.addEventListener('click',saveFrontSettings);
+      }
+    }
+
+    function attachRowEvents(){
+      $$('.btn-edit').forEach(btn=>{
+        btn.onclick=ev=>{
+          const row=ev.target.closest('tr'); if(!row)return;
+          const id=row.getAttribute('data-id');
+          openModal('edit',id);
+        };
+      });
+      $$('.btn-copy').forEach(btn=>{
+        btn.onclick=ev=>{
+          const row=ev.target.closest('tr'); if(!row)return;
+          const id=row.getAttribute('data-id');
+          const item=STATE.paketData.find(p=>p.id===id);
+          if(!item)return;
+          const copy={...item,id:uid('p'),name:item.name+' (Copy)'};
+          STATE.paketData.unshift(copy);persistPackages();render();alert('Item duplicated');
+        };
+      });
+      $$('.btn-delete').forEach(btn=>{
+        btn.onclick=ev=>{
+          const row=ev.target.closest('tr'); if(!row)return;
+          const id=row.getAttribute('data-id');
+          if(confirm('Yakin hapus paket ini?')){
+            STATE.paketData=STATE.paketData.filter(p=>p.id!==id);
+            persistPackages();render();
+          }
+        };
+      });
+    }
+
+    /* ==== Modal Paket ==== */
+    function openModal(mode='add',id=null){
+      STATE.editId=null;
+      if(mode==='add'){
+        $('#modalTitle').textContent='Tambah Paket';
+        fNama.value='';fKecepatan.value='';fHarga.value='';fStatus.value='active';
+      }else{
+        $('#modalTitle').textContent='Edit Paket';
+        const item=STATE.paketData.find(p=>p.id===id);
+        if(!item){alert('Item tidak ditemukan');return;}
+        STATE.editId=item.id;
+        fNama.value=item.name;
+        fKecepatan.value=item.speed;
+        fHarga.value=item.price;
+        fStatus.value=item.status||'active';
+      }
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden','false');
+      fNama.focus();
+    }
+
+    function closeModal(){
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden','true');
+      STATE.editId=null;
+    }
+
+    function onSave(){
+      const nama=fNama.value.trim();
+      const kecepatan=fKecepatan.value.trim();
+      const hargaRaw=fHarga.value.trim();
+      const status=fStatus.value;
+      const errors=[];
+      if(!nama)errors.push('Nama paket wajib diisi');
+      if(!kecepatan)errors.push('Kecepatan wajib diisi');
+      if(!hargaRaw)errors.push('Harga wajib diisi');
+      if(errors.length>0){alert(errors.join('\n'));return;}
+
+      const hargaNum=parseCurrency(hargaRaw)||parseCurrency(hargaRaw.replace(/\./g,''))||0;
+      const hargaFormatted=formatCurrency(hargaNum);
+      const features=generateDefaultFeatures(kecepatan);
+
+      if(STATE.editId){
+        const idx=STATE.paketData.findIndex(p=>p.id===STATE.editId);
+        if(idx===-1){alert('Gagal menemukan item untuk diupdate');closeModal();return;}
+        STATE.paketData[idx]={...STATE.paketData[idx],name:nama,speed:kecepatan,price:hargaFormatted,status,features};
+      }else{
+        const newItem={id:uid('p'),name:nama,speed:kecepatan,price:hargaFormatted,pelanggan:0,status,features};
+        STATE.paketData.unshift(newItem);
+        STATE.page=1;
+      }
+
+      persistPackages();closeModal();render();
+    }
+
+    /* ==== CSV ==== */
+    function exportCSV(){
+      const header=['id','name','speed','price','pelanggan','status'];
+      const rows=[header.join(',')];
+      STATE.paketData.forEach(p=>{
+        const line=[
+          p.id,
+          `"${String(p.name||'').replace(/"/g,'""')}"`,
+          `"${String(p.speed||'').replace(/"/g,'""')}"`,
+          `"${String(p.price||'').replace(/"/g,'""')}"`,
+          p.pelanggan??0,
+          p.status
+        ].join(',');
+        rows.push(line);
+      });
+      const csv=rows.join('\n');
+      const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;a.download='paket_export.csv';a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    /* ==== Start ==== */
+    boot();
+  </script>
+</body>
+</html>

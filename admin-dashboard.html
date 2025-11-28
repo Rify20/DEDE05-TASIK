@@ -89,6 +89,7 @@
       margin-left:auto;background:white;color:var(--accent-2);
       padding:4px 8px;border-radius:12px;font-weight:700;font-size:12px;
     }
+    .nav a.active{background:rgba(255,255,255,0.16);}
     .sidebar.collapsed .label,
     .sidebar.collapsed .meta,
     .sidebar.collapsed .brand .text{display:none;}
@@ -142,11 +143,11 @@
       font-weight:700;box-shadow:0 6px 18px rgba(30,108,225,0.12);
     }
 
-    .stats{display:flex;gap:16px;margin-top:6px;}
+    .stats{display:flex;gap:16px;margin-top:6px;flex-wrap:wrap;}
     .stat{
       background:var(--card-bg);padding:18px;border-radius:12px;
       flex:1;box-shadow:var(--shadow-1);
-      display:flex;align-items:center;gap:12px;
+      display:flex;align-items:center;gap:12px;min-width:180px;
     }
     .stat .s-ico{
       width:56px;height:56px;border-radius:12px;
@@ -163,6 +164,12 @@
       padding:18px;
       border-radius:12px;
       box-shadow:var(--shadow-1);
+    }
+    .content-title{
+      font-weight:600;font-size:16px;margin-bottom:8px;
+    }
+    .content-sub{
+      font-size:12px;color:var(--subtext);margin-bottom:12px;
     }
     .btn{
       border:none;cursor:pointer;font-family:inherit;
@@ -212,6 +219,42 @@
       background:var(--accent);color:white;border-color:transparent;
     }
 
+    /* FORM GRID */
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+    .field{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;}
+    .field label{font-size:13px;font-weight:600;color:var(--subtext);}
+    .field input,.field textarea,.field select{
+      padding:9px 11px;border-radius:8px;
+      border:1px solid #e6eefc;font-size:13px;
+      outline:none;transition:border 160ms,box-shadow 160ms;
+      font-family:inherit;resize:vertical;
+    }
+    .field input:focus,.field textarea:focus,.field select:focus{
+      box-shadow:0 6px 18px rgba(30,108,225,0.06);
+      border-color:var(--accent);
+    }
+    .field small{font-size:11px;color:#9ca3af;}
+
+    .section-divider{
+      margin:14px 0 10px;
+      border-top:1px dashed #e5e7eb;
+      padding-top:10px;
+      font-size:12px;
+      text-transform:uppercase;
+      color:#9ca3af;
+      font-weight:600;
+      letter-spacing:.03em;
+    }
+
     /* MODAL */
     .modal{
       position:fixed;left:0;top:0;right:0;bottom:0;
@@ -229,17 +272,6 @@
       display:grid;grid-template-columns:1fr 1fr;
       gap:12px;margin-top:10px;
     }
-    .field{display:flex;flex-direction:column;gap:6px;}
-    .field label{font-size:13px;font-weight:600;color:var(--subtext);}
-    .field input,.field select{
-      padding:10px 12px;border-radius:8px;
-      border:1px solid #e6eefc;font-size:14px;
-      outline:none;transition:border 160ms,box-shadow 160ms;
-    }
-    .field input:focus,.field select:focus{
-      box-shadow:0 6px 18px rgba(30,108,225,0.06);
-      border-color:var(--accent);
-    }
     .modal-footer{
       display:flex;justify-content:flex-end;
       gap:12px;margin-top:16px;
@@ -251,6 +283,7 @@
       .search{width:100%;}
       .modal-card{width:100%;}
       table{min-width:auto;font-size:13px;}
+      .grid-2,.grid-3{grid-template-columns:1fr;}
     }
   </style>
 </head>
@@ -271,9 +304,13 @@
 
       <nav>
         <ul class="nav">
-          <li><a href="#" class="active">
+          <li><a href="#" class="active" data-section="paket">
             <div class="ico"><i class="fa fa-wifi"></i></div>
             <div class="label">Paket Internet</div>
+          </a></li>
+          <li><a href="#" data-section="front">
+            <div class="ico"><i class="fa fa-font"></i></div>
+            <div class="label">Teks Halaman Depan</div>
           </a></li>
         </ul>
       </nav>
@@ -297,14 +334,14 @@
         <div style="display:flex;flex-direction:column;gap:6px;">
           <div class="header-row">
             <div>
-              <div class="header-title">Paket Internet</div>
-              <div class="tiny muted">Mengelola paket yang tampil di halaman depan (index.html)</div>
+              <div class="header-title">Admin Dashboard</div>
+              <div class="tiny muted">Kelola paket & teks yang tampil di <code>index.html</code></div>
             </div>
 
             <div style="display:flex;align-items:center;gap:8px;">
               <div class="search">
                 <i class="fa fa-search" style="color:#6b7280"></i>
-                <input id="searchInput" placeholder="Cari nama paket, kecepatan, harga...">
+                <input id="searchInput" placeholder="Cari paket (nama, kecepatan, harga)...">
                 <button id="clearSearch" style="display:none;background:transparent;border:0;cursor:pointer">
                   <i class="fa fa-times"></i>
                 </button>
@@ -352,22 +389,30 @@
         </div>
       </div>
 
-      <section class="content-card">
+      <!-- SECTION: PAKET -->
+      <section id="section-paket" class="content-card">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <div style="display:flex;gap:10px;align-items:center">
-            <button id="btnAdd" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Paket</button>
-            <div class="muted tiny">Tekan <kbd>N</kbd> untuk buat baru</div>
+            <div>
+              <div class="content-title">Paket Internet</div>
+              <div class="content-sub">Data ini dipakai oleh hero & bagian "Paket Internet" di <code>index.html</code>.</div>
+            </div>
           </div>
 
           <div style="display:flex;gap:8px;align-items:center">
-            <div class="muted tiny">Sort:</div>
-            <select id="sortBy" style="padding:8px;border-radius:8px;border:1px solid #eef3ff">
-              <option value="default">Default</option>
-              <option value="nama_asc">Nama A-Z</option>
-              <option value="nama_desc">Nama Z-A</option>
-              <option value="harga_asc">Harga terendah</option>
-              <option value="harga_desc">Harga tertinggi</option>
-            </select>
+            <button id="btnAdd" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Paket</button>
+            <div class="muted tiny">Tekan <kbd>N</kbd> untuk buat baru</div>
+
+            <div style="display:flex;gap:8px;align-items:center;margin-left:18px;">
+              <div class="muted tiny">Sort:</div>
+              <select id="sortBy" style="padding:8px;border-radius:8px;border:1px solid #eef3ff">
+                <option value="default">Default</option>
+                <option value="nama_asc">Nama A-Z</option>
+                <option value="nama_desc">Nama Z-A</option>
+                <option value="harga_asc">Harga terendah</option>
+                <option value="harga_desc">Harga tertinggi</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -392,10 +437,194 @@
           <div class="pagination" id="pagination"></div>
         </div>
       </section>
+
+      <!-- SECTION: FRONT TEXT -->
+      <section id="section-front" class="content-card" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div>
+            <div class="content-title">Teks Halaman Depan</div>
+            <div class="content-sub">
+              Semua teks di hero, menu, judul section, footer & kontak akan mengikuti pengaturan di sini (disimpan ke <code>websiteFrontSettings</code>).
+            </div>
+          </div>
+          <button id="btnSaveFront" class="btn btn-primary">
+            <i class="fa fa-save"></i> Simpan Perubahan
+          </button>
+        </div>
+
+        <!-- Brand & tagline -->
+        <div class="section-divider">Brand & Tagline</div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsSiteName">Nama Brand / Site</label>
+            <input id="fsSiteName" type="text" placeholder="Contoh: DEDE05 TASIK">
+          </div>
+          <div class="field">
+            <label for="fsSiteTagline">Tagline singkat</label>
+            <input id="fsSiteTagline" type="text" placeholder="Contoh: Internet Cepat &amp; Stabil">
+          </div>
+        </div>
+
+        <!-- Hero -->
+        <div class="section-divider">Hero (bagian paling atas)</div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsHeroTitle">Judul besar Hero</label>
+            <input id="fsHeroTitle" type="text" placeholder="Contoh: Internet Cepat Untuk Keluarga Anda">
+          </div>
+          <div class="field">
+            <label for="fsHeroSubtitle">Deskripsi Hero</label>
+            <input id="fsHeroSubtitle" type="text" placeholder="Teks pendek di bawah judul hero">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsHeroCTA">Teks tombol CTA (Daftar)</label>
+            <input id="fsHeroCTA" type="text" placeholder="Contoh: Daftar Sekarang">
+          </div>
+          <div class="field">
+            <label for="fsHeroContactBtnText">Teks tombol "Hubungi Kami"</label>
+            <input id="fsHeroContactBtnText" type="text" placeholder="Contoh: Hubungi Kami">
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="field">
+            <label for="fsHeroFeature1">Hero Feature 1</label>
+            <input id="fsHeroFeature1" type="text">
+          </div>
+          <div class="field">
+            <label for="fsHeroFeature2">Hero Feature 2</label>
+            <input id="fsHeroFeature2" type="text">
+          </div>
+          <div class="field">
+            <label for="fsHeroFeature3">Hero Feature 3</label>
+            <input id="fsHeroFeature3" type="text">
+          </div>
+        </div>
+
+        <!-- NAV -->
+        <div class="section-divider">Menu Navigasi</div>
+        <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+          <div class="field">
+            <label for="fsNavPackages">Label menu Paket</label>
+            <input id="fsNavPackages" type="text">
+          </div>
+          <div class="field">
+            <label for="fsNavAbout">Label menu Tentang Kami</label>
+            <input id="fsNavAbout" type="text">
+          </div>
+          <div class="field">
+            <label for="fsNavFAQ">Label menu FAQ</label>
+            <input id="fsNavFAQ" type="text">
+          </div>
+          <div class="field">
+            <label for="fsNavReport">Label menu Lapor Gangguan</label>
+            <input id="fsNavReport" type="text">
+          </div>
+        </div>
+
+        <!-- SECTION TITLES -->
+        <div class="section-divider">Judul & Subjudul Section</div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsPackagesTitle">Judul section Paket</label>
+            <input id="fsPackagesTitle" type="text">
+          </div>
+          <div class="field">
+            <label for="fsPackagesSubtitle">Subjudul section Paket</label>
+            <input id="fsPackagesSubtitle" type="text">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsAboutTitle">Judul section Tentang Kami</label>
+            <input id="fsAboutTitle" type="text">
+          </div>
+          <div class="field">
+            <label for="fsAboutDescription1">Deskripsi Tentang 1</label>
+            <textarea id="fsAboutDescription1" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fsAboutDescription2">Deskripsi Tentang 2</label>
+          <textarea id="fsAboutDescription2" rows="2"></textarea>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsFaqTitle">Judul section FAQ</label>
+            <input id="fsFaqTitle" type="text">
+          </div>
+          <div class="field">
+            <label for="fsFaqSubtitle">Subjudul section FAQ</label>
+            <input id="fsFaqSubtitle" type="text">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsReportTitle">Judul section Lapor Gangguan</label>
+            <input id="fsReportTitle" type="text">
+          </div>
+          <div class="field">
+            <label for="fsReportSubtitle">Subjudul section Lapor Gangguan</label>
+            <input id="fsReportSubtitle" type="text">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsSpeedtestTitle">Judul section Speedtest</label>
+            <input id="fsSpeedtestTitle" type="text">
+          </div>
+          <div class="field">
+            <label for="fsSpeedtestSubtitle">Subjudul section Speedtest</label>
+            <input id="fsSpeedtestSubtitle" type="text">
+          </div>
+        </div>
+
+        <!-- FOOTER & CONTACT -->
+        <div class="section-divider">Footer & Kontak</div>
+        <div class="field">
+          <label for="fsFooterDescription">Deskripsi singkat di footer</label>
+          <textarea id="fsFooterDescription" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label for="fsCopyrightText">Teks copyright</label>
+          <input id="fsCopyrightText" type="text" placeholder="© 2024 DEDE05 TASIK. Semua hak dilindungi.">
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsContactPhone">Nomor WhatsApp (tanpa +, diawali 62)</label>
+            <input id="fsContactPhone" type="text" placeholder="Contoh: 6288269074542">
+            <small>Nomor ini dipakai untuk semua link WhatsApp di halaman depan.</small>
+          </div>
+          <div class="field">
+            <label for="fsContactEmail">Email</label>
+            <input id="fsContactEmail" type="email" placeholder="support@dede05tasik.local">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fsAddress">Alamat</label>
+            <input id="fsAddress" type="text">
+          </div>
+          <div class="field">
+            <label for="fsWorkingHours">Jam Operasional</label>
+            <input id="fsWorkingHours" type="text" placeholder="Contoh: Senin-Minggu: 08:00-20:00">
+          </div>
+        </div>
+        <div class="field">
+          <label for="fsContactNote">Catatan kecil (tooltip WhatsApp)</label>
+          <input id="fsContactNote" type="text" placeholder="Contoh: Fast response 08.00–21.00 WIB">
+        </div>
+      </section>
     </main>
   </div>
 
-  <!-- MODAL -->
+  <!-- MODAL PAKET -->
   <div id="modal" class="modal" aria-hidden="true">
     <div class="modal-card">
       <div style="display:flex;justify-content:space-between;align-items:center">
@@ -403,7 +632,7 @@
         <button id="modalClose" class="page-btn"><i class="fa fa-times"></i></button>
       </div>
 
-      <p class="muted tiny">Perubahan akan langsung tersimpan dan dipakai oleh halaman depan.</p>
+      <p class="muted tiny"></p>
 
       <div class="modal-grid">
         <div class="field">
@@ -435,11 +664,64 @@
   </div>
 
   <script>
+    // ====== Proteksi: wajib login dulu via admin-login.html ======
+    (function(){
+      if (sessionStorage.getItem('isAdmin') !== 'true') {
+        window.location.href = 'admin-login.html';
+      }
+    })();
+
     /* ==== Helpers ==== */
     const $  = (s,c=document)=>c.querySelector(s);
     const $$ = (s,c=document)=>Array.from(c.querySelectorAll(s));
 
-    const STORAGE_KEY = 'websitePackages'; // DIPAKAI index.html juga
+    const STORAGE_PACKAGES = 'websitePackages';
+    const FRONT_SETTINGS_KEY = 'websiteFrontSettings';
+
+    // DEFAULT sama persis dengan yang ada di index.html
+    const DEFAULT_FRONT_SETTINGS = {
+      siteName: 'DEDE05 TASIK',
+      siteTagline: 'Internet Cepat & Stabil',
+
+      heroTitle: 'Internet Cepat Untuk Keluarga Anda',
+      heroSubtitle: 'Nikmati pengalaman internet terbaik dengan harga terjangkau. Instalasi gratis dan dukungan teknis 24/7.',
+      heroCTA: 'Daftar Sekarang',
+      heroContactBtnText: 'Hubungi Kami',
+
+      heroFeature1: 'Instalasi gratis untuk pelanggan baru',
+      heroFeature2: 'Teknisi lokal siap membantu 24/7',
+      heroFeature3: 'Garansi kepuasan 30 hari',
+
+      navPackages: 'Paket',
+      navAbout: 'Tentang Kami',
+      navFAQ: 'FAQ',
+      navReport: 'Lapor Gangguan',
+
+      packagesTitle: 'Paket Internet',
+      packagesSubtitle: 'Pilih paket yang sesuai dengan kebutuhan Anda. Semua paket sudah termasuk instalasi gratis.',
+
+      aboutTitle: 'Tentang DEDE05 TASIK',
+      aboutDescription1: 'Kami adalah penyedia layanan internet lokal yang berfokus pada kualitas, respon cepat, dan harga yang bersaing. Beroperasi di wilayah Tasikmalaya dan sekitarnya dengan teknisi lokal yang handal.',
+      aboutDescription2: 'Dengan pengalaman lebih dari 5 tahun di industri telekomunikasi, kami berkomitmen untuk memberikan layanan terbaik kepada pelanggan dengan jaringan yang stabil dan dukungan 24/7.',
+
+      faqTitle: 'Pertanyaan Umum',
+      faqSubtitle: 'Beberapa pertanyaan yang sering diajukan oleh pelanggan kami.',
+
+      reportTitle: 'Lapor Gangguan',
+      reportSubtitle: 'Isi form berikut untuk melaporkan gangguan atau meminta bantuan teknisi.',
+
+      speedtestTitle: 'Tes Kecepatan Internet',
+      speedtestSubtitle: 'Periksa kecepatan internet Anda dengan alat tes kecepatan kami.',
+
+      footerDescription: 'Penyedia layanan internet lokal di Tasikmalaya dengan koneksi stabil dan harga terjangkau. Dukungan teknis 24/7 untuk kepuasan pelanggan.',
+      copyrightText: '© 2024 DEDE05 TASIK. Semua hak dilindungi.',
+
+      contactPhone: '6288269074542',
+      contactEmail: 'support@dede05tasik.local',
+      address: 'Jl. Contoh No.12, Tasikmalaya',
+      workingHours: 'Senin-Minggu: 08:00-20:00',
+      contactNote: 'Fast response 08.00–21.00 WIB'
+    };
 
     function formatCurrency(val){
       if(val===null||val===undefined)return '';
@@ -487,7 +769,8 @@
       page:1,
       pageSize:8,
       sortBy:'default',
-      editId:null
+      editId:null,
+      frontSettings:{...DEFAULT_FRONT_SETTINGS}
     };
 
     /* ==== DOM ==== */
@@ -514,7 +797,150 @@
     const sortBySel    = $('#sortBy');
     const btnExport    = $('#btnExport');
 
+    const sectionPaket = $('#section-paket');
+    const sectionFront = $('#section-front');
+    const btnSaveFront = $('#btnSaveFront');
+
+    // front-setting inputs
+    const fsSiteName           = $('#fsSiteName');
+    const fsSiteTagline        = $('#fsSiteTagline');
+    const fsHeroTitle          = $('#fsHeroTitle');
+    const fsHeroSubtitle       = $('#fsHeroSubtitle');
+    const fsHeroCTA            = $('#fsHeroCTA');
+    const fsHeroContactBtnText = $('#fsHeroContactBtnText');
+    const fsHeroFeature1       = $('#fsHeroFeature1');
+    const fsHeroFeature2       = $('#fsHeroFeature2');
+    const fsHeroFeature3       = $('#fsHeroFeature3');
+    const fsNavPackages        = $('#fsNavPackages');
+    const fsNavAbout           = $('#fsNavAbout');
+    const fsNavFAQ             = $('#fsNavFAQ');
+    const fsNavReport          = $('#fsNavReport');
+    const fsPackagesTitle      = $('#fsPackagesTitle');
+    const fsPackagesSubtitle   = $('#fsPackagesSubtitle');
+    const fsAboutTitle         = $('#fsAboutTitle');
+    const fsAboutDescription1  = $('#fsAboutDescription1');
+    const fsAboutDescription2  = $('#fsAboutDescription2');
+    const fsFaqTitle           = $('#fsFaqTitle');
+    const fsFaqSubtitle        = $('#fsFaqSubtitle');
+    const fsReportTitle        = $('#fsReportTitle');
+    const fsReportSubtitle     = $('#fsReportSubtitle');
+    const fsSpeedtestTitle     = $('#fsSpeedtestTitle');
+    const fsSpeedtestSubtitle  = $('#fsSpeedtestSubtitle');
+    const fsFooterDescription  = $('#fsFooterDescription');
+    const fsCopyrightText      = $('#fsCopyrightText');
+    const fsContactPhone       = $('#fsContactPhone');
+    const fsContactEmail       = $('#fsContactEmail');
+    const fsAddress            = $('#fsAddress');
+    const fsWorkingHours       = $('#fsWorkingHours');
+    const fsContactNote        = $('#fsContactNote');
+
     /* ==== Boot ==== */
+    function loadFrontSettings(){
+      const raw = localStorage.getItem(FRONT_SETTINGS_KEY);
+      if(!raw){
+        STATE.frontSettings = {...DEFAULT_FRONT_SETTINGS};
+        return;
+      }
+      try{
+        const parsed = JSON.parse(raw);
+        STATE.frontSettings = {...DEFAULT_FRONT_SETTINGS, ...parsed};
+      }catch(e){
+        console.warn('Gagal parse websiteFrontSettings:', e);
+        STATE.frontSettings = {...DEFAULT_FRONT_SETTINGS};
+      }
+    }
+
+    function fillFrontSettingsForm(){
+      const s = STATE.frontSettings;
+      if(fsSiteName)          fsSiteName.value          = s.siteName || '';
+      if(fsSiteTagline)       fsSiteTagline.value       = s.siteTagline || '';
+      if(fsHeroTitle)         fsHeroTitle.value         = s.heroTitle || '';
+      if(fsHeroSubtitle)      fsHeroSubtitle.value      = s.heroSubtitle || '';
+      if(fsHeroCTA)           fsHeroCTA.value           = s.heroCTA || '';
+      if(fsHeroContactBtnText)fsHeroContactBtnText.value= s.heroContactBtnText || '';
+      if(fsHeroFeature1)      fsHeroFeature1.value      = s.heroFeature1 || '';
+      if(fsHeroFeature2)      fsHeroFeature2.value      = s.heroFeature2 || '';
+      if(fsHeroFeature3)      fsHeroFeature3.value      = s.heroFeature3 || '';
+
+      if(fsNavPackages)       fsNavPackages.value       = s.navPackages || '';
+      if(fsNavAbout)          fsNavAbout.value          = s.navAbout || '';
+      if(fsNavFAQ)            fsNavFAQ.value            = s.navFAQ || '';
+      if(fsNavReport)         fsNavReport.value         = s.navReport || '';
+
+      if(fsPackagesTitle)     fsPackagesTitle.value     = s.packagesTitle || '';
+      if(fsPackagesSubtitle)  fsPackagesSubtitle.value  = s.packagesSubtitle || '';
+
+      if(fsAboutTitle)        fsAboutTitle.value        = s.aboutTitle || '';
+      if(fsAboutDescription1) fsAboutDescription1.value = s.aboutDescription1 || '';
+      if(fsAboutDescription2) fsAboutDescription2.value = s.aboutDescription2 || '';
+
+      if(fsFaqTitle)          fsFaqTitle.value          = s.faqTitle || '';
+      if(fsFaqSubtitle)       fsFaqSubtitle.value       = s.faqSubtitle || '';
+
+      if(fsReportTitle)       fsReportTitle.value       = s.reportTitle || '';
+      if(fsReportSubtitle)    fsReportSubtitle.value    = s.reportSubtitle || '';
+
+      if(fsSpeedtestTitle)    fsSpeedtestTitle.value    = s.speedtestTitle || '';
+      if(fsSpeedtestSubtitle) fsSpeedtestSubtitle.value = s.speedtestSubtitle || '';
+
+      if(fsFooterDescription) fsFooterDescription.value = s.footerDescription || '';
+      if(fsCopyrightText)     fsCopyrightText.value     = s.copyrightText || '';
+
+      if(fsContactPhone)      fsContactPhone.value      = s.contactPhone || '';
+      if(fsContactEmail)      fsContactEmail.value      = s.contactEmail || '';
+      if(fsAddress)           fsAddress.value           = s.address || '';
+      if(fsWorkingHours)      fsWorkingHours.value      = s.workingHours || '';
+      if(fsContactNote)       fsContactNote.value       = s.contactNote || '';
+    }
+
+    function saveFrontSettings(){
+      const data = {
+        siteName          : fsSiteName.value.trim(),
+        siteTagline       : fsSiteTagline.value.trim(),
+        heroTitle         : fsHeroTitle.value.trim(),
+        heroSubtitle      : fsHeroSubtitle.value.trim(),
+        heroCTA           : fsHeroCTA.value.trim(),
+        heroContactBtnText: fsHeroContactBtnText.value.trim(),
+        heroFeature1      : fsHeroFeature1.value.trim(),
+        heroFeature2      : fsHeroFeature2.value.trim(),
+        heroFeature3      : fsHeroFeature3.value.trim(),
+
+        navPackages       : fsNavPackages.value.trim(),
+        navAbout          : fsNavAbout.value.trim(),
+        navFAQ            : fsNavFAQ.value.trim(),
+        navReport         : fsNavReport.value.trim(),
+
+        packagesTitle     : fsPackagesTitle.value.trim(),
+        packagesSubtitle  : fsPackagesSubtitle.value.trim(),
+
+        aboutTitle        : fsAboutTitle.value.trim(),
+        aboutDescription1 : fsAboutDescription1.value.trim(),
+        aboutDescription2 : fsAboutDescription2.value.trim(),
+
+        faqTitle          : fsFaqTitle.value.trim(),
+        faqSubtitle       : fsFaqSubtitle.value.trim(),
+
+        reportTitle       : fsReportTitle.value.trim(),
+        reportSubtitle    : fsReportSubtitle.value.trim(),
+
+        speedtestTitle    : fsSpeedtestTitle.value.trim(),
+        speedtestSubtitle : fsSpeedtestSubtitle.value.trim(),
+
+        footerDescription : fsFooterDescription.value.trim(),
+        copyrightText     : fsCopyrightText.value.trim(),
+
+        contactPhone      : fsContactPhone.value.trim(),
+        contactEmail      : fsContactEmail.value.trim(),
+        address           : fsAddress.value.trim(),
+        workingHours      : fsWorkingHours.value.trim(),
+        contactNote       : fsContactNote.value.trim()
+      };
+
+      STATE.frontSettings = {...DEFAULT_FRONT_SETTINGS, ...data};
+      localStorage.setItem(FRONT_SETTINGS_KEY, JSON.stringify(STATE.frontSettings));
+      alert('Teks halaman depan berhasil disimpan.\nSilakan refresh halaman utama (index.html) untuk melihat perubahan.');
+    }
+
     function seedData(){
       return [
         {id:uid('p'),name:'Basic',speed:'10 Mbps',price:formatCurrency(99000),pelanggan:24,status:'active',features:generateDefaultFeatures('10 Mbps'),popular:false},
@@ -523,12 +949,12 @@
       ];
     }
 
-    function persist(){
-      try{localStorage.setItem(STORAGE_KEY,JSON.stringify(STATE.paketData));}catch(e){console.error(e);}
+    function persistPackages(){
+      try{localStorage.setItem(STORAGE_PACKAGES,JSON.stringify(STATE.paketData));}catch(e){console.error(e);}
     }
 
     function boot(){
-      const raw=localStorage.getItem(STORAGE_KEY);
+      const raw=localStorage.getItem(STORAGE_PACKAGES);
       if(raw){
         try{
           const parsed=JSON.parse(raw);
@@ -539,21 +965,23 @@
               pelanggan:typeof p.pelanggan==='number'?p.pelanggan:0
             }));
           }else{
-            STATE.paketData=seedData();persist();
+            STATE.paketData=seedData();persistPackages();
           }
         }catch(e){
-          STATE.paketData=seedData();persist();
+          STATE.paketData=seedData();persistPackages();
         }
       }else{
-        STATE.paketData=seedData();persist();
+        STATE.paketData=seedData();persistPackages();
       }
 
+      loadFrontSettings();
+      fillFrontSettingsForm();
       render();
       attachListeners();
       updateStats();
     }
 
-    /* ==== Rendering ==== */
+    /* ==== Rendering Paket ==== */
     function render(){
       const q=(STATE.filter||'').toLowerCase().trim();
       let list=STATE.paketData.slice();
@@ -660,9 +1088,27 @@
         }
       });
 
-      // LOGOUT: balik ke halaman depan, data paket tetap
+      // nav switch
+      $$('.nav a').forEach(a=>{
+        a.addEventListener('click',e=>{
+          e.preventDefault();
+          $$('.nav a').forEach(x=>x.classList.remove('active'));
+          a.classList.add('active');
+          const target=a.getAttribute('data-section');
+          if(target==='paket'){
+            sectionPaket.style.display='block';
+            sectionFront.style.display='block'; // boleh 2 section terlihat
+          }else if(target==='front'){
+            sectionPaket.style.display='none';
+            sectionFront.style.display='block';
+          }
+        });
+      });
+
+      // LOGOUT
       btnLogout.addEventListener('click',()=>{
-        if(confirm('Logout sekarang dan kembali ke halaman utama?')){
+        if(confirm('Logout sekarang?')){
+          sessionStorage.removeItem('isAdmin');
           window.location.href='index.html';
         }
       });
@@ -700,6 +1146,10 @@
       btnExport.addEventListener('click',exportCSV);
 
       modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
+
+      if(btnSaveFront){
+        btnSaveFront.addEventListener('click',saveFrontSettings);
+      }
     }
 
     function attachRowEvents(){
@@ -717,7 +1167,7 @@
           const item=STATE.paketData.find(p=>p.id===id);
           if(!item)return;
           const copy={...item,id:uid('p'),name:item.name+' (Copy)'};
-          STATE.paketData.unshift(copy);persist();render();alert('Item duplicated');
+          STATE.paketData.unshift(copy);persistPackages();render();alert('Item duplicated');
         };
       });
       $$('.btn-delete').forEach(btn=>{
@@ -726,13 +1176,13 @@
           const id=row.getAttribute('data-id');
           if(confirm('Yakin hapus paket ini?')){
             STATE.paketData=STATE.paketData.filter(p=>p.id!==id);
-            persist();render();
+            persistPackages();render();
           }
         };
       });
     }
 
-    /* ==== Modal ==== */
+    /* ==== Modal Paket ==== */
     function openModal(mode='add',id=null){
       STATE.editId=null;
       if(mode==='add'){
@@ -784,7 +1234,7 @@
         STATE.page=1;
       }
 
-      persist();closeModal();render();
+      persistPackages();closeModal();render();
     }
 
     /* ==== CSV ==== */

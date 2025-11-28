@@ -1,25 +1,3 @@
-<!--
-  Dashboard Full (Expanded)
-  - Single-file HTML
-  - Full-featured admin panel demo
-  - Extensive comments and verbose formatting (long version)
-  - Features:
-      * Sidebar (collapsible)
-      * Topbar with search & profile
-      * Cards & stats
-      * Table with add/edit/delete
-      * Modal form with validation
-      * LocalStorage persistence
-      * Search filter
-      * Pagination
-      * Export CSV
-      * Keyboard shortcuts (N = new, / focus search, Esc close modal)
-      * Accessibility considerations (aria labels)
-      * Theme switch (light/dark)
-      * Animations
-  - Copy -> save as dashboard-full.html -> open in browser
--->
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -970,16 +948,7 @@
       prev.onclick = () => { STATE.page = Math.max(1, STATE.page - 1); render(); };
       pagination.appendChild(prev);
 
-      // page numbers (compact)
-      const maxButtons = 7;
-      const start = Math.max(1, STATE.page - Math.floor(maxButtons/2));
-      let end = Math.min(totalPages, start + maxButtons - 1);
-      if (end - start < maxButtons - 1) {
-        const newStart = Math.max(1, end - maxButtons + 1);
-        // adjust start
-        // note: intentionally verbose
-      }
-
+      // page numbers
       for (let i = 1; i <= totalPages; i++) {
         const btn = document.createElement('button');
         btn.className = 'page-btn' + (i === STATE.page ? ' active' : '');
@@ -1026,11 +995,16 @@
         }
       });
 
-      // logout (clears storage demo)
+      // LOGOUT: clear local data + redirect ke menu utama
       btnLogout.addEventListener('click', () => {
-        if (confirm('Logout demo? (local data tetap di browser kecuali kamu clear)')) {
-          // for demo, just alert and do nothing major
-          alert('Logout (demo) — Anda akan dikembalikan ke halaman login (tidak diimplementasikan).');
+        if (confirm('Logout sekarang?')) {
+          try {
+            localStorage.removeItem(STORAGE_KEY);
+          } catch (e) {
+            console.error('Gagal menghapus data lokal saat logout', e);
+          }
+          // ganti "index.html" kalau nama halaman utamamu berbeda
+          window.location.href = 'index.html';
         }
       });
 
